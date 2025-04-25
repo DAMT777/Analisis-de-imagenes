@@ -9,12 +9,12 @@ public class Imagen {
     private float contraste;
     private List<Segmento> segmentos;
 
-    public Imagen(int id, String path, float brillo, float contraste, List<Segmento> segmentos) {
-        this.id = id;
+    public Imagen(String path) {
+        this.id = 0;
         this.path = path;
-        this.brillo = brillo;
-        this.contraste = contraste;
-        this.segmentos = segmentos;
+        this.brillo = 0;
+        this.contraste = 0;
+        this.segmentos = null;
     }
 
     public void segmentarImagen(Imagen img) {
