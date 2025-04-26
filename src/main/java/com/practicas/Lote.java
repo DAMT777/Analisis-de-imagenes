@@ -42,10 +42,7 @@ public class Lote {
         }
     }
     private boolean esImagen(File archivo) {
-        // Obtener el nombre del archivo y convertirlo a minúsculas para evitar problemas con mayúsculas
         String nombreArchivo = archivo.getName().toLowerCase();
-
-        // Comprobar si la extensión es una imagen válida
         return nombreArchivo.endsWith(".jpg") || nombreArchivo.endsWith(".jpeg") || nombreArchivo.endsWith(".png");
     }
 
