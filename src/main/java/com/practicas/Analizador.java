@@ -14,55 +14,60 @@ public class Analizador {
         this.valoraciones = new ArrayList<>();
     }
 
-    public void orb(Lote lote) {
-        // Algoritmo ORB
-        List<Imagen> imagenes = lote.getImagenes();
-        int i = 0;
+    public static Valoracion analizar(String rutaImagen) {
+        // Leer la imagen
+        Mat imagen = Imgcodecs.imread(rutaImagen);
+        if (imagen.empty()) {
+            System.out.println("Error: No se pudo cargar la imagen: " + rutaImagen);
+            return null;
+        }
 
-        for (Imagen imagen : imagenes) {
-            String ruta = imagen.getPath();
+        // ------------------------
+        // 1. Análisis con ORB
+        // ------------------------
+        ORB detector = ORB.create();
+        MatOfKeyPoint keypoints = new MatOfKeyPoint();
+        detector.detect(imagen, keypoints);
+        int cantidadKeypoints = (int) keypoints.size().height;
 
-            // Cargar imagen en color
-            Mat imgColor = Imgcodecs.imread(ruta, Imgcodecs.IMREAD_COLOR);
-            if (imgColor.empty()) {
-                System.out.println("No se pudo cargar la imagen: " + ruta);
-                continue;
-            }
+        // ------------------------
+        // 2. Análisis de color y opacidad
+        // ------------------------
+        Mat imagenHSV = new Mat();
+        Imgproc.cvtColor(imagen, imagenHSV, Imgproc.COLOR_BGR2HSV);
 
-            // Convertir a escala de grises para detectar keypoints
-            Mat imgGray = new Mat();
-            Imgproc.cvtColor(imgColor, imgGray, Imgproc.COLOR_BGR2GRAY);
+        List<Mat> canales = new ArrayList<>();
+        Core.split(imagenHSV, canales);
+        Mat canalV = canales.get(2); // Canal de brillo
 
-            // Crear ORB detector
-            ORB orb = ORB.create();
-            MatOfKeyPoint keypoints = new MatOfKeyPoint();
-            orb.detect(imgGray, keypoints);
+        MatOfDouble mean = new MatOfDouble();
+        MatOfDouble stddev = new MatOfDouble();
+        Core.meanStdDev(canalV, mean, stddev);
 
-            // Dibujar keypoints sobre la imagen en color
-            Mat imagenSalida = new Mat();
-            Features2d.drawKeypoints(imgColor, keypoints, imagenSalida, new Scalar(0, 255, 0), Features2d.DrawMatchesFlags_DEFAULT);
+        double brilloPromedio = mean.toArray()[0];
+        double desviacionBrillo = stddev.toArray()[0];
 
-            // Guardar imagen de salida
-            Imgcodecs.imwrite("./src/main/files/outs/foto_orb" + i + ".jpg", imagenSalida);
-            System.out.println("Proceso ORB completado. Imagen guardada como foto_orb" + i + ".jpg");
+        return new Valoracion(cantidadKeypoints ,(float) brilloPromedio, (float) desviacionBrillo);
+    }
+    public static void evaluarCalidad(Valoracion resultado) {
+        System.out.println("\nEvaluación rápida:");
 
-            // Análisis de color en los keypoints
-            KeyPoint[] arrayKeypoints = keypoints.toArray();
-            for (KeyPoint kp : arrayKeypoints) {
-                int x = (int) Math.round(kp.pt.x);
-                int y = (int) Math.round(kp.pt.y);
+        if (resultado.getBrilloPromedio() < 80) {
+            System.out.println("- Bajo brillo: posible ojo/cuerpo opaco.");
+        } else {
+            System.out.println("- Buen brillo detectado.");
+        }
 
-                if (x >= 0 && x < imgColor.cols() && y >= 0 && y < imgColor.rows()) {
-                    double[] color = imgColor.get(y, x); // [fila, columna]
-                    double blue = color[0];
-                    double green = color[1];
-                    double red = color[2];
+        if (resultado.getDesviacionBrillo() > 25) {
+            System.out.println("- Alta variación en brillo: posible deterioro.");
+        } else {
+            System.out.println("- Brillo uniforme: buen estado.");
+        }
 
-                    System.out.println("Keypoint en (" + x + ", " + y + ") - Color BGR: (" + blue + ", " + green + ", " + red + ")");
-                }
-            }
-
-            i++;
+        if (resultado.getCantidadKeypoints() < 100) {
+            System.out.println("- Pocos keypoints: posible estructura dañada.");
+        } else {
+            System.out.println("- Estructura visible.");
         }
     }
 

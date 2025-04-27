@@ -1,33 +1,25 @@
 package com.practicas;
 
 import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
-
-import java.io.File;
-import java.sql.Connection;
-import java.sql.SQLException;
-
+import org.opencv.dnn.*;
 public class Main {
-    static {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // Carga la librería nativa
-    }
-
     public static void main(String[] args) {
+        // Cargar librería nativa de OpenCV
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-        try (Connection conn = DBConnect.getConnection()) {
-            if (conn != null) {
-                System.out.println("¡Conexión exitosa a PostgreSQL desde Main!");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error al cerrar la conexión: " + e.getMessage());
+        // Ruta de la imagen
+        String rutaImagen = "./src/main/files/Cachamas/ojos/1744934698503.jpg";
+        Analizador analizador = new Analizador();
+        // Crear un lote de imágenes
+        //Lote lote = new Lote(1, "2023-10-01", 1, "./src/main/files/Cachamas/dataset/");
+        Valoracion resultado = analizador.analizar(rutaImagen);
+
+        if (resultado != null) {
+            resultado.mostrar();
+            analizador.evaluarCalidad(resultado);
         }
-
-        System.out.println("Prueba finalizada");
-
-
-
     }
+
+
 }
 
