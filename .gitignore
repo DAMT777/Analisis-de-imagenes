@@ -34,6 +34,8 @@ Thumbs.db
 .vscode/
 
 # === Carpetas temporales/dinamicas ===
-src/main/imgFish/
+/src/main/imgFish/
 
 .env
+jshell.history
+nbactions.xml

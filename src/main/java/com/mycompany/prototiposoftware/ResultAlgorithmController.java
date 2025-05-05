@@ -10,29 +10,28 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
 /**
- *
  * @author PC
  */
 
 
 public class ResultAlgorithmController {
-    
+
     @FXML
     private AnchorPane menuBox;  // menu expandible
-    
+
     @FXML
     private void menuBoxExpand() {
         menuBox.setVisible(!menuBox.isVisible());
         menuBox.setManaged(menuBox.isVisible());
     }
-    
+
     @FXML
     private void irAnalisisImg() throws IOException {
         App.setRoot("MainScene"); // Cambias a la segunda escena
     }
-    
+
     @FXML    //cambio de escena al hacer lcick en salir
     private void irALoginController() throws IOException {
-        App.setRoot("LoginScene"); 
-    }    
+        App.setRoot("LoginScene");
+    }
 }

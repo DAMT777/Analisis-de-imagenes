@@ -4,8 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 
 /**
@@ -19,17 +20,17 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("LoginScene"), 640, 480);
         stage.setScene(scene);
-                
+
         stage.setMinWidth(900);
         stage.setMinHeight(600);
-        
-        
+
+
         stage.setWidth(900);
         stage.setHeight(600);
         stage.setTitle("Sistema de clasificación de calidad de peces");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/SecondaryLogo.png")));
         stage.setResizable(false);
-        
+
         stage.show();
     }
 

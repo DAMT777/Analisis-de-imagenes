@@ -1,7 +1,8 @@
 package com.practicas;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.File;
 
 public class Lote {
     private int id;
@@ -20,6 +21,7 @@ public class Lote {
         // Lógica para cargar las imágenes desde el path
         getImgsFromPath(path);
     }
+
     public Lote(int idUsuario, String path) {
         this.path = path;
         this.fecha = java.time.LocalDate.now().toString(); // Fecha actual en formato "YYYY-MM-DD"
@@ -33,10 +35,10 @@ public class Lote {
         return path;
     }
 
-    private void getImgsFromPath(String path){
+    private void getImgsFromPath(String path) {
         File carpeta = new File(path);
 
-        if(carpeta.isDirectory()){
+        if (carpeta.isDirectory()) {
 
             File[] archivos = carpeta.listFiles();
             if (archivos != null) {
@@ -54,23 +56,44 @@ public class Lote {
 
         }
     }
+
     private boolean esImagen(File archivo) {
         String nombreArchivo = archivo.getName().toLowerCase();
         return nombreArchivo.endsWith(".jpg") || nombreArchivo.endsWith(".jpeg") || nombreArchivo.endsWith(".png");
     }
 
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public List<Imagen> getImagenes() { return imagenes; }
-    public void setImagenes(List<Imagen> imagenes) { this.imagenes = imagenes; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getFecha() { return fecha; }
-    public void setFecha(String fecha) { this.fecha = fecha; }
+    public List<Imagen> getImagenes() {
+        return imagenes;
+    }
 
-    public int getIdUsuario() { return idUsuario; }
-    public void setIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }
+    public void setImagenes(List<Imagen> imagenes) {
+        this.imagenes = imagenes;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
 
 }

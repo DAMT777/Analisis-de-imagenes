@@ -5,7 +5,6 @@ import com.cloudinary.utils.ObjectUtils;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,7 +21,7 @@ public class DBConnect {
 
     public static Connection getConnection() {
         // Cargar las variables de entorno desde el archivo .env
-        String url = "jdbc:postgresql://"+dotenv.get("PGHOST")+":"+ dotenv.get("PGPORT")+"/"+ dotenv.get("PGDATABASE")+"?sslmode=require&pool_mode=" + dotenv.get("POOL_MODE");
+        String url = "jdbc:postgresql://" + dotenv.get("PGHOST") + ":" + dotenv.get("PGPORT") + "/" + dotenv.get("PGDATABASE") + "?sslmode=require&pool_mode=" + dotenv.get("POOL_MODE");
         try {
             return DriverManager.getConnection(url, dotenv.get("PGUSER"), dotenv.get("PGPASSWORD"));
         } catch (SQLException e) {
@@ -30,7 +29,8 @@ public class DBConnect {
             return null;
         }
     }
-    public boolean registrarUsuario(String nombre,String apellido, String correo, String passwordHash, String rol) {
+
+    public boolean registrarUsuario(String nombre, String apellido, String correo, String passwordHash, String rol) {
         String query = "INSERT INTO Usuario (nombre, apellido, correo, password, rol) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConnect.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -47,6 +47,7 @@ public class DBConnect {
             throw new RuntimeException("Error al registrar usuario", e);
         }
     }
+
     public boolean registrarLote(int idUsuario, String descripcion, String procedencia) {
         String query = "INSERT INTO Lote (id_usuario, descripcion, procedencia) VALUES (?, ?, ?)";
         try (Connection conn = DBConnect.getConnection();
@@ -61,6 +62,7 @@ public class DBConnect {
             return false;
         }
     }
+
     public static ResultadoRegistro registrarImagenesDeLote(Lote lote) {
         String ruta = lote.getPath(); // Obtener la ruta del lote
         File fileOrDirectory = new File(ruta);
@@ -185,9 +187,6 @@ public class DBConnect {
             return false;
         }
     }
-
-
-
 
 
 }

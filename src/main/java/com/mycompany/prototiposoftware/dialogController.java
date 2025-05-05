@@ -5,7 +5,6 @@
 package com.mycompany.prototiposoftware;
 
 /**
- *
  * @author PC
  */
 
@@ -16,8 +15,10 @@ import javafx.stage.Stage;
 
 public class dialogController {
 
-    @FXML private TextField textField1;
-    @FXML private TextField textField2;
+    @FXML
+    private TextField textField1;
+    @FXML
+    private TextField textField2;
 
     // Variables para exponer los datos fuera
     private String datoDescripcion;
@@ -26,7 +27,7 @@ public class dialogController {
     // Handler del botón “Enviar”
     @FXML
     private void onEnviar() {
-        datoDescripcion  = textField1.getText();
+        datoDescripcion = textField1.getText();
         datoOrigen = textField2.getText();
         // Cerrar la ventana
         Stage stage = (Stage) textField1.getScene().getWindow();
@@ -37,8 +38,9 @@ public class dialogController {
     public String getDescripcion() {
         return datoDescripcion;
     }
+
     public String getOrigen() {
         return datoOrigen;
     }
-    
+
 }

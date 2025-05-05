@@ -1,19 +1,25 @@
 package com.practicas;
 
-import java.util.ArrayList;
-import org.opencv.core.*;
-import org.opencv.features2d.*;
+import com.google.gson.JsonObject;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfDouble;
+import org.opencv.core.MatOfKeyPoint;
+import org.opencv.features2d.ORB;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+
+import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonObject;
 
 public class Analizador {
     //static {System.loadLibrary(Core.NATIVE_LIBRARY_NAME);} // esta linea causa un error al impotar las dependencias dinamicas de OpenCV
-    
-    static { org.bytedeco.javacpp.Loader.load(org.bytedeco.opencv.opencv_java.class); } // esta linea soluciona el error de arriba
-    
-    
+
+    static {
+        org.bytedeco.javacpp.Loader.load(org.bytedeco.opencv.opencv_java.class);
+    } // esta linea soluciona el error de arriba
+
+
     private List<Valoracion> valoraciones;
 
     public Analizador() {
@@ -67,8 +73,9 @@ public class Analizador {
         double brilloPromedio = mean.toArray()[0];
         double desviacionBrillo = stddev.toArray()[0];
 
-        return new Valoracion(cantidadKeypoints ,(float) brilloPromedio, (float) desviacionBrillo);
+        return new Valoracion(cantidadKeypoints, (float) brilloPromedio, (float) desviacionBrillo);
     }
+
     public static String evaluarCalidad(Valoracion resultado) {
         JsonObject json = new JsonObject();
 
@@ -94,7 +101,6 @@ public class Analizador {
     }
 
 
-
     public void pcVision(Lote lote) {
         // Procesamiento visión por computadora
     }
@@ -107,6 +113,11 @@ public class Analizador {
         valoraciones.clear();
     }
 
-    public List<Valoracion> getValoraciones() { return valoraciones; }
-    public void setValoraciones(List<Valoracion> valoraciones) { this.valoraciones = valoraciones; }
+    public List<Valoracion> getValoraciones() {
+        return valoraciones;
+    }
+
+    public void setValoraciones(List<Valoracion> valoraciones) {
+        this.valoraciones = valoraciones;
+    }
 }

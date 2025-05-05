@@ -1,7 +1,7 @@
 package com.practicas;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Reporte {
     private int id;
@@ -26,30 +26,75 @@ public class Reporte {
         // Exportar XLSX
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public int getIdUsuario() { return idUsuario; }
-    public void setIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public Lote getLote() { return lote; }
-    public void setLote(Lote lote) { this.lote = lote; }
+    public int getIdUsuario() {
+        return idUsuario;
+    }
 
-    public double getCalifFinal() { return califFinal; }
-    public void setCalifFinal(double califFinal) { this.califFinal = califFinal; }
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
-    public double getAvgColor() { return avgColor; }
-    public void setAvgColor(double avgColor) { this.avgColor = avgColor; }
+    public Lote getLote() {
+        return lote;
+    }
 
-    public double getAvgOjos() { return avgOjos; }
-    public void setAvgOjos(double avgOjos) { this.avgOjos = avgOjos; }
+    public void setLote(Lote lote) {
+        this.lote = lote;
+    }
 
-    public double getAvgPiel() { return avgPiel; }
-    public void setAvgPiel(double avgPiel) { this.avgPiel = avgPiel; }
+    public double getCalifFinal() {
+        return califFinal;
+    }
 
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public void setCalifFinal(double califFinal) {
+        this.califFinal = califFinal;
+    }
 
-    public List<Valoracion> getAnomalias() { return anomalías; }
-    public void setAnomalias(List<Valoracion> anomalías) { this.anomalías = anomalías; }
+    public double getAvgColor() {
+        return avgColor;
+    }
+
+    public void setAvgColor(double avgColor) {
+        this.avgColor = avgColor;
+    }
+
+    public double getAvgOjos() {
+        return avgOjos;
+    }
+
+    public void setAvgOjos(double avgOjos) {
+        this.avgOjos = avgOjos;
+    }
+
+    public double getAvgPiel() {
+        return avgPiel;
+    }
+
+    public void setAvgPiel(double avgPiel) {
+        this.avgPiel = avgPiel;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public List<Valoracion> getAnomalias() {
+        return anomalías;
+    }
+
+    public void setAnomalias(List<Valoracion> anomalías) {
+        this.anomalías = anomalías;
+    }
 }

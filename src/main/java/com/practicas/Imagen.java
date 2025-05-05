@@ -9,29 +9,27 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
-
 public class Imagen {
-        private int id;
-        private String path;
-        private float brillo;
-        private float contraste;
-        private Valoracion valoracion; // Valoración de la imagen
-        private List<Segmento> segmentos; // Lista de regiones segmentadas
+    private int id;
+    private String path;
+    private float brillo;
+    private float contraste;
+    private Valoracion valoracion; // Valoración de la imagen
+    private List<Segmento> segmentos; // Lista de regiones segmentadas
 
-        public Imagen(String path) {
-            this.id = 0;
-            this.path = path;
-            this.brillo = 0;
-            this.contraste = 0;
-            this.segmentos = null;
-        }
+    public Imagen(String path) {
+        this.id = 0;
+        this.path = path;
+        this.brillo = 0;
+        this.contraste = 0;
+        this.segmentos = null;
+    }
 
-        // Método para segmentar la imagen y guardar los contornos
-        public void segmentarImagen(String name) {
-            Mat imagenOriginal = Imgcodecs.imread(this.path, Imgcodecs.IMREAD_COLOR);
-            Mat pezAislado = quitBackground(imagenOriginal);
-            Imgcodecs.imwrite(name, pezAislado);
+    // Método para segmentar la imagen y guardar los contornos
+    public void segmentarImagen(String name) {
+        Mat imagenOriginal = Imgcodecs.imread(this.path, Imgcodecs.IMREAD_COLOR);
+        Mat pezAislado = quitBackground(imagenOriginal);
+        Imgcodecs.imwrite(name, pezAislado);
            /* // 2. Continuar con segmentación de ojos/piel...
             segmentos = new ArrayList<>();
             Mat edges = new Mat();
@@ -64,7 +62,7 @@ public class Imagen {
             // Opcional: Calcular brillo y contraste promedio
             this.brillo = (float) Core.mean(imagenOriginal).val[0];
             this.contraste = calcularContraste(imagenOriginal);*/
-        }
+    }
 
 
     public Mat quitBackground(Mat img) {
@@ -109,31 +107,56 @@ public class Imagen {
     }
 
 
-        private float calcularContraste(Mat imagen) {
-            Mat gray = new Mat();
-            Imgproc.cvtColor(imagen, gray, Imgproc.COLOR_BGR2GRAY);
-            MatOfFloat hist = new MatOfFloat();
-            Imgproc.calcHist(Arrays.asList(gray), new MatOfInt(0), new Mat(), hist, new MatOfInt(256), new MatOfFloat(0, 256));
-            return (float) Core.norm(hist, Core.NORM_L2);
-        }
+    private float calcularContraste(Mat imagen) {
+        Mat gray = new Mat();
+        Imgproc.cvtColor(imagen, gray, Imgproc.COLOR_BGR2GRAY);
+        MatOfFloat hist = new MatOfFloat();
+        Imgproc.calcHist(Arrays.asList(gray), new MatOfInt(0), new Mat(), hist, new MatOfInt(256), new MatOfFloat(0, 256));
+        return (float) Core.norm(hist, Core.NORM_L2);
+    }
 
 
-        public int getId() { return id; }
-        public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-        public String getPath() { return path; }
-        public void setPath(String path) { this.path = path; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        public float getBrillo() { return brillo; }
-        public void setBrillo(float brillo) { this.brillo = brillo; }
+    public String getPath() {
+        return path;
+    }
 
-        public float getContraste() { return contraste; }
-        public void setContraste(float contraste) { this.contraste = contraste; }
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-        public List<Segmento> getSegmentos() { return segmentos; }
-        public void setSegmentos(List<Segmento> segmentos) { this.segmentos = segmentos; }
+    public float getBrillo() {
+        return brillo;
+    }
+
+    public void setBrillo(float brillo) {
+        this.brillo = brillo;
+    }
+
+    public float getContraste() {
+        return contraste;
+    }
+
+    public void setContraste(float contraste) {
+        this.contraste = contraste;
+    }
+
+    public List<Segmento> getSegmentos() {
+        return segmentos;
+    }
+
+    public void setSegmentos(List<Segmento> segmentos) {
+        this.segmentos = segmentos;
+    }
 
     public void setValoracion(Valoracion valoracion) {
-            this.valoracion = valoracion;
+        this.valoracion = valoracion;
     }
 }

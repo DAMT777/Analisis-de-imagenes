@@ -9,42 +9,31 @@ package com.mycompany.prototiposoftware;
  *
  */
 
-import com.practicas.DBConnect;
-import java.io.IOException;
-
 import com.practicas.Analizador;
-//import com.practicas.DBConnect;
+import com.practicas.DBConnect;
 import com.practicas.Lote;
 import javafx.fxml.FXML;
-
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.TilePane;
-import javafx.scene.layout.GridPane;
-
-import javafx.scene.layout.HBox;
-import javafx.stage.FileChooser;
-
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView; //importa el elemento ImageView de SceneBuilder, para comunicar elementos de FXML con java
-
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
-
-import java.io.File; // libreria para pedir al usuario subir un archivo
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-
-
-//import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-
 
 
 public class MainController {
@@ -76,7 +65,6 @@ public class MainController {
             //No es obligaotrio usar panel, por ejemplo, yo que fui el que arme el fxml desde scene builder, se que el contenedor raiz de la ventana es un anchorPane
             //entonces, en vez de la linea de abajo, podria decir AnchorPane root = loader.load().
             Parent root = loader.load();
-
 
 
             Stage dialog = new Stage(); //Esta linea crea un stage, que sería como tal la ventana vacia
@@ -113,16 +101,14 @@ public class MainController {
             String descripcionLote = ctrl.getDescripcion();
             String origenLote = ctrl.getOrigen();
 
-            return new String[]{descripcionLote,origenLote};
+            return new String[]{descripcionLote, origenLote};
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return new String[]{ "", "" };
+        return new String[]{"", ""};
     }
-
-
 
 
     @FXML    //cambio de escena al hacer lcick en salir
@@ -142,12 +128,12 @@ public class MainController {
         menuBox.setManaged(menuBox.isVisible());
     }
 
-    private void UploadLoteIamgeHideUnHide(){
+    private void UploadLoteIamgeHideUnHide() {
         hBoxUploadLoteImage.setVisible(!hBoxUploadLoteImage.isVisible());
         hBoxUploadLoteImage.setManaged(hBoxUploadLoteImage.isVisible());
     }
 
-    public void errorMessage(String message){
+    public void errorMessage(String message) {
         Alert alerta = new Alert(AlertType.ERROR);
         alerta.setTitle("Error");
         alerta.setHeaderText(null);
@@ -157,10 +143,8 @@ public class MainController {
     }
 
 
-
-
     @FXML    // carga la imagen pidiendo al usuario un archivo .jpg, o png
-    private void cargarImagen(){
+    private void cargarImagen() {
 
         String[] contextoLote = dialogScene();
         System.out.println("Descripcion del lote: " + contextoLote[0] + " / Origen del lote: " + contextoLote[1]);
@@ -172,20 +156,20 @@ public class MainController {
 
         eraseFiles(); // borra la imagen que esté en la carpeta imgFish, si hay alguna, esto por si el usuario se equivoca de imagen, simplemente sube otra y se elimina la anterior.
 
-        FileChooser fileChooser= new FileChooser();
+        FileChooser fileChooser = new FileChooser();
 
-        FileChooser.ExtensionFilter extFilterJpg = new FileChooser.ExtensionFilter("JPG Files (*.jpg)","*.jpg");
-        FileChooser.ExtensionFilter extFilterPng = new FileChooser.ExtensionFilter("PNG Files (*.png)","*.png");
+        FileChooser.ExtensionFilter extFilterJpg = new FileChooser.ExtensionFilter("JPG Files (*.jpg)", "*.jpg");
+        FileChooser.ExtensionFilter extFilterPng = new FileChooser.ExtensionFilter("PNG Files (*.png)", "*.png");
 
         fileChooser.getExtensionFilters().addAll(extFilterJpg, extFilterPng);
         List<File> archivos = fileChooser.showOpenMultipleDialog(null);
 
-        if (archivos != null){
-            if(archivos.size()>10){
-               errorMessage("El limite de imagenes son maximo 10");
+        if (archivos != null) {
+            if (archivos.size() > 10) {
+                errorMessage("El limite de imagenes son maximo 10");
             } else {
                 UploadLoteIamgeHideUnHide();
-                for (File archivo: archivos){
+                for (File archivo : archivos) {
                     String imagePath = archivo.toURI().toString();
 
                     Image image = new Image(imagePath);
@@ -216,50 +200,48 @@ public class MainController {
 
 
     //esta funcion guarda la imagen cargada por el usuario, en la carpeta imgFish, desde esa carpeta se extrae la imagen para el analisis
-    private void saveImage(File archivo){
+    private void saveImage(File archivo) {
         String pathFile = "src/main/imgFish";
-        Path path = Path.of(pathFile,archivo.getName());
+        Path path = Path.of(pathFile, archivo.getName());
 
-        try{
+        try {
             Files.copy(archivo.toPath(), path, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("Imagen guardada correctamente en: "+path);
+            System.out.println("Imagen guardada correctamente en: " + path);
 
-        } catch (IOException e){
+        } catch (IOException e) {
 
-            System.err.println("Error al guardar la imagen: "+ e.getMessage());
+            System.err.println("Error al guardar la imagen: " + e.getMessage());
         }
     }
 
 
-
     //esta funcion elimina las imagenes que se almacenen en imgFish, que es la carpeta donde se almacena la foto del pescado que se analiza
-    private void eraseFiles(){
+    private void eraseFiles() {
         File filePath = new File("src/main/imgFish");
 
-      if (filePath.exists() && filePath.isDirectory()){
-          File[] files = filePath.listFiles();
+        if (filePath.exists() && filePath.isDirectory()) {
+            File[] files = filePath.listFiles();
 
 
-          if (files != null){
-              for (File file : files){
-                  boolean delete = file.delete();
+            if (files != null) {
+                for (File file : files) {
+                    boolean delete = file.delete();
 
-                  if(delete){
-                      System.out.println("Archivos eliminados: "+ file.getName());
-                  } else {
-                      System.out.println("Error al elimnar archivos: "+ file.getName());
-                  }
-              }
-          }
-      }
-      Image image = new Image(getClass().getResourceAsStream("/img/UploadLote.png"));
-      imageViewMain.setImage(image);
+                    if (delete) {
+                        System.out.println("Archivos eliminados: " + file.getName());
+                    } else {
+                        System.out.println("Error al elimnar archivos: " + file.getName());
+                    }
+                }
+            }
+        }
+        Image image = new Image(getClass().getResourceAsStream("/img/UploadLote.png"));
+        imageViewMain.setImage(image);
     }
 
 
-
     @FXML
-    private void MCalgorithm() throws IOException{
+    private void MCalgorithm() throws IOException {
 
         //acá se llama al algoritmo, la imagen está guardada en src/main/imgFish.
 
@@ -281,7 +263,6 @@ public class MainController {
         tilePaneLoteImages.getChildren().clear();
         irAResultAlgorithmScene();
     }
-
 
 
 }
