@@ -1,1 +1,4 @@
 .env
+.idea
+jshell.history
+nbactions.xml
