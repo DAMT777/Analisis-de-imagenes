@@ -1,4 +1,39 @@
-.env
+# === Maven ===
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+
+# === IntelliJ IDEA ===
 .idea/
-jshell.history
-nbactions.xml
+*.iml
+*.iws
+out/
+
+# === Java Compiler ===
+*.class
+
+# === Logs, cache, etc. ===
+*.log
+*.tmp
+*.swp
+*~
+
+# === JavaFX runtime cache ===
+*.rej
+*.orig
+
+# === Sistema operativo ===
+.DS_Store
+Thumbs.db
+
+# === Archivos temporales del proyecto ===
+*.bak
+*.old
+
+# === VS Code ===
+.vscode/
+
+# === Carpetas temporales/dinamicas ===
+src/main/imgFish/
+
+.env
