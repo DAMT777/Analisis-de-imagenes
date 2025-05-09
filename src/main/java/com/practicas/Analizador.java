@@ -11,6 +11,7 @@ import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Analizador {
     //static {System.loadLibrary(Core.NATIVE_LIBRARY_NAME);} // esta linea causa un error al impotar las dependencias dinamicas de OpenCV
@@ -26,8 +27,9 @@ public class Analizador {
         this.valoraciones = new ArrayList<>();
     }
 
-    public static void analizar(Lote lote) {
+    public static void analizar(Lote lote, Consumer<String> updateStatus) {
         List<Imagen> imagenes = lote.getImagenes();
+        updateStatus.accept("Segmentando y evaluando lote");
         for (Imagen imagen : imagenes) {
             String rutaImagen = imagen.getPath();
             Valoracion valoracion = analizar(rutaImagen); // Llamada al método recursivo

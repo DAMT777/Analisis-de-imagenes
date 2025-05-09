@@ -12,12 +12,14 @@ package com.mycompany.prototiposoftware;
 import com.practicas.Analizador;
 import com.practicas.DBConnect;
 import com.practicas.Lote;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -37,6 +39,7 @@ import java.util.List;
 
 
 public class MainController {
+    String[] contextoLote;
 
     @FXML
     private AnchorPane menuBox;  // menu expandible
@@ -52,6 +55,9 @@ public class MainController {
 
     @FXML
     private GridPane gridPaneResultAlgorithm; // aun no se utiliza
+
+    @FXML
+    private Label progressLabel;  // menu expandible
 
     // esta funcion abre una ventana emergente y extrae el texto digitado en los textField que tiene dentro (correspondiente a origen del lote y descripcion)
     private String[] dialogScene() {
@@ -146,7 +152,7 @@ public class MainController {
     @FXML    // carga la imagen pidiendo al usuario un archivo .jpg, o png
     private void cargarImagen() {
 
-        String[] contextoLote = dialogScene();
+        contextoLote = dialogScene();
         System.out.println("Descripcion del lote: " + contextoLote[0] + " / Origen del lote: " + contextoLote[1]);
 
 
@@ -243,27 +249,53 @@ public class MainController {
     @FXML
     private void MCalgorithm() throws IOException {
 
-        //acá se llama al algoritmo, la imagen está guardada en src/main/imgFish.
+        //recordar que los datos de contexto que se piden en la ventana flotante los puede extraer como string con -> contextoLote[0], contextoLote[1]
+        Task<Boolean> tareaAnalisis = new Task<>() {
+            @Override
+            protected Boolean call() throws Exception {
+                // Aquí puedes actualizar el progreso a medida que avanza el análisis
+                updateMessage("Cargando imágenes...");
 
-        Lote lote = new Lote(0, "2023-10-01", 2, "./src/main/imgFish/");
+                Lote lote = new Lote(0, "2023-10-01", 2, "./src/main/imgFish/");
 
-        Analizador.analizar(lote);
+                // Llamada a tu método de análisis, actualizando progreso dentro del análisis
+                Analizador.analizar(lote, this::updateMessage); // Pasamos la tarea para poder actualizar el progreso
 
-        boolean ok = DBConnect.registrarImagenesDeLote(lote).isExito();
+                updateMessage("Guardando información del lote en la base de datos...");
+                return DBConnect.registrarImagenesDeLote(lote).isExito();
+            }
+        };
 
-        Alert alerta = new Alert(ok ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
-        alerta.setTitle(ok ? "Éxito" : "Error");
-        alerta.setHeaderText(null);
-        alerta.setContentText(ok ? "Las imágenes se guardaron correctamente." : "Hubo un error al guardar las imágenes.");
-        alerta.showAndWait();
-        //siempre se almacena 1 unica imagen en esta carpeta, al terminar el algoritmo debería eliminarse.
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("loadScene.fxml"));
+        Parent root = loader.load();
+        LoadSceneController controller = loader.getController();
+        controller.bindTask(tareaAnalisis); // Primero haces el binding
+        App.scene.setRoot(root); // Luego cambias la escena
 
-        eraseFiles();
-        UploadLoteIamgeHideUnHide();
-        tilePaneLoteImages.getChildren().clear();
-        irAResultAlgorithmScene();
+
+        tareaAnalisis.setOnSucceeded(e -> {
+            boolean ok = tareaAnalisis.getValue();
+
+            Alert alerta = new Alert(ok ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
+            alerta.setTitle(ok ? "Éxito" : "Error");
+            alerta.setHeaderText(null);
+            alerta.setContentText(ok ? "Las imágenes se guardaron correctamente." : "Hubo un error al guardar las imágenes.");
+            alerta.showAndWait();
+
+            eraseFiles();
+            UploadLoteIamgeHideUnHide();
+            tilePaneLoteImages.getChildren().clear();
+
+            try {
+                App.setRoot("MainScene");
+                irAResultAlgorithmScene();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        new Thread(tareaAnalisis).start();
     }
-
 
 }
 
