@@ -9,9 +9,9 @@ package com.mycompany.prototiposoftware;
  *
  */
 
-import com.practicas.Analizador;
-import com.practicas.DBConnect;
-import com.practicas.Lote;
+import com.processing.Analizador;
+import com.databaseInteractions.DBConnect;
+import com.processing.Lote;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

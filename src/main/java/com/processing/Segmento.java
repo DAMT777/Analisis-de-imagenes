@@ -1,4 +1,4 @@
-package com.practicas;
+package com.processing;
 
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;

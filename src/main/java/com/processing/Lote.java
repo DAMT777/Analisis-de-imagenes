@@ -1,4 +1,4 @@
-package com.practicas;
+package com.processing;
 
 import java.io.File;
 import java.util.ArrayList;

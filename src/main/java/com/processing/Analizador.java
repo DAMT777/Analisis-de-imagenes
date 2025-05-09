@@ -1,4 +1,4 @@
-package com.practicas;
+package com.processing;
 
 import com.google.gson.JsonObject;
 import org.opencv.core.Core;
