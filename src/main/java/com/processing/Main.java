@@ -14,9 +14,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Analizador analizador = new Analizador();
-        Valoracion v = analizador.analizar("./src/main/files/Cachamas/pez/1744934698308.jpg");
-        analizador.evaluarCalidad(v);
+        Imagen img = new Imagen("C:/Users/jesus/Pictures/cachamas/pez/1744934697771.jpg");
+        img.segmentarImagen("C:/Users/jesus/Pictures/cachamas/outs/1744934697771.jpg");
+        
     }
 
 }
