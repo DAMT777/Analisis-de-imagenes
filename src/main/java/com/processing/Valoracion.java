@@ -1,4 +1,4 @@
-package com.practicas;
+package com.processing;
 
 public class Valoracion {
     private int idImagen;

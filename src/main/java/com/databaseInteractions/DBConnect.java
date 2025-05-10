@@ -1,7 +1,13 @@
-package com.practicas;
+package com.databaseInteractions;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.processing.Usuario;
+import com.services.CloudinaryService;
+import com.utils.HashUtil;
+import com.processing.Imagen;
+import com.processing.Lote;
+import com.processing.ResultadoRegistro;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.File;
@@ -10,15 +16,21 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class DBConnect {
 
     private static final Dotenv dotenv = Dotenv.load();
-    private static final String CLOUD_NAME = dotenv.get("CLOUDINARY_CLOUD_NAME");
-    private static final String API_KEY = dotenv.get("CLOUDINARY_API_KEY");
-    private static final String API_SECRET = dotenv.get("CLOUDINARY_API_SECRET");
+    private static final CloudinaryService cloudinaryService = new CloudinaryService();
 
+
+
+    // Métodos existentes...
+
+    private static String subirImagenACloudinary(String rutaImagen) {
+        return cloudinaryService.subirImagen(rutaImagen);
+    }
     public static Connection getConnection() {
         // Cargar las variables de entorno desde el archivo .env
         String url = "jdbc:postgresql://" + dotenv.get("PGHOST") + ":" + dotenv.get("PGPORT") + "/" + dotenv.get("PGDATABASE") + "?sslmode=require&pool_mode=" + dotenv.get("POOL_MODE");
@@ -29,8 +41,34 @@ public class DBConnect {
             return null;
         }
     }
+    public static Usuario getInfo(String correo) {
+        String query = "SELECT * FROM Usuario WHERE correo = ?";
+        Usuario info = null;
+
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, correo);
+            var resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                info = new Usuario(resultSet.getInt("id"),
+                        resultSet.getString("nombre"),
+                        resultSet.getString("apellido"),
+                        resultSet.getString("correo"),
+                        resultSet.getString("password"),
+                        resultSet.getString("rol")
+                );
+
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener información del usuario: " + e.getMessage());
+        }
+
+        return info;
+    }
 
     public boolean registrarUsuario(String nombre, String apellido, String correo, String passwordHash, String rol) {
+        //la password debe estar hasheada antes de
         String query = "INSERT INTO Usuario (nombre, apellido, correo, password, rol) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConnect.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -138,30 +176,6 @@ public class DBConnect {
         } catch (SQLException e) {
             System.out.println("Error al registrar imagen en la base de datos: " + e.getMessage());
             return false; // Si ocurre un error al insertar en la base de datos
-        }
-    }
-
-    private static String subirImagenACloudinary(String rutaImagen) {
-        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-                "cloud_name", CLOUD_NAME,
-                "api_key", API_KEY,
-                "api_secret", API_SECRET));
-
-        File archivoImagen = new File(rutaImagen);
-
-        if (!archivoImagen.exists()) {
-            System.out.println("La imagen no existe en la ruta especificada.");
-            return null;
-        }
-
-        try {
-            // Subir la imagen a Cloudinary
-            Map uploadResult = cloudinary.uploader().upload(archivoImagen, ObjectUtils.emptyMap());
-            String urlImagen = (String) uploadResult.get("secure_url"); // URL segura de la imagen subida
-            return urlImagen;
-        } catch (IOException e) {
-            System.out.println("Error al subir la imagen a Cloudinary: " + e.getMessage());
-            return null;
         }
     }
     // En DBConnect.java

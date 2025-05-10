@@ -8,7 +8,7 @@ package com.mycompany.prototiposoftware;
  * @author PC
  */
 
-import com.practicas.DBConnect;
+import com.databaseInteractions.DBConnect;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;

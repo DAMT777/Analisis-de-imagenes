@@ -1,4 +1,4 @@
-package com.practicas;
+package com.utils;
 
 import org.mindrot.jbcrypt.BCrypt;
 
