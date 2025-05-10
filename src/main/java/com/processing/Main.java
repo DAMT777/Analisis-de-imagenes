@@ -1,8 +1,7 @@
 package com.processing;
-
 import org.opencv.core.Core;
-
 import java.awt.*;
+import java.io.File;
 
 //ROLES
 //user
@@ -15,10 +14,23 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        String inputFolder = "C:/Users/sjoha/Downloads/Cachamas/cuerpo/";
+        String outputFolder = "C:/Users/sjoha/Downloads/Cachamas/outs/";
 
-        Imagen img = new Imagen("C:/Users/jesus/Pictures/cachamas/pez/1744934697771.jpg");
-        img.segmentarImagen("C:/Users/jesus/Pictures/cachamas/outs/1744934697771.jpg");
-        System.out.println(img.toString());
+        File folder = new File(inputFolder);
+        File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".jpg"));
+
+        if (files != null) {
+            for (File file : files) {
+                String inputPath = file.getAbsolutePath();
+                String outputPath = outputFolder + file.getName();
+
+                Imagen img = new Imagen(inputPath);
+                img.segmentarImagen(outputPath);
+                System.out.println("Procesada: " + inputPath);
+            }
+        } else {
+            System.err.println("No se encontraron imágenes en la carpeta: " + inputFolder);
+        }
     }
-
 }
