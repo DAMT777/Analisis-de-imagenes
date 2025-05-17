@@ -86,13 +86,15 @@ public class DBConnect {
         }
     }
 
-    public boolean registrarLote(int idUsuario, String descripcion, String procedencia) {
-        String query = "INSERT INTO Lote (id_usuario, descripcion, procedencia) VALUES (?, ?, ?)";
+    public boolean registrarLote(int idUsuario, String descripcion, boolean registradoInvima, String ciudad, String condiciones) {
+        String query = "INSERT INTO Lote (id_usuario, fecha, descripcion, registrado_invima, ciudad, condiciones) VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?)";
         try (Connection conn = DBConnect.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, idUsuario);
             stmt.setString(2, descripcion);
-            stmt.setString(3, procedencia);
+            stmt.setBoolean(3, registradoInvima);
+            stmt.setString(4, ciudad);
+            stmt.setString(5, condiciones);
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
