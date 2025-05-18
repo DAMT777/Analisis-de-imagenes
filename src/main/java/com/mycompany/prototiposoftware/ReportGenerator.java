@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -81,8 +83,8 @@ public class ReportGenerator {
      *
      * @throws IOException Si ocurre un error al generar o guardar el PDF.
      */
-    public void PDFgenerator(String idLote, String fechaAnalisis, String cantidadMuestras, String ciudadLote, String trazabilidadLote, String calidadPromedio, String promedioOjos, String promedioPiel, String cantidadAnomalias, String rutaGeneracionPDF, List<String[]> registrosAnalisisIndividual) throws IOException {
-        PDFgenerator(idLote, fechaAnalisis, cantidadMuestras, ciudadLote, trazabilidadLote, calidadPromedio, promedioOjos, promedioPiel, cantidadAnomalias, rutaGeneracionPDF,registrosAnalisisIndividual, rutaCarpetaAnomalias);
+    public void PDFgenerator(String idLote, String fechaAnalisis, String cantidadMuestras, String ciudadLote, String trazabilidadLote, String calidadPromedio, String promedioOjos, String promedioPiel, String cantidadAnomalias, String rutaGeneracionPDF, List<String[]> registrosAnalisisIndividual, String calidadFinalTextual) throws IOException {
+        PDFgenerator(idLote, fechaAnalisis, cantidadMuestras, ciudadLote, trazabilidadLote, calidadPromedio, promedioOjos, promedioPiel, cantidadAnomalias, rutaGeneracionPDF,registrosAnalisisIndividual, calidadFinalTextual,rutaCarpetaAnomalias);
     }
 
     /**
@@ -116,7 +118,7 @@ public class ReportGenerator {
      *
      * @throws IOException Si ocurre un error al generar o guardar el PDF.
      */
-    public void PDFgenerator(String idLote, String fechaAnalisis, String cantidadMuestras, String ciudadLote, String trazabilidadLote, String calidadPromedio, String promedioOjos, String promedioPiel, String cantidadAnomalias, String rutaGeneracionPDF,List<String[]> registrosAnalisisIndividual, String rutaCarpetaAnomalias) throws IOException {
+    public void PDFgenerator(String idLote, String fechaAnalisis, String cantidadMuestras, String ciudadLote, String trazabilidadLote, String calidadPromedio, String promedioOjos, String promedioPiel, String cantidadAnomalias, String rutaGeneracionPDF,List<String[]> registrosAnalisisIndividual,String calidadFinalTextual , String rutaCarpetaAnomalias) throws IOException {
 
 //############################################ ESTRUCTURA DEL PDF ##############################################
         //-----------------------------------------------------------------------------Variables ha extraer de la base de datos
@@ -131,9 +133,13 @@ public class ReportGenerator {
         this.cantidadAnomalias = cantidadAnomalias;
         this.registrosAnalisisIndividual = registrosAnalisisIndividual;
         this.rutaCarpetaAnomalias = rutaCarpetaAnomalias;
+        this.calificacionPromedioLote = calidadFinalTextual;
 
         //CREA EL PDF
-        String dest = rutaGeneracionPDF + "reporte.pdf";
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM_HH-mm-yyyy");
+        String fechaSistema = now.format(formatter);
+        String dest = rutaGeneracionPDF + "/reporte " +fechaSistema + ".pdf";
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(dest));
         Document document = new Document(pdfDoc, PageSize.LETTER);
         document.setMargins(0, 0, 0, 0);
