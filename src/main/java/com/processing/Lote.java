@@ -10,6 +10,8 @@ public class Lote {
     private String fecha;
     private int idUsuario;
     private String path;
+    private String descripcion;
+    private String procedencia;
 
     public Lote(int id, String fecha, int idUsuario, String path) {
         this.id = id;
@@ -26,9 +28,21 @@ public class Lote {
         this.path = path;
         this.fecha = java.time.LocalDate.now().toString(); // Fecha actual en formato "YYYY-MM-DD"
         this.idUsuario = idUsuario;
-
         this.imagenes = new ArrayList<Imagen>();
         getImgsFromPath(path);
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    public String getProcedencia() {
+        return procedencia;
+    }
+    public void setProcedencia(String procedencia) {
+        this.procedencia = procedencia;
     }
 
     public String getPath() {
@@ -37,7 +51,7 @@ public class Lote {
 
     private void getImgsFromPath(String path) {
         File carpeta = new File(path);
-
+        imagenes.clear();
         if (carpeta.isDirectory()) {
 
             File[] archivos = carpeta.listFiles();
@@ -74,7 +88,9 @@ public class Lote {
     public List<Imagen> getImagenes() {
         return imagenes;
     }
-
+    public void setPath(String path) {
+        this.path = path;
+    }
     public void setImagenes(List<Imagen> imagenes) {
         this.imagenes = imagenes;
     }

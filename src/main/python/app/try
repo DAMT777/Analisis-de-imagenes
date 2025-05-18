@@ -1,2 +1,2 @@
-curl -X POST "http://127.0.0.1:8000/procesar/" -H "Content-Type: application/json" -d "{\"image_path\": \"C:/Users/jesus/Pictures/cachamas/1744934702879.jpg\", \"solo_ojo\": false}"
+curl -X POST "http://127.0.0.1:8001/procesar/" -H "Content-Type: application/json" -d "{\"image_path\": \"C:/Users/jesus/Pictures/cachamas/1744934702879.jpg\", \"solo_ojo\": false}"
 curl -X POST "http://127.0.0.1:8000/procesar_batch/" -H "Content-Type: application/json" -d "{\"folder_path\": \"C:/Users/jesus/Pictures/cachamas/pez\", \"solo_ojo\": false}"

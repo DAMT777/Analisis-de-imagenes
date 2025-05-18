@@ -26,7 +26,7 @@ def preparar_etiquetas(row):
     ojo = row['calificacion_ojos'] / 5.0  # Asumiendo escala 0-5
     piel = row['calificacion_piel'] / 5.0 if not row['solo_ojo'] else 0.0
     return np.array([ojo, piel], dtype=np.float32)
-
+    
 df['etiquetas'] = df.apply(preparar_etiquetas, axis=1)
 df = df[~df['etiquetas'].apply(lambda x: np.isnan(x).any())]
 print(f"Total de imágenes válidas y sin etiquetas NaN: {len(df)}")

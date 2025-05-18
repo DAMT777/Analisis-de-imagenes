@@ -1,44 +1,52 @@
+
 package com.services;
 
+import com.google.gson.JsonObject;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import com.google.gson.JsonParser;
 
 public class PythonCNNService {
-    private static final String PYTHON_SCRIPT_PATH = "C:/Users/sjoha/Downloads/Cachamas/pythonscript.py";
-    private static final String PYTHON_EXECUTABLE = "python"; // Cambia esto si es necesario
 
-    public static void main(String[] args) {
-        String imagePath = "C:/Users/sjoha/Downloads/Cachamas/cuerpo/imagen.jpg"; // Cambia esto a la ruta de tu imagen
-        String result = runPythonScript(imagePath);
-        System.out.println("Resultado del script: " + result);
+    public static JsonObject communicate(String imagePath) {
+        JsonObject jsonData = new JsonObject();
+        jsonData.addProperty("image_path", imagePath);
+        jsonData.addProperty("solo_ojo", false);
+
+        String data = jsonData.toString();
+        String response = sendPostRequest("http://127.0.0.1:8001/procesar/", data);
+        return JsonParser.parseString(response).getAsJsonObject();
     }
 
-    public static String runPythonScript(String imagePath) {
+    public static String sendPostRequest(String endpoint, String jsonData) {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder(PYTHON_EXECUTABLE, PYTHON_SCRIPT_PATH, imagePath);
-            processBuilder.redirectErrorStream(true);
-            Process process = processBuilder.start();
+            URL url = new URL(endpoint);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
 
-            StringBuilder output = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            try (OutputStream os = connection.getOutputStream()) {
+                os.write(jsonData.getBytes());
+                os.flush();
+            }
+
+            int responseCode = connection.getResponseCode();
+            StringBuilder response = new StringBuilder();
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
                 String line;
-                while ((line = reader.readLine()) != null) {
-                    output.append(line).append("\n");
+                while ((line = br.readLine()) != null) {
+                    response.append(line);
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
 
-            int exitCode = process.waitFor();
-            if (exitCode == 0) {
-                return output.toString();
-            } else {
-                return "Error al ejecutar el script. Código de salida: " + exitCode;
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return "Error: " + e.getMessage();
+            return response.toString();
+        } catch (IOException e) {
+            return "{\"error\": \"Error al enviar la solicitud POST: " + e.getMessage() + "\"}";
         }
     }
 }

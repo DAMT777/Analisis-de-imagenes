@@ -8,7 +8,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # Cargar el modelo entrenado
-model = tf.keras.models.load_model('modelo_entrenado.h5')
+model = tf.keras.models.load_model('C:/Users/jesus/IdeaProjects/Analisis-de-imagenes/modelo_entrenado.h5')
 
 # Procesa una sola imagen
 def analyze_image(ruta_imagen, solo_ojo=False):
@@ -20,8 +20,8 @@ def analyze_image(ruta_imagen, solo_ojo=False):
     ojos_score = float(predicciones[0][0])
     piel_score = float(predicciones[0][1])
     return {
-        "calificacion_ojos": (ojos_score * 5),
-        "calificacion_piel": (piel_score * 5),
+        "calificacion_ojos": round(ojos_score * 5, 2),
+        "calificacion_piel": round(piel_score * 5, 2),
         "processed_image_path": seg_path
     }
 

@@ -1,7 +1,7 @@
 package com.databaseInteractions;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
+
+import com.google.gson.JsonObject;
 import com.processing.Usuario;
 import com.services.CloudinaryService;
 import com.utils.HashUtil;
@@ -11,13 +11,14 @@ import com.processing.ResultadoRegistro;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.File;
-import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+
+
 
 public class DBConnect {
 
@@ -66,6 +67,32 @@ public class DBConnect {
 
         return info;
     }
+    public static boolean registrarResultadoAnalisis(JsonObject json) {
+        // Extraer valores del JSON
+        int idImagen = json.get("id").getAsInt();
+        int calidadOjos = json.get("calidad_ojos").getAsInt();
+        int calidadPiel = json.get("calidad_piel").getAsInt();
+        String descripcionImg = json.get("descripcion_img").getAsString();
+
+        // Calcular calidad promedio y redondear al entero más cercano
+        double promedio = (calidadOjos + calidadPiel) / 2.0;
+        int calidad = (int) Math.round(promedio);
+
+        String query = "INSERT INTO resultadoanalisis (calidad_ojos, id_imagen, descripcion_img, calidad_piel, calidad) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, calidadOjos);
+            stmt.setInt(2, idImagen);
+            stmt.setString(3, descripcionImg);
+            stmt.setInt(4, calidadPiel);
+            stmt.setInt(5, calidad);
+            int rowsInserted = stmt.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            System.out.println("Error al registrar resultado de análisis: " + e.getMessage());
+            return false;
+        }
+    }
 
     public boolean registrarUsuario(String nombre, String apellido, String correo, String passwordHash, String rol) {
         //la password debe estar hasheada antes de
@@ -87,14 +114,21 @@ public class DBConnect {
     }
 
     public boolean registrarLote(int idUsuario, String descripcion, boolean registradoInvima, String ciudad, String condiciones) {
-        String query = "INSERT INTO Lote (id_usuario, fecha, descripcion, registrado_invima, ciudad, condiciones) VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?)";
+        //meter fecha del sistema con java
+
+
+        LocalDateTime ahora = LocalDateTime.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String fechaComoString = ahora.format(formato);
+        String query = "INSERT INTO Lote (id_usuario, fecha, descripcion, registrado_invima, ciudad, condiciones) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnect.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, idUsuario);
-            stmt.setString(2, descripcion);
-            stmt.setBoolean(3, registradoInvima);
-            stmt.setString(4, ciudad);
-            stmt.setString(5, condiciones);
+            stmt.setString(2, fechaComoString);
+            stmt.setString(3, descripcion);
+            stmt.setBoolean(4, registradoInvima);
+            stmt.setString(5, ciudad);
+            stmt.setString(6, condiciones);
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -109,7 +143,7 @@ public class DBConnect {
 
         // Verificamos si la ruta es válida
         if (fileOrDirectory.exists()) {
-            int idLote = registrarLoteEnBaseDeDatos(lote); // Registrar el lote y obtener el ID
+            int idLote = registrarLote(lote); // Registrar el lote y obtener el ID
             if (idLote == -1) {
                 return new ResultadoRegistro(false, -1); // Error al registrar el lote
             }
@@ -150,15 +184,16 @@ public class DBConnect {
         return new ResultadoRegistro(false, -1); // Si la ruta no es válida
     }
 
-    private static int registrarLoteEnBaseDeDatos(Lote lote) {
+    public static int registrarLote(Lote lote) {
         String query = "INSERT INTO Lote (id_usuario, descripcion, procedencia) VALUES (?, ?, ?) RETURNING id_lote";
         try (Connection conn = DBConnect.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, lote.getIdUsuario());
-            stmt.setString(2, "");
-            stmt.setString(3, "");
+            stmt.setString(2, lote.getDescripcion());
+            stmt.setString(3, lote.getProcedencia());
             var resultSet = stmt.executeQuery();
             if (resultSet.next()) {
+                lote.setId(resultSet.getInt("id_lote"));
                 return resultSet.getInt("id_lote"); // Retorna el ID generado
             }
         } catch (SQLException e) {

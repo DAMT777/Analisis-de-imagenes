@@ -1,10 +1,9 @@
 package com.processing;
 
-import com.databaseInteractions.DBConnect;
-
+import net.sf.jasperreports.engine.JRException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 public class Reporte {
     private int id;
@@ -18,19 +17,14 @@ public class Reporte {
         this.anomalías = new ArrayList<Valoracion>();
     }
 
-    public void getPDF() {
+    public void getPDF(String rutaSalida) throws JRException {
         // Exportar PDF
         //si hay anomalias, deben incluirse, hasta maximo 8 imagenes de estas anomalias
         //if( isThereAnomalies() )
-        Map<String, Object> parametros = new HashMap<>();
-        parametros.put("id_lote", lote.getId());
-        JasperExportManager.exportReportToPdfFile(
-                JasperFillManager.fillReport(rutaPlantilla, parametros, DBConnect.getConnection()),
-                rutaSalida
-        );
+
     }
 
-    public void getXLSX() {
+    public void getXLSX(String rutaSalida){
         // Exportar XLSX
         //si hay anomalias, deben incluirse los nombres de los archivos
         //if( isThereAnomalies() )
