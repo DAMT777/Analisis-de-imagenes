@@ -9,7 +9,11 @@ package com.mycompany.prototiposoftware;
  *
  */
 
-import com.processing.Analizador;
+//import com.processing.Analizador;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import com.databaseInteractions.DBConnect;
 import com.processing.Lote;
 import javafx.concurrent.Task;
@@ -253,13 +257,39 @@ public class MainController {
         Task<Boolean> tareaAnalisis = new Task<>() {
             @Override
             protected Boolean call() throws Exception {
-                // Aquí puedes actualizar el progreso a medida que avanza el análisis
+
+                LocalDate fechaActual = LocalDate.now();
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+                // mensaje de progreso
                 updateMessage("Cargando imágenes...");
 
-                Lote lote = new Lote(0, "2023-10-01", 2, "./src/main/imgFish/");
+                /*
+                aqui asumi que el id del lote es automatico respecto a cuantos lotes ha analizado
+                es decir, getLotesCountUser() extrae el numero de lotes historico.
+                si ha analizado 100 lotes, pues entonces, la nueva id del ote sera 100+1 xd
+                 */
+                Lote lote = new Lote(UserSesionData.getLotesCountUser()+1, fechaActual.format(formato), 2, "./src/main/imgFish/");
 
-                // Llamada a tu método de análisis, actualizando progreso dentro del análisis
-                Analizador.analizar(lote, this::updateMessage); // Pasamos la tarea para poder actualizar el progreso
+                /*
+                En esta seccion se envian los datos de la interfaz a la base de datos
+                Recuerde que el contexto y procedencia del lote se almacenaron en el array
+                String[] contextoLote;    -> [0]: Procedencia,  [1]:Contexto
+
+                Nota: se pueden pedir mas datos de contexto si se requiere
+
+                Antes, esta funcion ejecutaba el analissi desde esta linea:Analizador.analizar(lote, this::updateMessage);
+                La cual solamente cargaba las imagenes en la DB, pero parece que ya no sirve.
+                Como no se como modificaron esto, ni porque, corresponde entonces llamar el metodo correcto
+
+                El metodo que utilicen, como me solicitaron debera recibir entonces:
+
+                        - Un objeto de clase Lote
+                        - Los Datos de contexto (es decir, String[] contextoLote)
+                        - Y un parametro Consumer<String> (no tiene que hacer nada con este parametro en el metodo)
+                          esto es para poder dar a la interfaz mensajes de carga respecto a la posicion del codigo.
+                 */
+
 
                 updateMessage("Guardando información del lote en la base de datos...");
                 return DBConnect.registrarImagenesDeLote(lote).isExito();
