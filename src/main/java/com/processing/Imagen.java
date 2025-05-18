@@ -1,7 +1,7 @@
 package com.processing;
 import com.google.gson.JsonObject;
 
-import java.util.List;
+
 
 public class Imagen {
     private int id;

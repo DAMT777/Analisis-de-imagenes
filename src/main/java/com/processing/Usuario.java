@@ -1,7 +1,7 @@
 package com.processing;
 
 import com.databaseInteractions.DBConnect;
-import com.utils.HashUtil;
+
 
 public class Usuario {
     private int id;
@@ -24,15 +24,6 @@ public class Usuario {
         //hashear la contraseña
         this.password = password;
         this.rol = rol;
-    }
-
-    public String cargarImagenes() {
-        // Lógica para cargar imagenes
-        return "Imágenes cargadas correctamente.";
-    }
-
-    public void cambiarDatosUsuario(int id) {
-        // Lógica para actualizar datos del usuario
     }
 
 
