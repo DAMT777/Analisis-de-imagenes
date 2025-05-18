@@ -131,6 +131,9 @@ public class UserSesionData {
         UserSesionData.lotesCountUser = lotesCountUser;
     }
 
+    public static String getLotesCountUserString() {
+        return String.valueOf(lotesCountUser);
+    }
     /**
      * Establece todos los datos de la sesión del usuario en un solo método.
      *
@@ -160,7 +163,6 @@ public class UserSesionData {
     public static void clearSession() {
         idUser = null;
         firtsNameUser = null;
-        secondNameUser = null;
         lastNameUser = null;
         emailUser = null;
         rolUser = null;

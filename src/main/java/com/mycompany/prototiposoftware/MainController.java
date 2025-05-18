@@ -123,6 +123,7 @@ public class MainController {
 
     @FXML    //cambio de escena al hacer lcick en salir
     private void irALoginController() throws IOException {
+        UserSesionData.clearSession();
         App.setRoot("LoginScene");
     }
 
@@ -267,9 +268,12 @@ public class MainController {
                 /*
                 aqui asumi que el id del lote es automatico respecto a cuantos lotes ha analizado
                 es decir, getLotesCountUser() extrae el numero de lotes historico.
-                si ha analizado 100 lotes, pues entonces, la nueva id del ote sera 100+1 xd
+                si ha analizado 100 lotes, pues entonces si analiza un nuevo lote
+                la nueva id del lote sera 100+1 xd
                  */
+
                 Lote lote = new Lote(UserSesionData.getLotesCountUser()+1, fechaActual.format(formato), 2, "./src/main/imgFish/");
+                UserSesionData.setLotesCountUser(UserSesionData.getLotesCountUser()+1); //actualizar el contador sin tener que acceder a la base de datos
 
                 /*
                 En esta seccion se envian los datos de la interfaz a la base de datos
