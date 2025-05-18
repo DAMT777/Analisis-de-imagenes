@@ -28,9 +28,6 @@ public class UserSesionData {
     /** Primer nombre del usuario. */
     private static String firtsNameUser;
 
-    /** Segundo nombre del usuario (si aplica). */
-    private static String secondNameUser;
-
     /** Apellido del usuario. */
     private static String lastNameUser;
 
@@ -75,21 +72,8 @@ public class UserSesionData {
         UserSesionData.firtsNameUser = firtsNameUser;
     }
 
-    /**
-     * Obtiene el segundo nombre del usuario.
-     * @return Segundo nombre del usuario.
-     */
-    public static String getSecondNameUser() {
-        return secondNameUser;
-    }
 
-    /**
-     * Establece el segundo nombre del usuario.
-     * @param secondNameUser Segundo nombre del usuario.
-     */
-    public static void setSecondNameUser(String secondNameUser) {
-        UserSesionData.secondNameUser = secondNameUser;
-    }
+
 
     /**
      * Obtiene el apellido del usuario.
@@ -152,16 +136,14 @@ public class UserSesionData {
      *
      * @param idUser         ID del usuario.
      * @param firtsNameUser  Primer nombre del usuario.
-     * @param secondNameUser Segundo nombre del usuario.
      * @param lastNameUser   Apellido del usuario.
      * @param emailUser      Correo electrónico del usuario.
      * @param rolUser        Rol asignado al usuario.
      * @param lotesCountUser Cantidad historica de lotes analizada por el usuario
      */
-    public static void setAllUserData(String idUser, String firtsNameUser, String secondNameUser, String lastNameUser, String emailUser, String rolUser, int lotesCountUser) {
+    public static void setAllUserData(String idUser, String firtsNameUser, String lastNameUser, String emailUser, String rolUser, int lotesCountUser) {
         setIdUser(idUser);
         setFirtsNameUser(firtsNameUser);
-        setSecondNameUser(secondNameUser);
         setLastNameUser(lastNameUser);
         setEmailUser(emailUser);
         setRolUser(rolUser);

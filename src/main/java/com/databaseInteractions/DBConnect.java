@@ -42,6 +42,21 @@ public class DBConnect {
             return null;
         }
     }
+    public static int getNLotes(int idUser) {
+        String query = "SELECT COUNT(*) AS total FROM Lote WHERE id_usuario = ?";
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, idUser);
+            var resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el número de lotes: " + e.getMessage());
+        }
+        return 0; // Retorna 0 si ocurre un error o no hay lotes
+    }
+
     public static Usuario getInfo(String correo) {
         String query = "SELECT * FROM Usuario WHERE correo = ?";
         Usuario info = null;

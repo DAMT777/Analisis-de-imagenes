@@ -9,6 +9,7 @@ package com.mycompany.prototiposoftware;
  */
 
 import com.databaseInteractions.DBConnect;
+import com.processing.Usuario;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
@@ -35,25 +36,18 @@ public class LoginController {
 
 
         if (login) {
+        // en el objeto user estan todos los datos del usuario
+        //listo el requerimiento
+        Usuario user = DBConnect.getInfo(email);
+        UserSesionData.setAllUserData(
+                    user.getId() + "",
+                    user.getNombre(),
+                    user.getApellido(),
+                    user.getEmail(),
+                    user.getRol(),
+                    DBConnect.getNLotes(user.getId()) );
+            user = null;
 
-        /*Es necesario invocar en esta parte una funcion por parte del backend que reciba un objeto UserSesionData
-        por ejemplo, un metodo DBConnect.loginUser(email)
-
-        Este metodo deberia (segun yo) extraer la info del usuario desde la base de datos filtrando por correo
-        y debe almacenar la info en la clase UserSesionData mediante su metodo setAllUserData();
-
-        Por ejemplo, asumiendo que esta dentro del metodo DBConnect.loginUser(email)
-
-        DBConnect.loginUser(email){
-            UserSesionData.setAllUserData(db.getUserID(email),
-                                          db.getUserFirtsName(email),
-                                          db.getUserSecondName(email),
-                                          db.getUserLastName(email) o algo asi
-                                          ...
-                                          ...
-                                          db.getUserCantLotes(email));
-        }
-        */
             irAnalisisImg();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
