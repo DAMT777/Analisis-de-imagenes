@@ -1,16 +1,16 @@
 package com.processing;
 
+import com.databaseInteractions.DBConnect;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Reporte {
     private int id;
     private int idUsuario;
     private Lote lote;
     private double califFinal;
-    private double avgColor;
-    private double avgOjos;
-    private double avgPiel;
     private String descripcion;
     private List<Valoracion> anomalías;
 
@@ -20,10 +20,23 @@ public class Reporte {
 
     public void getPDF() {
         // Exportar PDF
+        //si hay anomalias, deben incluirse, hasta maximo 8 imagenes de estas anomalias
+        //if( isThereAnomalies() )
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("id_lote", lote.getId());
+        JasperExportManager.exportReportToPdfFile(
+                JasperFillManager.fillReport(rutaPlantilla, parametros, DBConnect.getConnection()),
+                rutaSalida
+        );
     }
 
     public void getXLSX() {
         // Exportar XLSX
+        //si hay anomalias, deben incluirse los nombres de los archivos
+        //if( isThereAnomalies() )
+    }
+    public boolean isThereAnomalies() {
+        return !anomalías.isEmpty();
     }
 
     public int getId() {
@@ -56,30 +69,6 @@ public class Reporte {
 
     public void setCalifFinal(double califFinal) {
         this.califFinal = califFinal;
-    }
-
-    public double getAvgColor() {
-        return avgColor;
-    }
-
-    public void setAvgColor(double avgColor) {
-        this.avgColor = avgColor;
-    }
-
-    public double getAvgOjos() {
-        return avgOjos;
-    }
-
-    public void setAvgOjos(double avgOjos) {
-        this.avgOjos = avgOjos;
-    }
-
-    public double getAvgPiel() {
-        return avgPiel;
-    }
-
-    public void setAvgPiel(double avgPiel) {
-        this.avgPiel = avgPiel;
     }
 
     public String getDescripcion() {

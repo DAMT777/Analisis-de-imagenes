@@ -1,21 +1,45 @@
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
-from preprocess import preprocess_image
+from preprocess import preprocess_image, preprocess_image_batch
 import numpy as np
+import os
+os.environ["ORT_LOG_LEVEL"] = "ERROR"  # Solo errores críticos de ONNXRuntime
+import warnings
+warnings.filterwarnings("ignore")
 
 # Cargar el modelo entrenado
 model = tf.keras.models.load_model('modelo_entrenado.h5')
 
-# Función para analizar una imagen
-def analizar_imagen(ruta_imagen):
-    img_array = preprocess_image(ruta_imagen)
-    # Realizar la predicción
+# Procesa una sola imagen
+def analyze_image(ruta_imagen, solo_ojo=False):
+    seg_path = preprocess_image(ruta_imagen, solo_ojo=solo_ojo)
+    img = image.load_img(seg_path, target_size=(224, 224))
+    img_array = image.img_to_array(img) / 255.0
+    img_array = np.expand_dims(img_array, axis=0)
     predicciones = model.predict(img_array)
-    clase_predicha = np.argmax(predicciones, axis=1)  # Obtener la clase con mayor probabilidad
-    
-    return clase_predicha
+    ojos_score = float(predicciones[0][0])
+    piel_score = float(predicciones[0][1])
+    return {
+        "calificacion_ojos": (ojos_score * 5),
+        "calificacion_piel": (piel_score * 5),
+        "processed_image_path": seg_path
+    }
 
-# Probar el análisis de una imagen
-ruta_imagen = 'ruta/a/tu/imagen.jpg'
-clase = analizar_imagen(ruta_imagen)
-print(f'La clase predicha es: {clase}')
+# Procesa un batch de imágenes
+def analyze_image_batch(rutas_imagen, solo_ojo=False):
+    seg_paths, batch_imgs = preprocess_image_batch(rutas_imagen, solo_ojo=solo_ojo)
+    batch_imgs = np.array(batch_imgs)
+    predicciones = model.predict(batch_imgs)
+    results = []
+    for i, pred in enumerate(predicciones):
+        ojos_score = float(pred[0])
+        piel_score = float(pred[1])
+        results.append({
+            "image": rutas_imagen[i],
+            "result": {
+                "calificacion_ojos": ojos_score * 5,
+                "calificacion_piel": piel_score * 5,
+                "processed_image_path": seg_paths[i]
+            }
+        })
+    return results
