@@ -11,8 +11,8 @@ package com.mycompany.prototiposoftware;
  *
  * <p>Uso típico:
  * <pre>{@code
- * UserSesionData.setIdUser("123");
- * String id = UserSesionData.getIdUser();
+ * UserSesionData.setIdUser(123);
+ * String nombre = UserSesionData.getFirtsNameUser();
  * }</pre>
  * </p>
  *
@@ -20,136 +20,144 @@ package com.mycompany.prototiposoftware;
  * temporales del usuario mientras está logueado en la sesión actual.</p>
  *
  */
+
+import com.processing.User;
+
 public class UserSesionData {
 
-    /** ID del usuario autenticado. */
-    private static String idUser;
+    /** Objeto usuario autenticado (composición). */
+    private static User usuario;
 
-    /** Primer nombre del usuario. */
-    private static String firtsNameUser;
-
-    /** Apellido del usuario. */
-    private static String lastNameUser;
-
-    /** Correo electrónico del usuario. */
-    private static String emailUser;
-
-    /** Rol asignado al usuario dentro del sistema (ej: admin, operador, etc). */
-    private static String rolUser;
-
-    /** Rol asignado al usuario dentro del sistema (ej: admin, operador, etc). */
+    /** Cantidad histórica de lotes analizada por el usuario. */
     private static int lotesCountUser;
 
     /**
-     * Obtiene el ID del usuario autenticado.
-     * @return ID del usuario.
+     * Obtiene el objeto Usuario autenticado.
+     * @return Usuario autenticado o null si no hay sesión.
      */
-    public static String getIdUser() {
-        return idUser;
+    public static User getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * Establece el objeto Usuario autenticado.
+     * @param usuario Objeto Usuario.
+     */
+    public static void setUsuario(User usuario) {
+        UserSesionData.usuario = usuario;
+    }
+
+    /**
+     * Obtiene el ID del usuario autenticado.
+     * @return ID del usuario o null si no hay sesión.
+     */
+    public static Integer getIdUser() {
+        return usuario != null ? usuario.getId() : null;
     }
 
     /**
      * Establece el ID del usuario autenticado.
      * @param idUser ID del usuario.
      */
-    public static void setIdUser(String idUser) {
-        UserSesionData.idUser = idUser;
+    public static void setIdUser(int idUser) {
+        if (usuario != null) usuario.setId(idUser);
     }
 
     /**
-     * Obtiene el primer nombre del usuario.
-     * @return Primer nombre del usuario.
+     * Obtiene el nombre del usuario autenticado.
+     * @return Nombre del usuario o null si no hay sesión.
      */
     public static String getFirtsNameUser() {
-        return firtsNameUser;
+        return usuario != null ? usuario.getNombre() : null;
     }
 
     /**
-     * Establece el primer nombre del usuario.
-     * @param firtsNameUser Primer nombre del usuario.
+     * Establece el nombre del usuario autenticado.
+     * @param nombre Nombre del usuario.
      */
-    public static void setFirtsNameUser(String firtsNameUser) {
-        UserSesionData.firtsNameUser = firtsNameUser;
+    public static void setFirtsNameUser(String nombre) {
+        if (usuario != null) usuario.setNombre(nombre);
     }
 
-
-
-
     /**
-     * Obtiene el apellido del usuario.
-     * @return Apellido del usuario.
+     * Obtiene el apellido del usuario autenticado.
+     * @return Apellido del usuario o null si no hay sesión.
      */
     public static String getLastNameUser() {
-        return lastNameUser;
+        return usuario != null ? usuario.getApellido() : null;
     }
 
     /**
-     * Establece el apellido del usuario.
-     * @param lastNameUser Apellido del usuario.
+     * Establece el apellido del usuario autenticado.
+     * @param apellido Apellido del usuario.
      */
-    public static void setLastNameUser(String lastNameUser) {
-        UserSesionData.lastNameUser = lastNameUser;
+    public static void setLastNameUser(String apellido) {
+        if (usuario != null) usuario.setApellido(apellido);
     }
 
     /**
-     * Obtiene el correo electrónico del usuario.
-     * @return Correo del usuario.
+     * Obtiene el correo electrónico del usuario autenticado.
+     * @return Correo electrónico o null si no hay sesión.
      */
     public static String getEmailUser() {
-        return emailUser;
+        return usuario != null ? usuario.getEmail() : null;
     }
 
     /**
-     * Establece el correo electrónico del usuario.
-     * @param emailUser Correo del usuario.
+     * Establece el correo electrónico del usuario autenticado.
+     * @param email Correo electrónico.
      */
-    public static void setEmailUser(String emailUser) {
-        UserSesionData.emailUser = emailUser;
+    public static void setEmailUser(String email) {
+        if (usuario != null) usuario.setEmail(email);
     }
 
     /**
-     * Obtiene el rol asignado al usuario.
-     * @return Rol del usuario.
+     * Obtiene el rol del usuario autenticado.
+     * @return Rol del usuario o null si no hay sesión.
      */
     public static String getRolUser() {
-        return rolUser;
+        return usuario != null ? usuario.getRol() : null;
     }
 
     /**
-     * Establece el rol del usuario dentro del sistema.
-     * @param rolUser Rol del usuario.
+     * Establece el rol del usuario autenticado.
+     * @param rol Rol del usuario.
      */
-    public static void setRolUser(String rolUser) {
-        UserSesionData.rolUser = rolUser;
+    public static void setRolUser(String rol) {
+        if (usuario != null) usuario.setRol(rol);
     }
 
+    /**
+     * Obtiene la cantidad histórica de lotes analizada por el usuario.
+     * @return Cantidad de lotes.
+     */
     public static int getLotesCountUser() {
         return lotesCountUser;
     }
 
+    /**
+     * Establece la cantidad histórica de lotes analizada por el usuario.
+     * @param lotesCountUser Cantidad de lotes.
+     */
     public static void setLotesCountUser(int lotesCountUser) {
         UserSesionData.lotesCountUser = lotesCountUser;
     }
 
+    /**
+     * Obtiene la cantidad de lotes como String.
+     * @return Cantidad de lotes en formato String.
+     */
     public static String getLotesCountUserString() {
         return String.valueOf(lotesCountUser);
     }
+
     /**
-     * Establece todos los datos de la sesión del usuario en un solo método.
-     *
-     * @param idUser         ID del usuario.
-     * @param firtsNameUser  Primer nombre del usuario.
-     * @param lastNameUser   Apellido del usuario.
-     * @param emailUser      Correo electrónico del usuario.
-     * @param rolUser        Rol asignado al usuario.
-     * @param lotesCountUser Cantidad historica de lotes analizada por el usuario
+     * Establece todos los datos del usuario y la cantidad de lotes.
+     * @param usuario Objeto Usuario.
+     * @param lotesCountUser Cantidad de lotes.
      */
-    public static void setAllUserData(String idUser, String firtsNameUser, String lastNameUser, String emailUser, String rolUser, int lotesCountUser) {
-        setIdUser(idUser);
-        setFirtsNameUser(firtsNameUser);
-        setLastNameUser(lastNameUser);
-        setEmailUser(emailUser);
-        setRolUser(rolUser);
+    public static void setAllUserData(User usuario, int lotesCountUser) {
+        setUsuario(usuario);
         setLotesCountUser(lotesCountUser);
     }
 
@@ -161,10 +169,7 @@ public class UserSesionData {
      * Todos los campos se restablecen a {@code null}.</p>
      */
     public static void clearSession() {
-        idUser = null;
-        firtsNameUser = null;
-        lastNameUser = null;
-        emailUser = null;
-        rolUser = null;
+        usuario = null;
+        lotesCountUser = 0;
     }
 }

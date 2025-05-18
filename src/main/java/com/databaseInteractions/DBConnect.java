@@ -2,7 +2,7 @@ package com.databaseInteractions;
 
 
 import com.google.gson.JsonObject;
-import com.processing.Usuario;
+import com.processing.User;
 import com.services.CloudinaryService;
 import com.utils.HashUtil;
 import com.processing.Imagen;
@@ -57,9 +57,9 @@ public class DBConnect {
         return 0; // Retorna 0 si ocurre un error o no hay lotes
     }
 
-    public static Usuario getInfo(String correo) {
+    public static User getInfo(String correo) {
         String query = "SELECT * FROM Usuario WHERE correo = ?";
-        Usuario info = null;
+        User info = null;
 
         try (Connection conn = DBConnect.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -67,7 +67,7 @@ public class DBConnect {
             var resultSet = stmt.executeQuery();
 
             if (resultSet.next()) {
-                info = new Usuario(resultSet.getInt("id"),
+                info = new User(resultSet.getInt("id"),
                         resultSet.getString("nombre"),
                         resultSet.getString("apellido"),
                         resultSet.getString("correo"),

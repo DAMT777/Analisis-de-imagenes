@@ -12,13 +12,16 @@ import com.google.gson.JsonParser;
 
 public class PythonCNNService {
 
+    private static String endpoint = "http://127.0.0.1:8001/procesar/";
+
+
     public static JsonObject communicate(String imagePath) {
         JsonObject jsonData = new JsonObject();
         jsonData.addProperty("image_path", imagePath);
         jsonData.addProperty("solo_ojo", false);
 
         String data = jsonData.toString();
-        String response = sendPostRequest("http://127.0.0.1:8001/procesar/", data);
+        String response = sendPostRequest(endpoint, data);
         return JsonParser.parseString(response).getAsJsonObject();
     }
 

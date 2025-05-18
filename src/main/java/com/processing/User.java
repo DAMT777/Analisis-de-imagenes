@@ -3,7 +3,7 @@ package com.processing;
 import com.databaseInteractions.DBConnect;
 
 
-public class Usuario {
+public class User {
     private int id;
     private String nombre;
     private String apellido;
@@ -12,11 +12,11 @@ public class Usuario {
     private String rol;
 
 
-    public Usuario(String email, String password) {
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
-    public Usuario(int id, String nombre, String apellido, String email, String password, String rol) {
+    public User(int id, String nombre, String apellido, String email, String password, String rol) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -32,7 +32,7 @@ public class Usuario {
     }
     private void getInfo() {
         if (iniciarSesion()) {
-            Usuario usuario = DBConnect.getInfo(this.email); // Obtener el objeto Usuario
+            User usuario = DBConnect.getInfo(this.email); // Obtener el objeto Usuario
             if (usuario != null) {
                 this.id = usuario.getId();
                 this.nombre = usuario.getNombre();
