@@ -35,13 +35,105 @@ import java.util.stream.Stream;
 
 public class ReportGenerator {
     private static final Logger log = LoggerFactory.getLogger(ReportGenerator.class);
+    // datos utilizables en la creacion del pdf
+    String rutaCarpetaAnomalias = "src/main/imgAnomal/";
+    String idLote;
+    String fechaAnalisis = "12/02/2020";
+    String cantidadMuestras = "200";
+    String ciudadLote = "Villavicencio";
+    String trazabilidadLote = "No se";
+    String calidadPromedio = "3.7/5";
+    String promedioOjos = "3";
+    String promedioPiel = "5";
+    String cantidadAnomalias = "24";
+    String calificacionPromedioLote = "BAJA"; //Baja, Media, Aceptable, Ideal. toca hacer la validación respecto al promedio con, por ejemplo, un if
+    List<String[]> registrosAnalisisIndividual = new ArrayList<>(); //esta matriz debe almacenar las filas extraidas de la tabla de registro individual de cada pez perteneciente a una misma idLote
+    String rutaGeneracionPDF = "";
 
-    public void PDFgenerator() throws IOException {
+    /**
+     *
+     * <p>El metodo <code>public void PDFgenerator()</code> construye el informe con los datos del lote y las muestras individuales.</p>
+     *
+     * <p><b>Nota:</b> La ruta de la carpeta desde donde se extraen las imágenes de anomalías se
+     * toma por defecto como <code>src/main/imgAnomal/</code>. puede especificar una ruta
+     * diferente añadiendo un parametro final de tipo <b>String</b> con la ruta deseada</p>
+     *
+     * @param idLote                ID único del lote analizado.
+     * @param fechaAnalisis         Fecha en la que se realizó el análisis del lote.
+     * @param cantidadMuestras      Número total de muestras analizadas dentro del lote.
+     * @param ciudadLote            Ciudad o lugar de procedencia del lote.
+     * @param trazabilidadLote      Información sobre la trazabilidad del lote (por ejemplo, origen, distribución).
+     * @param calidadPromedio       Promedio general de calidad calculado para el lote (ej. "3.7/5").
+     * @param promedioOjos          Promedio de calidad de los ojos de los peces del lote.
+     * @param promedioPiel          Promedio de calidad de la piel de los peces del lote.
+     * @param cantidadAnomalias     Número total de anomalías detectadas en las muestras.
+     * @param registrosAnalisisIndividual Lista de registros individuales por muestra, donde cada arreglo
+     *                                    debe tener la siguiente estructura:
+     * <ul>
+     *   <li><b>[0]</b> id_imagen</li>
+     *   <li><b>[1]</b> fecha_analisis</li>
+     *   <li><b>[2]</b> ciudad</li>
+     *   <li><b>[3]</b> trazabilidad</li>
+     *   <li><b>[4]</b> calidad_piel</li>
+     *   <li><b>[5]</b> calidad_ojo</li>
+     *   <li><b>[6]</b> calidad_general</li>
+     * </ul>
+     *
+     * @throws IOException Si ocurre un error al generar o guardar el PDF.
+     */
+    public void PDFgenerator(String idLote, String fechaAnalisis, String cantidadMuestras, String ciudadLote, String trazabilidadLote, String calidadPromedio, String promedioOjos, String promedioPiel, String cantidadAnomalias, String rutaGeneracionPDF, List<String[]> registrosAnalisisIndividual) throws IOException {
+        PDFgenerator(idLote, fechaAnalisis, cantidadMuestras, ciudadLote, trazabilidadLote, calidadPromedio, promedioOjos, promedioPiel, cantidadAnomalias, rutaGeneracionPDF,registrosAnalisisIndividual, rutaCarpetaAnomalias);
+    }
+
+    /**
+     * Genera un informe PDF para un lote de análisis de calidad.
+     *
+     * <p>El constructor recibe los siguientes parámetros</p>
+     *
+     * @param idLote                ID único del lote analizado.
+     * @param fechaAnalisis         Fecha en la que se realizó el análisis del lote.
+     * @param cantidadMuestras      Número total de muestras analizadas dentro del lote.
+     * @param ciudadLote            Ciudad o lugar de procedencia del lote.
+     * @param trazabilidadLote      Información sobre la trazabilidad del lote (por ejemplo, origen, distribución).
+     * @param calidadPromedio       Promedio general de calidad calculado para el lote (ej. "3.7/5").
+     * @param promedioOjos          Promedio de calidad de los ojos de los peces del lote.
+     * @param promedioPiel          Promedio de calidad de la piel de los peces del lote.
+     * @param cantidadAnomalias     Número total de anomalías detectadas en las muestras.
+     * @param registrosAnalisisIndividual Lista de registros individuales por muestra, donde cada arreglo
+     *                                    debe tener la siguiente estructura:
+     *
+     * <ul>
+     *   <li><b>[0]</b> id_imagen</li>
+     *   <li><b>[1]</b> fecha_analisis</li>
+     *   <li><b>[2]</b> ciudad</li>
+     *   <li><b>[3]</b> trazabilidad</li>
+     *   <li><b>[4]</b> calidad_piel</li>
+     *   <li><b>[5]</b> calidad_ojo</li>
+     *   <li><b>[6]</b> calidad_general</li>
+     * </ul>
+     * @param rutaCarpetaAnomalias  (Opcional) Especifica otra ruta de ubicación de la carpeta de imagenes de anomalias
+     *                              si no agrega este parámetro al método, por defecto asigna la ruta <code>src/main/imgAnomal/</code>.
+     *
+     * @throws IOException Si ocurre un error al generar o guardar el PDF.
+     */
+    public void PDFgenerator(String idLote, String fechaAnalisis, String cantidadMuestras, String ciudadLote, String trazabilidadLote, String calidadPromedio, String promedioOjos, String promedioPiel, String cantidadAnomalias, String rutaGeneracionPDF,List<String[]> registrosAnalisisIndividual, String rutaCarpetaAnomalias) throws IOException {
 
 //############################################ ESTRUCTURA DEL PDF ##############################################
+        //-----------------------------------------------------------------------------Variables ha extraer de la base de datos
+        this.idLote = idLote; // toca pasarlo desde el resultado de analisis
+        this.fechaAnalisis = fechaAnalisis;
+        this.cantidadMuestras = cantidadMuestras;
+        this.ciudadLote = ciudadLote;
+        this.trazabilidadLote = trazabilidadLote;
+        this.calidadPromedio = calidadPromedio;
+        this.promedioOjos = promedioOjos;
+        this.promedioPiel = promedioPiel;
+        this.cantidadAnomalias = cantidadAnomalias;
+        this.registrosAnalisisIndividual = registrosAnalisisIndividual;
+        this.rutaCarpetaAnomalias = rutaCarpetaAnomalias;
 
         //CREA EL PDF
-        String dest = "reporte.pdf";
+        String dest = rutaGeneracionPDF + "reporte.pdf";
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(dest));
         Document document = new Document(pdfDoc, PageSize.LETTER);
         document.setMargins(0, 0, 0, 0);
@@ -81,73 +173,6 @@ public class ReportGenerator {
         PdfFont fontCourier = PdfFontFactory.createFont(StandardFonts.COURIER);
         PdfFont fontCourierB = PdfFontFactory.createFont(StandardFonts.COURIER_BOLD);
         PdfFont fontZAPFDINGBATS = PdfFontFactory.createFont(StandardFonts.ZAPFDINGBATS);
-
-
-
-        //-----------------------------------------------------------------------------Variables ha extraer de la base de datos
-        String idLote = ""; // toca pasarlo desde el resultado de analisis
-
-        // array que debe almacenar los datos de resultado del analisis respecto a un lote
-        String[] analisisGeneral = new String[]{};
-
-        /*
-        Debe llamarse a un metodo en la clase de DB que retorne los datos necesarios para el analisis
-        es decir, ejemplo: DBclass.getDataAnalisis(String ideLote) - return String[]
-        y que se almacene en analisisGeneral = DBclass.getDataAnalisis(idLote)
-         */
-
-        // datos utilizables en la creacion del pdf
-        String fechaAnalisis = "12/02/2020"; //  cambiar por -> String fechaAnalisis = analisisGeneral[0]
-        String cantidadMuestras = "200";     //  cambiar por -> String cantidadMuestras = analisisGeneral[1]
-        String ciudadLote = "Villavicencio"; //  cambiar por -> String ciudadLote = analisisGeneral[2]
-        String trazabilidadLote = "No se";   //  cambiar por -> String trazabilidadLote = analisisGeneral[3]
-        String calidadPromedio = "3.7/5";      //  cambiar por -> String calidadPromedio = analisisGeneral[4]
-        String promedioOjos = "3";           //  cambiar por -> String promedioOjos = analisisGeneral[5]
-        String promedioPiel = "5";           //  cambiar por -> String promedioPiel = analisisGeneral[6]
-        String cantidadAnomalias = "24";     //  cambiar por -> String cantidadAnomalias = analisisGeneral[7]
-
-        String calificacionPromedioLote = "BAJA"; //Baja, Media, Aceptable, Ideal. toca hacer la validación respecto al promedio con, por ejemplo, un if
-
-
-        //esta matriz debe almacenar las filas extraidas de la tabla de registro individual de cada pez perteneciente a una misma idLote
-        List<String[]> analisisIndividual = new ArrayList<>();
-        //esta matriz debe almacenar las imagenes extraidas de la base de datos
-        List<byte[]> imagenesAnomal = new ArrayList<>();
-
-
-        /*
-        lo ideal es usar la clase de DB mediante una función que reciba el idLote
-        por ejemplo: DB.imageRegisterLote(String idLote) -> return List<String[]>
-        Esto lo almacena como analisisIndividual = imageRegisterLote(idLote)
-
-
-        ADICIONAL: toca llamar un metodo en la DB para traer las imagenes con anomalias perteneciente a un mismo lote
-        estas imagenes toca almacenarlas en la carpeta src/main/imgAnomal.
-
-        por ejemplo, como no se que en que tipo de dato tiene las imagenes, asumo que
-        Tienen este metodo en la clase de data base: DB.getImagesAnomal(String idLote) -> return List<byte[]>
-
-        Entonces, desde acá
-        imagenesAnomal = DB.getImagesAnomal(idLote)
-
-
-        File carpeta = new File("src/main/imgAnomal");
-        if (!carpeta.exists()) {
-            carpeta.mkdirs();
-        }
-
-        int contador = 1;
-        for (byte[] imgBytes : imagenes) {
-            File archivo = new File(carpeta, "imagen_" + contador + ".jpg");
-            FileOutputStream fos = new FileOutputStream(archivo);
-            fos.write(imgBytes);
-            fos.close();
-            contador++;
-        }
-
-        System.out.println("Todas las imágenes fueron guardadas correctamente.");
-        */
-
         //-----------------------------------------------------------------------------Fin variables base de datos
 
 
@@ -303,12 +328,12 @@ public class ReportGenerator {
                 .setTextAlignment(TextAlignment.CENTER)
                 .setFontColor(colorHex("#111111"));
 
-        Path dir = Paths.get("src/main/imgAnomal/");
+        Path dir = Paths.get(rutaCarpetaAnomalias);
 
         try (Stream<Path> stream = Files.list(dir)) {
             for (Path path : (Iterable<Path>) stream::iterator) {
                 if (Files.isRegularFile(path) && path.toString().toLowerCase().endsWith(".jpg")) {
-                    System.out.println("Archivo PNG encontrado: " + path.getFileName());
+                    System.out.println("Archivo JPG encontrado: " + path.getFileName());
                     imageLoad = new  Image(ImageDataFactory.create(path.toString())).setRotationAngle(Math.PI / 2).setHeight(120).setWidth(60);
                     tableAnomalies.addCell(new Cell().add(imageLoad.setHorizontalAlignment(HorizontalAlignment.CENTER)).setMargins(0, 5, 5, 0).setBorder(Border.NO_BORDER));
                 }
@@ -316,8 +341,6 @@ public class ReportGenerator {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
 
 
@@ -334,21 +357,14 @@ public class ReportGenerator {
 
 
         // -------------------------------------------- Extraccion de datos para insercion en tabla de imagenes anomalias
-        for (int fila = 0; fila < analisisIndividual.size(); fila++) {
-            for (int col = 0; col < analisisIndividual.get(fila).length; col++) {
-                System.out.print(analisisIndividual.get(fila)[col]);
-            }
-            System.out.println();
-        }
 
-
-        // datos de prueba sin base de datos//
-        analisisIndividual.add(new String[]{"123124", "12-2-2025", "Villavicencio", "No se","4","4","4"});
-        analisisIndividual.add(new String[]{"123125", "12-2-2025", "Villavicencio", "Puede que sepa","2","1","1.5"});
-        analisisIndividual.add(new String[]{"123126", "12-2-2025", "Villavicencio", "No se","4","3","3.6"});
-        analisisIndividual.add(new String[]{"123127", "12-2-2025", "Villavicencio", "Hmmm","5","1","2.5"});
-        analisisIndividual.add(new String[]{"123128", "12-2-2025", "Villavicencio", "Si se","5","3","3.1"});
-
+        /*// datos de prueba sin base de datos//
+        registrosAnalisisIndividual.add(new String[]{"123124", "12-2-2025", "Villavicencio", "No se","4","4","4"});
+        registrosAnalisisIndividual.add(new String[]{"123125", "12-2-2025", "Villavicencio", "Puede que sepa","2","1","1.5"});
+        registrosAnalisisIndividual.add(new String[]{"123126", "12-2-2025", "Villavicencio", "No se","4","3","3.6"});
+        registrosAnalisisIndividual.add(new String[]{"123127", "12-2-2025", "Villavicencio", "Hmmm","5","1","2.5"});
+        registrosAnalisisIndividual.add(new String[]{"123128", "12-2-2025", "Villavicencio", "Si se","5","3","3.1"});
+        */
 
         tableRegistroIndividual.addCell(new Cell().add(new Paragraph("ID Imagen").setFontSize(10))
                 .setBackgroundColor(colorHex("#4295a5"))
@@ -394,7 +410,7 @@ public class ReportGenerator {
 
         // -------------------------------------------- Extraccion de datos para insercion en tabla de registro individual
 
-        for (String[] fila : analisisIndividual) {
+        for (String[] fila : registrosAnalisisIndividual) {
             for (int col = 0; col < fila.length; col++) {
                 String valor = fila[col];
 
@@ -421,7 +437,7 @@ public class ReportGenerator {
 //####################################### IMPLEMENTACIÓN DE ELEMENTOS ########################################
         //Logo y titulo
         //CARGA EL LOGO DEL PROGRAMA EN MEMORIA
-        imageLoad = new Image(ImageDataFactory.create("src/main/resources/images/MainLogo.png"))
+        imageLoad = new Image(ImageDataFactory.create("src/main/resources/img/MainLogo.png"))
                 .scaleAbsolute(150, 130)
                 .setHorizontalAlignment(HorizontalAlignment.CENTER);
 
