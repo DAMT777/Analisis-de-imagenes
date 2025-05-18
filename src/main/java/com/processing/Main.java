@@ -32,7 +32,7 @@ public class Main {
      for (Imagen imagen : imagenes) {
          // Se comunica con el servicio Python (CNN) para analizar la imagen
          JsonObject json = PythonCNNService.communicate(imagen.getPath());
-
+         json.addProperty("descripcion_img", "")
          // Se guarda la valoración (resultado del análisis) en el objeto Imagen
          imagen.setValoracion(json);
 

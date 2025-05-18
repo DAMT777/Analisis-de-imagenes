@@ -32,4 +32,7 @@ public class Imagen {
     public void setValoracion(JsonObject valoracion) {
         this.valoracion = valoracion;
     }
+    public JsonObject getValoracion() {
+        return valoracion;
+    }
 }

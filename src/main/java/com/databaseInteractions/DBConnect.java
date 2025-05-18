@@ -138,28 +138,27 @@ public class DBConnect {
     }
 
     public static ResultadoRegistro registrarImagenesDeLote(Lote lote) {
-        String ruta = lote.getPath(); // Obtener la ruta del lote
+        String ruta = lote.getPath();
         File fileOrDirectory = new File(ruta);
 
-        // Verificamos si la ruta es válida
         if (fileOrDirectory.exists()) {
-            int idLote = registrarLote(lote); // Registrar el lote y obtener el ID
+            int idLote = registrarLote(lote);
             if (idLote == -1) {
-                return new ResultadoRegistro(false, -1); // Error al registrar el lote
+                return new ResultadoRegistro(false, -1);
             }
 
-            // Si es un archivo individual
             if (fileOrDirectory.isFile()) {
                 Imagen imagen = new Imagen(fileOrDirectory.getAbsolutePath());
                 String urlImagen = subirImagenACloudinary(imagen.getPath());
                 if (urlImagen != null) {
                     imagen.setPath(urlImagen);
-                    boolean registrado = registrarImagenEnBaseDeDatos(idLote, imagen);
-                    return new ResultadoRegistro(registrado, idLote);
+                    int idImagen = registrarImagenEnBaseDeDatos(idLote, imagen);
+                    if (idImagen != -1) {
+                        boolean valoracionRegistrada = registrarResultadoAnalisisDesdeImagen(imagen, idImagen);
+                        return new ResultadoRegistro(valoracionRegistrada, idLote);
+                    }
                 }
-            }
-            // Si es un directorio
-            else if (fileOrDirectory.isDirectory()) {
+            } else if (fileOrDirectory.isDirectory()) {
                 File[] archivos = fileOrDirectory.listFiles((dir, name) ->
                         name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png")
                 );
@@ -170,9 +169,9 @@ public class DBConnect {
                         String urlImagen = subirImagenACloudinary(imagen.getPath());
                         if (urlImagen != null) {
                             imagen.setPath(urlImagen);
-                            boolean registrado = registrarImagenEnBaseDeDatos(idLote, imagen);
-                            if (!registrado) {
-                                System.out.println("Error al registrar la imagen: " + archivo.getName());
+                            int idImagen = registrarImagenEnBaseDeDatos(idLote, imagen);
+                            if (idImagen == -1 || !registrarResultadoAnalisisDesdeImagen(imagen, idImagen)) {
+                                System.out.println("Error al registrar la imagen o su valoración: " + archivo.getName());
                                 return new ResultadoRegistro(false, idLote);
                             }
                         }
@@ -181,7 +180,21 @@ public class DBConnect {
                 }
             }
         }
-        return new ResultadoRegistro(false, -1); // Si la ruta no es válida
+        return new ResultadoRegistro(false, -1);
+    }
+
+    // Metodo auxiliar para registrar la valoración de la imagen
+    private static boolean registrarResultadoAnalisisDesdeImagen(Imagen imagen, int idImagen) {
+        JsonObject valoracion = imagen.getValoracion();
+        if (valoracion == null) return false;
+
+        JsonObject json = new JsonObject();
+        json.addProperty("id", idImagen);
+        json.addProperty("calidad_ojos", valoracion.get("calificacion_ojos").getAsInt());
+        json.addProperty("calidad_piel", valoracion.get("calificacion_piel").getAsInt());
+        json.addProperty("descripcion_img", valoracion.has("descripcion_img") ? valoracion.get("descripcion_img").getAsString() : "");
+
+        return registrarResultadoAnalisis(json);
     }
 
     public static int registrarLote(Lote lote) {
@@ -202,18 +215,20 @@ public class DBConnect {
         return -1; // Retorna -1 si ocurre un error
     }
 
-    private static boolean registrarImagenEnBaseDeDatos(int idLote, Imagen imagen) {
-        String query = "INSERT INTO Imagen (id_lote, ruta_servicio, fecha_carga) VALUES (?, ?, CURRENT_TIMESTAMP)";
+    private static int registrarImagenEnBaseDeDatos(int idLote, Imagen imagen) {
+        String query = "INSERT INTO Imagen (id_lote, ruta_servicio, fecha_carga) VALUES (?, ?, CURRENT_TIMESTAMP) RETURNING id_imagen";
         try (Connection conn = DBConnect.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, idLote);
-            stmt.setString(2, imagen.getPath()); // Usar la ruta (URL) desde el objeto Imagen
-            int rowsInserted = stmt.executeUpdate();
-            return rowsInserted > 0; // Si se insertó la imagen correctamente
+            stmt.setString(2, imagen.getPath());
+            var resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("id_imagen");
+            }
         } catch (SQLException e) {
             System.out.println("Error al registrar imagen en la base de datos: " + e.getMessage());
-            return false; // Si ocurre un error al insertar en la base de datos
         }
+        return -1; // Retorna -1 si ocurre un error
     }
     // En DBConnect.java
 
