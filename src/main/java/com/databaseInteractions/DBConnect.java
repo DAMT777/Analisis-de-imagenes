@@ -67,7 +67,7 @@ public class DBConnect {
             var resultSet = stmt.executeQuery();
 
             if (resultSet.next()) {
-                info = new User(resultSet.getInt("id"),
+                info = new User(resultSet.getInt("id_usuario"),
                         resultSet.getString("nombre"),
                         resultSet.getString("apellido"),
                         resultSet.getString("correo"),
@@ -152,51 +152,40 @@ public class DBConnect {
         }
     }
 
-    public static ResultadoRegistro registrarImagenesDeLote(Lote lote) {
-        String ruta = lote.getPath();
-        File fileOrDirectory = new File(ruta);
+   public static ResultadoRegistro registrarImagenesDeLote(Lote lote) {
+       // Registrar el lote y obtener su ID
+       int idLote = registrarLote(lote);
+       if (idLote == -1) {
+           return new ResultadoRegistro(false, -1);
+       }
 
-        if (fileOrDirectory.exists()) {
-            int idLote = registrarLote(lote);
-            if (idLote == -1) {
-                return new ResultadoRegistro(false, -1);
-            }
-
-            if (fileOrDirectory.isFile()) {
-                Imagen imagen = new Imagen(fileOrDirectory.getAbsolutePath());
-                String urlImagen = subirImagenACloudinary(imagen.getPath());
-                if (urlImagen != null) {
-                    imagen.setPath(urlImagen);
-                    int idImagen = registrarImagenEnBaseDeDatos(idLote, imagen);
-                    if (idImagen != -1) {
-                        boolean valoracionRegistrada = registrarResultadoAnalisisDesdeImagen(imagen, idImagen);
-                        return new ResultadoRegistro(valoracionRegistrada, idLote);
-                    }
-                }
-            } else if (fileOrDirectory.isDirectory()) {
-                File[] archivos = fileOrDirectory.listFiles((dir, name) ->
-                        name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png")
-                );
-
-                if (archivos != null && archivos.length > 0) {
-                    for (File archivo : archivos) {
-                        Imagen imagen = new Imagen(archivo.getAbsolutePath());
-                        String urlImagen = subirImagenACloudinary(imagen.getPath());
-                        if (urlImagen != null) {
-                            imagen.setPath(urlImagen);
-                            int idImagen = registrarImagenEnBaseDeDatos(idLote, imagen);
-                            if (idImagen == -1 || !registrarResultadoAnalisisDesdeImagen(imagen, idImagen)) {
-                                System.out.println("Error al registrar la imagen o su valoración: " + archivo.getName());
-                                return new ResultadoRegistro(false, idLote);
-                            }
-                        }
-                    }
-                    return new ResultadoRegistro(true, idLote);
-                }
-            }
-        }
-        return new ResultadoRegistro(false, -1);
-    }
+       boolean exito = true;
+       for (Imagen imagen : lote.getImagenes()) {
+           // Subir la imagen a Cloudinary usando su path actual
+           String urlImagen = subirImagenACloudinary(imagen.getPath());
+           if (urlImagen != null) {
+               imagen.setPath(urlImagen);
+               int idImagen = registrarImagenEnBaseDeDatos(idLote, imagen);
+               if (idImagen != -1) {
+                   boolean valoracionRegistrada = registrarResultadoAnalisisDesdeImagen(imagen, idImagen);
+                   if (!valoracionRegistrada) {
+                       System.out.println("Error al registrar la valoración de la imagen: " + imagen.getPath());
+                       exito = false;
+                       break;
+                   }
+               } else {
+                   System.out.println("Error al registrar la imagen en la base de datos: " + imagen.getPath());
+                   exito = false;
+                   break;
+               }
+           } else {
+               System.out.println("Error al subir la imagen a Cloudinary: " + imagen.getPath());
+               exito = false;
+               break;
+           }
+       }
+       return new ResultadoRegistro(exito, idLote);
+   }
 
     // Metodo auxiliar para registrar la valoración de la imagen
     private static boolean registrarResultadoAnalisisDesdeImagen(Imagen imagen, int idImagen) {
@@ -212,8 +201,53 @@ public class DBConnect {
         return registrarResultadoAnalisis(json);
     }
 
+   public static String[] getDataReporte(String id) {
+       String[] data = new String[8];
+       int idLote = Integer.parseInt(id);
+       String queryLote = "SELECT fecha, condiciones, registrado_invima, ciudad FROM Lote WHERE id_lote = ?";
+       String queryImagenes = "SELECT COUNT(*) AS total FROM Imagen WHERE id_lote = ?";
+       String queryResultados = "SELECT AVG(calidad_ojos) AS prom_ojos, AVG(calidad_piel) AS prom_piel, AVG(calidad) AS prom_calidad, COUNT(*) AS total, SUM(CASE WHEN calidad < 3 THEN 1 ELSE 0 END) AS anomalias FROM resultadoanalisis WHERE id_imagen IN (SELECT id_imagen FROM Imagen WHERE id_lote = ?)";
+       try (Connection conn = getConnection()) {
+           // Datos del lote
+           try (PreparedStatement stmt = conn.prepareStatement(queryLote)) {
+               stmt.setInt(1, idLote);
+               var rs = stmt.executeQuery();
+               if (rs.next()) {
+                   data[0] = rs.getString("fecha_creacion"); // fechaAnasis
+                   data[2] = rs.getString("condiciones") + " | INVIMA: " + (rs.getBoolean("registrado_invima") ? "1" : "0"); // trazabilidadLote
+                   data[3] = rs.getString("ciudad"); // ciudadLote
+               }
+           }
+
+           // Cantidad de muestras (imagenes)
+           try (PreparedStatement stmt = conn.prepareStatement(queryImagenes)) {
+               stmt.setInt(1, idLote);
+               var rs = stmt.executeQuery();
+               if (rs.next()) {
+                   data[1] = String.valueOf(rs.getInt("total")); // cantidadMuestras
+               }
+           }
+
+           // Promedios y anomalías
+           try (PreparedStatement stmt = conn.prepareStatement(queryResultados)) {
+               stmt.setInt(1, idLote);
+               var rs = stmt.executeQuery();
+               if (rs.next()) {
+                   data[4] = String.format("%.2f", rs.getDouble("prom_calidad")); // calidadPromedio
+                   data[5] = String.valueOf(rs.getInt("anomalias")); // cantidadAnomalias
+                   data[6] = String.format("%.2f", rs.getDouble("prom_ojos")); // calidadOjosProm
+                   data[7] = String.format("%.2f", rs.getDouble("prom_piel")); // calidadPielProm
+               }
+           }
+       } catch (SQLException e) {
+           System.out.println("Error al obtener datos del reporte: " + e.getMessage());
+       }
+       return data;
+   }
+
+
     public static int registrarLote(Lote lote) {
-        String query = "INSERT INTO Lote (id_usuario, descripcion, procedencia) VALUES (?, ?, ?) RETURNING id_lote";
+        String query = "INSERT INTO Lote (id_usuario, descripcion, ciudad) VALUES (?, ?, ?) RETURNING id_lote";
         try (Connection conn = DBConnect.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, lote.getIdUsuario());

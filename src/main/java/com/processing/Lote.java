@@ -5,24 +5,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Lote {
-    private int id;
+    private static int id;
     private List<Imagen> imagenes;
     private String fecha;
     private int idUsuario;
     private String path;
-    private String descripcion;
+    private String condicion;
     private String procedencia;
+    private boolean registradoInvima;
+    private String tiempoPesca;
 
-    public Lote(int id, String fecha, int idUsuario, String path) {
-        this.id = id;
+    public Lote(int idUsuario, String fecha, String path, String[] contexto) {
         this.imagenes = new ArrayList<Imagen>();
         this.fecha = fecha;
         this.idUsuario = idUsuario;
         this.path = path;
+        this.condicion = contexto[0];
+        this.tiempoPesca = contexto[1];
+        this.procedencia = contexto[2];
+        this.registradoInvima = contexto[3].equals("true") ;
 
-        // Lógica para cargar las imágenes desde el path
+        // Lógica para carga las imágenes desde el path
         getImgsFromPath(path);
     }
+
 
     public Lote(int idUsuario, String path) {
         this.path = path;
@@ -33,10 +39,10 @@ public class Lote {
     }
 
     public String getDescripcion() {
-        return descripcion;
+        return condicion;
     }
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescripcion(String condicion) {
+        this.condicion = condicion;
     }
     public String getProcedencia() {
         return procedencia;
@@ -52,22 +58,35 @@ public class Lote {
     private void getImgsFromPath(String path) {
         File carpeta = new File(path);
         imagenes.clear();
-        if (carpeta.isDirectory()) {
 
-            File[] archivos = carpeta.listFiles();
-            if (archivos != null) {
-                // Recorrer todos los archivos
-                for (File archivo : archivos) {
-                    // Verificar si es un archivo de imagen por su extensión
-                    if (esImagen(archivo)) {
-                        // Crear una nueva instancia de Imagen con la ruta del archivo
-                        Imagen imagen = new Imagen(archivo.getPath());
-                        // Agregar la imagen a la lista
-                        imagenes.add(imagen);
-                    }
-                }
+        if (!carpeta.exists()) {
+            System.err.println("La ruta no existe: " + path);
+            return;
+        }
+        if (!carpeta.isDirectory()) {
+            System.err.println("La ruta no es un directorio: " + path);
+            return;
+        }
+
+        File[] archivos = carpeta.listFiles();
+        if (archivos == null) {
+            System.err.println("No se pudieron listar los archivos en: " + path);
+            return;
+        }
+
+        for (File archivo : archivos) {
+            if (!archivo.isFile()) {
+                System.out.println("Omitiendo (no es archivo): " + archivo.getName());
+                continue;
             }
-
+            if (!archivo.canRead()) {
+                System.err.println("No se puede leer el archivo: " + archivo.getName());
+                continue;
+            }
+            if (esImagen(archivo)) {
+                Imagen imagen = new Imagen(archivo.getPath());
+                imagenes.add(imagen);
+            }
         }
     }
 
@@ -77,12 +96,12 @@ public class Lote {
     }
 
 
-    public int getId() {
+    public static int getId() {
         return id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        Lote.id = id;
     }
 
     public List<Imagen> getImagenes() {
@@ -111,5 +130,11 @@ public class Lote {
         this.idUsuario = idUsuario;
     }
 
+    public boolean isRegistradoInvima() { return registradoInvima; }
 
+    public void setRegistradoInvima(boolean registradoInvima) { this.registradoInvima = registradoInvima; }
+
+    public String getTiempoPesca() { return tiempoPesca; }
+
+    public void setTiempoPesca(String tiempoPesca) { this.tiempoPesca = tiempoPesca; }
 }

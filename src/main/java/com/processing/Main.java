@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    static {
-        org.bytedeco.javacpp.Loader.load(org.bytedeco.opencv.opencv_java.class);
-    }
+    //static {
+     //   org.bytedeco.javacpp.Loader.load(org.bytedeco.opencv.opencv_java.class);
+    //}
 
  public static void main(String[] args) {
      // Paso 1: Crear un lote vacío con un usuario y una ruta (ambos vacíos por ahora)
@@ -59,14 +59,7 @@ public class Main {
  }
 
 
- public static String obtenerCarpetaDeImagen(String rutaImagen) {
-     java.io.File archivo = new java.io.File(rutaImagen);
-     String carpeta = archivo.getParent();
-     if (carpeta != null && !carpeta.endsWith(java.io.File.separator)) {
-         carpeta += java.io.File.separator;
-     }
-     return carpeta;
- }
+
 
 
 }

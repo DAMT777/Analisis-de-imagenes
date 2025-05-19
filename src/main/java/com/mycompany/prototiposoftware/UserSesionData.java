@@ -52,7 +52,7 @@ public class UserSesionData {
      * @return ID del usuario o null si no hay sesión.
      */
     public static Integer getIdUser() {
-        return usuario != null ? usuario.getId() : null;
+        return usuario.getId();
     }
 
     /**

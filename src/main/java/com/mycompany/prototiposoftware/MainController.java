@@ -16,6 +16,8 @@ import java.time.format.DateTimeFormatter;
 
 import com.databaseInteractions.DBConnect;
 import com.processing.Lote;
+import com.processing.LoteProcessor;
+import com.processing.ResultadoRegistro;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,11 +41,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class MainController {
-    String[] contextoLote;
+    String [] contextoLote = new String[5];
 
     @FXML
     private AnchorPane menuBox;  // menu expandible
@@ -253,50 +256,58 @@ public class MainController {
 
     @FXML
     private void MCalgorithm() throws IOException {
-
+        System.out.println("Entra funcion el hijodeperra");
         //recordar que los datos de contexto que se piden en la ventana flotante los puede extraer como string con -> contextoLote[0], contextoLote[1]
+        /*contextoLote[0] = "Refrigerado"; //Condicion lote
+        contextoLote[1] = "2-3 dias";   //Tiempo de pezca
+        contextoLote[2] = "Villavicencio"; //
+        contextoLote[3] = "true"; //registrado INVIMA
+        */
         Task<Boolean> tareaAnalisis = new Task<>() {
+
+
             @Override
             protected Boolean call() throws Exception {
+                System.out.println("Entra hilo");
 
                 LocalDate fechaActual = LocalDate.now();
-                DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+                // Formatear a "yyyy-MM-dd"
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String fechaFormateada = fechaActual.format(formato);
+
+
+                System.out.println("abajo de las fechas");
                 // mensaje de progreso
                 updateMessage("Cargando imágenes...");
 
-                /*
-                aqui asumi que el id del lote es automatico respecto a cuantos lotes ha analizado
-                es decir, getLotesCountUser() extrae el numero de lotes historico.
-                si ha analizado 100 lotes, pues entonces si analiza un nuevo lote
-                la nueva id del lote sera 100+1 xd
-                 */
 
-                Lote lote = new Lote(UserSesionData.getLotesCountUser()+1, fechaActual.format(formato), 2, "./src/main/imgFish/");
+                String[] contextoLote  = {"Refrigerado","2-3 dias", "Villavicencio", "true"};
+                System.out.println("antes de los arreglos");
+               /* contextoLote[0] = "Refrigerado"; //Condicion lote
+                contextoLote[1] = "2-3 dias";   //Tiempo de pezca
+                contextoLote[2] = "Villavicencio"; //
+                contextoLote[3] = "true"; //registrado INVIMA
+                */
+                System.out.println("extra id, if");
+                if(UserSesionData.getIdUser() == null){
+                    System.out.println("nulo");
+                }
+
+                System.out.println("no nulo, es " + UserSesionData.getIdUser());
+                //Lote lote = new Lote(UserSesionData.getIdUser(), fechaActual.format(formato), "./src/main/imgFish/", contextoLote);
+                Lote lote = new Lote(UserSesionData.getIdUser(), fechaFormateada, "./src/main/imgFish/", contextoLote);
                 UserSesionData.setLotesCountUser(UserSesionData.getLotesCountUser()+1); //actualizar el contador sin tener que acceder a la base de datos
 
-                /*
-                En esta seccion se envian los datos de la interfaz a la base de datos
-                Recuerde que el contexto y procedencia del lote se almacenaron en el array
-                String[] contextoLote;    -> [0]: Procedencia,  [1]:Contexto
 
-                Nota: se pueden pedir mas datos de contexto si se requiere
+                //bool, integer id
+                System.out.println("procesando imagenes afuera");
+                ResultadoRegistro resultRegister = LoteProcessor.procesarLote(lote, this::updateMessage);
+                System.out.println("procesando imagenes despues");
+                boolean ok = resultRegister.isExito();
+                lote.setId(resultRegister.getIdLote());
 
-                Antes, esta funcion ejecutaba el analissi desde esta linea:Analizador.analizar(lote, this::updateMessage);
-                La cual solamente cargaba las imagenes en la DB, pero parece que ya no sirve.
-                Como no se como modificaron esto, ni porque, corresponde entonces llamar el metodo correcto
-
-                El metodo que utilicen, como me solicitaron debera recibir entonces:
-
-                        - Un objeto de clase Lote
-                        - Los Datos de contexto (es decir, String[] contextoLote)
-                        - Y un parametro Consumer<String> (no tiene que hacer nada con este parametro en el metodo)
-                          esto es para poder dar a la interfaz mensajes de carga respecto a la posicion del codigo.
-                 */
-
-
-                updateMessage("Guardando información del lote en la base de datos...");
-                return DBConnect.registrarImagenesDeLote(lote).isExito();
+                return ok;
             }
         };
 
@@ -316,7 +327,7 @@ public class MainController {
             alerta.setContentText(ok ? "Las imágenes se guardaron correctamente." : "Hubo un error al guardar las imágenes.");
             alerta.showAndWait();
 
-            eraseFiles();
+            eraseFiles(); // borra las muestras de src/main/imgFish
             UploadLoteIamgeHideUnHide();
             tilePaneLoteImages.getChildren().clear();
 

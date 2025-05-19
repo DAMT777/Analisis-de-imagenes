@@ -3,32 +3,39 @@ package com.processing;
 import com.databaseInteractions.DBConnect;
 import com.google.gson.JsonObject;
 import com.services.PythonCNNService;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class LoteProcessor {
 
     /**
      * Procesa un lote de imágenes para un usuario dado.
-     * @param idUsuario ID del usuario que sube el lote.
-     * @param path Ruta donde están las imágenes.
+     * @param flag ID del usuario que sube el lote.
      * @return ResultadoRegistro con el resultado del registro en la base de datos.
      */
-    public static ResultadoRegistro procesarLote(int idUsuario, String path) {
-        Lote lote = new Lote(idUsuario, path);
+    public static ResultadoRegistro procesarLote(Lote lote, Consumer <String> flag) {
 
         List<Imagen> imagenes = lote.getImagenes();
         List<Imagen> imagenesProcesadas = new ArrayList<>();
-
+        flag.accept("Procesando imagenes");
         String rutaProcesada = "";
+        System.out.println("procesando imagenes adentro");
         for (Imagen imagen : imagenes) {
-            JsonObject json = PythonCNNService.communicate(imagen.getPath());
+            // ../../../
+            JsonObject json = PythonCNNService.communicate(".\\."+ imagen.getPath());
+            System.out.println(json.toString());
+            System.out.println(".\\."+imagen.getPath());
             json.addProperty("descripcion_img", "");
             imagen.setValoracion(json);
             imagenesProcesadas.add(imagen);
             rutaProcesada = json.get("processed_image_path").getAsString();
+            System.out.println("primera iteracion");
         }
-
+        System.out.println("salio del for");
+        flag.accept("Subiendo imagenes y resultados");
         lote.setImagenes(imagenesProcesadas);
         lote.setPath(obtenerCarpetaDeImagen(rutaProcesada));
 
@@ -36,10 +43,10 @@ public class LoteProcessor {
     }
 
     public static String obtenerCarpetaDeImagen(String rutaImagen) {
-        java.io.File archivo = new java.io.File(rutaImagen);
+        File archivo = new File(rutaImagen);
         String carpeta = archivo.getParent();
-        if (carpeta != null && !carpeta.endsWith(java.io.File.separator)) {
-            carpeta += java.io.File.separator;
+        if (carpeta != null && !carpeta.endsWith(File.separator)) {
+            carpeta += File.separator;
         }
         return carpeta;
     }

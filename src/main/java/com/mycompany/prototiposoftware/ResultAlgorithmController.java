@@ -4,6 +4,8 @@
  */
 package com.mycompany.prototiposoftware;
 
+
+import com.databaseInteractions.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,19 +25,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.processing.Lote;
+
 public class ResultAlgorithmController implements Initializable {
 
+    String[] datosPDFLote = new String[7]; // debes asignar algo
+
+
+
+    String idLote = "" + Lote.getId();
     String fechaAnalisis = "0000-00-00";
     String cantidadMuestras = "0";
     String trazabilidadLote = "Null";
     String ciudadLote = "Null";
-    String calidadPromedio = "0";
+    String calidadPromedio = "1";
     String cantidadAnomalias = "0";
     String calidadOjosProm = "0";
     String calidadPielProm = "0";
 
-
-    String idLote = UserSesionData.getLotesCountUserString();
 
     List<String[]> analisisIndividuales = new ArrayList<>();
 
@@ -67,12 +74,24 @@ public class ResultAlgorithmController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println(idLote);
+        datosPDFLote = DBConnect.getDataReporte(idLote);
+        System.out.println("bien el metodo");
+        if (datosPDFLote == null || datosPDFLote.length == 0) {
+            // Está vacío o no inicializado
+            System.out.println("El array está vacío o es null");
+        }
 
-       /*
-            En este punto es necesario extraer de la base de datos los datos de las variables
-            de arriba, CalidadOjosProm, calidadPielProm, CantidadAnomaliasProm, CantidadMuestras
+        fechaAnalisis = datosPDFLote[0];
+        trazabilidadLote = datosPDFLote[2];
+        ciudadLote = datosPDFLote[3];
+        cantidadMuestras = datosPDFLote[1];
+        calidadPromedio = datosPDFLote[4];
+        cantidadAnomalias = datosPDFLote[5];
+        calidadOjosProm = datosPDFLote[6];
+        calidadPielProm = datosPDFLote[7];
 
-        */
+
 
         // Enlazar columnas con las propiedades del modelo
         colOjos.setCellValueFactory(new PropertyValueFactory<>("calidadOjos"));
@@ -153,11 +172,11 @@ public class ResultAlgorithmController implements Initializable {
         try {
             double valor = Double.parseDouble(valorString);
 
-            if (valor < 0.0 || valor > 5.0) {
+            if (valor < 1.0 || valor > 5.0) {
                 return "Valor fuera de rango";
             }
 
-            if (valor >= 0.0 && valor < 2.0) {
+            if (valor >= 1.0 && valor < 2.0) {
                 return "Baja";
             } else if (valor >= 2.0 && valor < 3.0) {
                 return "Media";

@@ -22,6 +22,7 @@ public class PythonCNNService {
 
         String data = jsonData.toString();
         String response = sendPostRequest(endpoint, data);
+
         return JsonParser.parseString(response).getAsJsonObject();
     }
 
