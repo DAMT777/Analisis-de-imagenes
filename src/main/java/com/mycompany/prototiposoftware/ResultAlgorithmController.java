@@ -34,14 +34,16 @@ public class ResultAlgorithmController implements Initializable {
 
 
     String idLote = "" + Lote.getId();
-    String fechaAnalisis = "0000-00-00";
-    String cantidadMuestras = "0";
-    String trazabilidadLote = "Null";
-    String ciudadLote = "Null";
-    String calidadPromedio = "1";
+    String []params = DBConnect.getDataReporte("" + Lote.getId());
+    String fechaAnalisis = params[0];
+    String cantidadMuestras = params[1];
+    String ciudadLote = params[3];
+    String trazabilidadLote = params[2];
+    String calidadPromedio = params[4];
+    String calidadOjosProm = params[6];
+    String calidadPielProm = params[7];
     String cantidadAnomalias = "0";
-    String calidadOjosProm = "0";
-    String calidadPielProm = "0";
+
 
 
     List<String[]> analisisIndividuales = new ArrayList<>();
@@ -70,10 +72,12 @@ public class ResultAlgorithmController implements Initializable {
     @FXML
     private TableColumn<TableViewData, Integer> colMuestras;
 
+
     String calidadFinalTextual = determinarCalidad(calidadPromedio);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("valor de calidadpronedio : " + calidadPromedio + " texto  "+ calidadFinalTextual);
         System.out.println(idLote);
         datosPDFLote = DBConnect.getDataReporte(idLote);
         System.out.println("bien el metodo");
@@ -83,8 +87,8 @@ public class ResultAlgorithmController implements Initializable {
         }
 
         fechaAnalisis = datosPDFLote[0];
-        trazabilidadLote = datosPDFLote[2];
-        ciudadLote = datosPDFLote[3];
+        trazabilidadLote = datosPDFLote[3];
+        ciudadLote = datosPDFLote[2];
         cantidadMuestras = datosPDFLote[1];
         calidadPromedio = datosPDFLote[4];
         cantidadAnomalias = datosPDFLote[5];
@@ -168,10 +172,11 @@ public class ResultAlgorithmController implements Initializable {
     }
 
 
-    public String determinarCalidad(String valorString) {
+    public static String determinarCalidad(String valorString) {
+
         try {
             double valor = Double.parseDouble(valorString);
-
+            System.out.println("el valor es: " + valor);
             if (valor < 1.0 || valor > 5.0) {
                 return "Valor fuera de rango";
             }
@@ -182,7 +187,7 @@ public class ResultAlgorithmController implements Initializable {
                 return "Media";
             } else if (valor >= 3.0 && valor < 4.0) {
                 return "Aceptable";
-            } else if (valor >= 4.0 && valor < 4.8) {
+            } else if (valor >= 4.0 && valor < 5.0) {
                 return "Buena";
             } else {
                 return "Perfecta";

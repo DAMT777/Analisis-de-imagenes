@@ -9,8 +9,7 @@ import com.processing.Imagen;
 import com.processing.Lote;
 import com.processing.ResultadoRegistro;
 import io.github.cdimascio.dotenv.Dotenv;
-
-import java.io.File;
+import java.util.Locale;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.sql.Connection;
@@ -204,7 +203,7 @@ public class DBConnect {
    public static String[] getDataReporte(String id) {
        String[] data = new String[8];
        int idLote = Integer.parseInt(id);
-       String queryLote = "SELECT fecha, condiciones, registrado_invima, ciudad FROM Lote WHERE id_lote = ?";
+       String queryLote = "SELECT fecha_creacion, condiciones, registrado_invima, ciudad FROM Lote WHERE id_lote = ?";
        String queryImagenes = "SELECT COUNT(*) AS total FROM Imagen WHERE id_lote = ?";
        String queryResultados = "SELECT AVG(calidad_ojos) AS prom_ojos, AVG(calidad_piel) AS prom_piel, AVG(calidad) AS prom_calidad, COUNT(*) AS total, SUM(CASE WHEN calidad < 3 THEN 1 ELSE 0 END) AS anomalias FROM resultadoanalisis WHERE id_imagen IN (SELECT id_imagen FROM Imagen WHERE id_lote = ?)";
        try (Connection conn = getConnection()) {
@@ -233,7 +232,11 @@ public class DBConnect {
                stmt.setInt(1, idLote);
                var rs = stmt.executeQuery();
                if (rs.next()) {
-                   data[4] = String.format("%.2f", rs.getDouble("prom_calidad")); // calidadPromedio
+
+
+                   // ...
+
+                   data[4] = String.format(Locale.US, "%.2f", rs.getDouble("prom_calidad")); // calidadPromedio
                    data[5] = String.valueOf(rs.getInt("anomalias")); // cantidadAnomalias
                    data[6] = String.format("%.2f", rs.getDouble("prom_ojos")); // calidadOjosProm
                    data[7] = String.format("%.2f", rs.getDouble("prom_piel")); // calidadPielProm
@@ -247,21 +250,29 @@ public class DBConnect {
 
 
     public static int registrarLote(Lote lote) {
-        String query = "INSERT INTO Lote (id_usuario, descripcion, ciudad) VALUES (?, ?, ?) RETURNING id_lote";
+        String query = "INSERT INTO Lote (id_usuario, condiciones, ciudad, fecha_creacion, tiempo_pesca, registrado_invima) VALUES (?, ?, ?, ?, ?, ?) RETURNING id_lote";
         try (Connection conn = DBConnect.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, lote.getIdUsuario());
-            stmt.setString(2, lote.getDescripcion());
+            stmt.setString(2, lote.getCondiciones());
             stmt.setString(3, lote.getProcedencia());
+
+            java.time.LocalDateTime ahora = java.time.LocalDateTime.now();
+            java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(ahora);
+            stmt.setTimestamp(4, timestamp);
+
+            stmt.setString(5, lote.getTiempoPesca());
+            stmt.setBoolean(6, lote.isRegistradoInvima());
+
             var resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 lote.setId(resultSet.getInt("id_lote"));
-                return resultSet.getInt("id_lote"); // Retorna el ID generado
+                return resultSet.getInt("id_lote");
             }
         } catch (SQLException e) {
             System.out.println("Error al registrar lote: " + e.getMessage());
         }
-        return -1; // Retorna -1 si ocurre un error
+        return -1;
     }
 
     private static int registrarImagenEnBaseDeDatos(int idLote, Imagen imagen) {

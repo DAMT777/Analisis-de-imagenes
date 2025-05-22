@@ -1,5 +1,6 @@
 package com.mycompany.prototiposoftware;
 
+import com.databaseInteractions.DBConnect;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.Color;
@@ -22,6 +23,7 @@ import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.properties.*;
+import com.processing.Lote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,17 +40,19 @@ import java.util.stream.Stream;
 public class ReportGenerator {
     private static final Logger log = LoggerFactory.getLogger(ReportGenerator.class);
     // datos utilizables en la creacion del pdf
+
     String rutaCarpetaAnomalias = "src/main/imgAnomal/";
     String idLote;
-    String fechaAnalisis = "12/02/2020";
-    String cantidadMuestras = "200";
-    String ciudadLote = "Villavicencio";
-    String trazabilidadLote = "No se";
-    String calidadPromedio = "3.7/5";
-    String promedioOjos = "3";
-    String promedioPiel = "5";
-    String cantidadAnomalias = "24";
-    String calificacionPromedioLote = "BAJA"; //Baja, Media, Aceptable, Ideal. toca hacer la validación respecto al promedio con, por ejemplo, un if
+    String fechaAnalisis = "0000";
+    String cantidadMuestras = "null";
+    String ciudadLote = "";
+    String trazabilidadLote = "";
+    String calidadPromedio = "null";
+    String promedioOjos = "null";
+    String promedioPiel = "nasdasd";
+    String cantidadAnomalias = "0";
+
+    String calificacionPromedioLote = ResultAlgorithmController.determinarCalidad(calidadPromedio); //Baja, Media, Aceptable, Ideal. toca hacer la validación respecto al promedio con, por ejemplo, un if
     List<String[]> registrosAnalisisIndividual = new ArrayList<>(); //esta matriz debe almacenar las filas extraidas de la tabla de registro individual de cada pez perteneciente a una misma idLote
     String rutaGeneracionPDF = "";
 

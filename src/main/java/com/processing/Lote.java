@@ -38,7 +38,7 @@ public class Lote {
         getImgsFromPath(path);
     }
 
-    public String getDescripcion() {
+    public String getCondiciones() {
         return condicion;
     }
     public void setDescripcion(String condicion) {
