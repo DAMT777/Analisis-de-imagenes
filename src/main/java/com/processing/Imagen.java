@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 public class Imagen {
     private int id;
     private String path;
+    private String filename;
     private JsonObject valoracion; // Valoración de la imagen
 
     public Imagen(String path) {
@@ -32,7 +33,18 @@ public class Imagen {
     public void setValoracion(JsonObject valoracion) {
         this.valoracion = valoracion;
     }
+
     public JsonObject getValoracion() {
         return valoracion;
     }
+
+   public String getFilename() {
+       if (path == null) return null;
+       return new java.io.File(path).getName();
+   }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
 }

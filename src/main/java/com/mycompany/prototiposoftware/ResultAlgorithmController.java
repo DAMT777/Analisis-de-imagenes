@@ -29,24 +29,19 @@ import com.processing.Lote;
 
 public class ResultAlgorithmController implements Initializable {
 
-    String[] datosPDFLote = new String[7]; // debes asignar algo
-
-
+    String[] datosPDFLote = new String[9]; // debes asignar algo
 
     String idLote = "" + Lote.getId();
-    String []params = DBConnect.getDataReporte("" + Lote.getId());
-    String fechaAnalisis = params[0];
-    String cantidadMuestras = params[1];
-    String ciudadLote = params[3];
-    String trazabilidadLote = params[2];
-    String calidadPromedio = params[4];
-    String calidadOjosProm = params[6];
-    String calidadPielProm = params[7];
-    String cantidadAnomalias = "0";
-
-
-
-    List<String[]> analisisIndividuales = new ArrayList<>();
+    String fechaAnalisis;
+    String cantidadMuestras;
+    String ciudadLote;
+    String trazabilidadLote;
+    String calidadPromedio;
+    String calidadOjosProm;
+    String calidadPielProm;
+    String cantidadAnomalias;
+    String tiempoPesca;
+    List<String[]> analisisIndividuales;
 
     @FXML
     private AnchorPane menuBox;  // menu expandible
@@ -73,30 +68,27 @@ public class ResultAlgorithmController implements Initializable {
     private TableColumn<TableViewData, Integer> colMuestras;
 
 
-    String calidadFinalTextual = determinarCalidad(calidadPromedio);
+    String calidadFinalTextual;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("valor de calidadpronedio : " + calidadPromedio + " texto  "+ calidadFinalTextual);
-        System.out.println(idLote);
         datosPDFLote = DBConnect.getDataReporte(idLote);
-        System.out.println("bien el metodo");
-        if (datosPDFLote == null || datosPDFLote.length == 0) {
+        if (datosPDFLote.length == 0) {
             // Está vacío o no inicializado
             System.out.println("El array está vacío o es null");
         }
 
         fechaAnalisis = datosPDFLote[0];
-        trazabilidadLote = datosPDFLote[3];
-        ciudadLote = datosPDFLote[2];
         cantidadMuestras = datosPDFLote[1];
+        trazabilidadLote = datosPDFLote[2];
+        ciudadLote = datosPDFLote[3];
         calidadPromedio = datosPDFLote[4];
         cantidadAnomalias = datosPDFLote[5];
         calidadOjosProm = datosPDFLote[6];
         calidadPielProm = datosPDFLote[7];
-
-
-
+        tiempoPesca = datosPDFLote[8];
+        calidadFinalTextual = determinarCalidad(calidadPromedio);
         // Enlazar columnas con las propiedades del modelo
         colOjos.setCellValueFactory(new PropertyValueFactory<>("calidadOjos"));
         colPiel.setCellValueFactory(new PropertyValueFactory<>("calidadPiel"));
@@ -104,6 +96,9 @@ public class ResultAlgorithmController implements Initializable {
         colMuestras.setCellValueFactory(new PropertyValueFactory<>("cantidadMuestras"));
 
         // Visual de los datos en la tabla de resultados
+
+
+        // añadir el tiempo de pesca a la tabla
         ObservableList<TableViewData> datos = FXCollections.observableArrayList(
                 new TableViewData(calidadOjosProm, calidadPielProm, cantidadAnomalias, cantidadMuestras)
         );
@@ -112,6 +107,7 @@ public class ResultAlgorithmController implements Initializable {
         tablaRegistros.getStylesheets().add(getClass().getResource("/com/mycompany/prototiposoftware/styles/tableStyles.css").toExternalForm());
 
         labelCalificacionPromedio.setText(calidadPromedio);
+
         labelCalidadLote.setText(calidadFinalTextual);
     }
 
@@ -137,8 +133,8 @@ public class ResultAlgorithmController implements Initializable {
         String rutaGeneracionPDF = ruta;
 
         ReportGenerator reporte = new ReportGenerator();
-
-        reporte.PDFgenerator(idLote, fechaAnalisis, cantidadMuestras, trazabilidadLote, ciudadLote, calidadPromedio, calidadOjosProm, calidadPielProm, cantidadAnomalias, rutaGeneracionPDF ,analisisIndividuales, calidadFinalTextual);
+        analisisIndividuales = DBConnect.getXLSXinfo(idLote);
+        reporte.PDFgenerator(idLote, datosPDFLote, rutaGeneracionPDF, analisisIndividuales);
         analisisIndividuales.clear(); // Limpia la lista
 
         File carpeta = new File(ruta);

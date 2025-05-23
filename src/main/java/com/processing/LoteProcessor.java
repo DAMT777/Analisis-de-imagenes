@@ -22,7 +22,7 @@ public class LoteProcessor {
         List<Imagen> imagenesProcesadas = new ArrayList<>();
         flag.accept("Procesando imagenes");
         String rutaProcesada = "";
-        System.out.println("procesando imagenes adentro");
+
         for (Imagen imagen : imagenes) {
             // ../../../
             JsonObject json = PythonCNNService.communicate(".\\."+ imagen.getPath());
@@ -30,11 +30,10 @@ public class LoteProcessor {
             System.out.println(".\\."+imagen.getPath());
             json.addProperty("descripcion_img", "");
             imagen.setValoracion(json);
-            imagenesProcesadas.add(imagen);
             rutaProcesada = json.get("processed_image_path").getAsString();
-            System.out.println("primera iteracion");
+            imagen.setPath(rutaProcesada);
+            imagenesProcesadas.add(imagen);
         }
-        System.out.println("salio del for");
         flag.accept("Subiendo imagenes y resultados");
         lote.setImagenes(imagenesProcesadas);
         lote.setPath(obtenerCarpetaDeImagen(rutaProcesada));

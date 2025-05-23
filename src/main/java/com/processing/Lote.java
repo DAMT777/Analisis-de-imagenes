@@ -86,6 +86,8 @@ public class Lote {
             if (esImagen(archivo)) {
                 Imagen imagen = new Imagen(archivo.getPath());
                 imagenes.add(imagen);
+            }else {
+                System.out.println("Omitiendo (no es imagen): " + archivo.getName());
             }
         }
     }
@@ -107,6 +109,8 @@ public class Lote {
     public List<Imagen> getImagenes() {
         return imagenes;
     }
+
+
     public void setPath(String path) {
         this.path = path;
     }

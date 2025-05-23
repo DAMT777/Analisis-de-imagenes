@@ -9,6 +9,8 @@ import com.processing.Imagen;
 import com.processing.Lote;
 import com.processing.ResultadoRegistro;
 import io.github.cdimascio.dotenv.Dotenv;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,11 +28,11 @@ public class DBConnect {
 
 
 
-    // Métodos existentes...
-
-    private static String subirImagenACloudinary(String rutaImagen) {
-        return cloudinaryService.subirImagen(rutaImagen);
-    }
+    /**
+     * Obtiene una conexión a la base de datos PostgreSQL usando las variables de entorno del archivo .env.
+     *
+     * @return Un objeto Connection si la conexión es exitosa, o null si ocurre un error.
+     */
     public static Connection getConnection() {
         // Cargar las variables de entorno desde el archivo .env
         String url = "jdbc:postgresql://" + dotenv.get("PGHOST") + ":" + dotenv.get("PGPORT") + "/" + dotenv.get("PGDATABASE") + "?sslmode=require&pool_mode=" + dotenv.get("POOL_MODE");
@@ -41,6 +43,56 @@ public class DBConnect {
             return null;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Sube una imagen a Cloudinary usando el servicio CloudinaryService.
+     *
+     * @param rutaImagen Ruta local de la imagen a subir.
+     * @return URL de la imagen subida en Cloudinary, o null si ocurre un error.
+     */
+    private static String subirImagenACloudinary(String rutaImagen) {
+        return cloudinaryService.subirImagen(rutaImagen);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Obtiene el número total de lotes registrados por un usuario.
+     *
+     * @param idUser ID del usuario.
+     * @return La cantidad de lotes registrados por el usuario, o 0 si ocurre un error.
+     */
     public static int getNLotes(int idUser) {
         String query = "SELECT COUNT(*) AS total FROM Lote WHERE id_usuario = ?";
         try (Connection conn = DBConnect.getConnection();
@@ -56,6 +108,30 @@ public class DBConnect {
         return 0; // Retorna 0 si ocurre un error o no hay lotes
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Obtiene la información de un usuario a partir de su correo electrónico.
+     *
+     * @param correo Correo electrónico del usuario a consultar.
+     * @return Un objeto User con los datos del usuario si existe, o null si no se encuentra o hay error.
+     */
     public static User getInfo(String correo) {
         String query = "SELECT * FROM Usuario WHERE correo = ?";
         User info = null;
@@ -81,6 +157,13 @@ public class DBConnect {
 
         return info;
     }
+
+    /**
+     * Registra el resultado del análisis de una imagen en la base de datos.
+     *
+     * @param json Objeto JsonObject con los datos del análisis: id de imagen, calificación de ojos, calificación de piel y descripción.
+     * @return true si el registro fue exitoso, false en caso contrario.
+     */
     public static boolean registrarResultadoAnalisis(JsonObject json) {
         // Extraer valores del JSON
         int idImagen = json.get("id").getAsInt();
@@ -108,49 +191,213 @@ public class DBConnect {
         }
     }
 
-    public boolean registrarUsuario(String nombre, String apellido, String correo, String passwordHash, String rol) {
-        //la password debe estar hasheada antes de
-        String query = "INSERT INTO Usuario (nombre, apellido, correo, password, rol) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = DBConnect.getConnection();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Registra un nuevo usuario en la base de datos.
+     *
+     * @param nombre Nombre del usuario.
+     * @param apellido Apellido del usuario.
+     * @param correo Correo electrónico del usuario.
+     * @param passwordHash Contraseña ya hasheada del usuario.
+     * @param rol Rol asignado al usuario (por ejemplo, "admin" o "usuario").
+     * @return true si el registro fue exitoso, false en caso contrario.
+     * @throws RuntimeException si ocurre un error al registrar el usuario.
+     */
+    public static boolean registrarUsuario(String nombre, String apellido, String empresa, String correo, String passwordHash, String rol) {
+        String query = "INSERT INTO usuario (nombre, apellido, empresa, correo, password, rol) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, nombre);
             stmt.setString(2, apellido);
-            stmt.setString(3, correo);
-            stmt.setString(4, passwordHash);
-            stmt.setString(5, rol);
+            stmt.setString(3, empresa);
+            stmt.setString(4, correo);
+            stmt.setString(5, passwordHash);
+            stmt.setString(6, rol);
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
-
             System.out.println("Error al registrar usuario: " + e.getMessage());
-            throw new RuntimeException("Error al registrar usuario", e);
-        }
-    }
-
-    public boolean registrarLote(int idUsuario, String descripcion, boolean registradoInvima, String ciudad, String condiciones) {
-        //meter fecha del sistema con java
-
-
-        LocalDateTime ahora = LocalDateTime.now();
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String fechaComoString = ahora.format(formato);
-        String query = "INSERT INTO Lote (id_usuario, fecha, descripcion, registrado_invima, ciudad, condiciones) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DBConnect.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, idUsuario);
-            stmt.setString(2, fechaComoString);
-            stmt.setString(3, descripcion);
-            stmt.setBoolean(4, registradoInvima);
-            stmt.setString(5, ciudad);
-            stmt.setString(6, condiciones);
-            int rowsInserted = stmt.executeUpdate();
-            return rowsInserted > 0;
-        } catch (SQLException e) {
-            System.out.println("Error al registrar lote: " + e.getMessage());
             return false;
         }
     }
 
+
+    /**
+     * Obtiene un usuario de la base de datos a partir de su correo electrónico.
+     *
+     * @param correo Correo electrónico del usuario a buscar.
+     * @return Un objeto User si el usuario existe, o null si no se encuentra o ocurre un error.
+     */
+    public static User obtenerUsuarioPorCorreo(String correo) {
+        String query = "SELECT * FROM usuario WHERE correo = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, correo);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("id_usuario"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido"),
+                        rs.getString("correo"),
+                        rs.getString("password"),
+                        rs.getString("rol")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener usuario: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Actualiza los datos de un usuario en la base de datos.
+     *
+     * @param id ID del usuario a actualizar.
+     * @param nombre Nuevo nombre del usuario.
+     * @param apellido Nuevo apellido del usuario.
+     * @param empresa Nueva empresa del usuario.
+     * @param correo Nuevo correo electrónico del usuario.
+     * @param rol Nuevo rol asignado al usuario.
+     * @return true si la actualización fue exitosa, false si ocurrió un error.
+     */
+    public static boolean actualizarUsuario(int id, String nombre, String apellido, String empresa, String correo, String rol) {
+        String query = "UPDATE usuario SET nombre = ?, apellido = ?, empresa = ?, correo = ?, rol = ? WHERE id_usuario = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, nombre);
+            stmt.setString(2, apellido);
+            stmt.setString(3, empresa);
+            stmt.setString(4, correo);
+            stmt.setString(5, rol);
+            stmt.setInt(6, id);
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar usuario: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Elimina un usuario de la base de datos según su ID.
+     *
+     * @param id El ID del usuario a eliminar.
+     * @return true si el usuario fue eliminado correctamente, false si ocurrió un error o no se eliminó ningún usuario.
+     */
+    public static boolean eliminarUsuario(int id) {
+        String query = "DELETE FROM usuario WHERE id_usuario = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            int rowsDeleted = stmt.executeUpdate();
+            return rowsDeleted > 0;
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar usuario: " + e.getMessage());
+            return false;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Obtiene el historial paginado de reportes (lotes) de un usuario.
+     *
+     * @param idUsuario ID del usuario del cual se consultan los reportes.
+     * @param pagina Número de página (empezando desde 0) para la paginación.
+     * @return Lista de arreglos de String, donde cada arreglo representa un reporte con los campos:
+     *         [0] id_lote
+     *         [1] fecha_creacion
+     *         [2] condiciones
+     *         [3] ciudad
+     *         [4] tiempo_pesca
+     *         [5] registrado_invima.
+     */
+    public static List<String[]> getReportHistory(int idUsuario, int pagina) {
+        int pageSize = 10;
+        int offset = pagina * pageSize;
+        List<String[]> historial = new ArrayList<>();
+
+        String query = "SELECT id_lote, fecha_creacion, condiciones, ciudad, tiempo_pesca, registrado_invima " +
+                "FROM Lote WHERE id_usuario = ? " +
+                "ORDER BY fecha_creacion DESC " +
+                "LIMIT ? OFFSET ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, idUsuario);
+            stmt.setInt(2, pageSize);
+            stmt.setInt(3, offset);
+
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                String[] reporte = new String[6];
+                reporte[0] = String.valueOf(rs.getInt("id_lote"));
+                reporte[1] = rs.getString("fecha_creacion");
+                reporte[2] = rs.getString("condiciones");
+                reporte[3] = rs.getString("ciudad");
+                reporte[4] = rs.getString("tiempo_pesca");
+                reporte[5] = String.valueOf(rs.getBoolean("registrado_invima"));
+                historial.add(reporte);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener historial de reportes: " + e.getMessage());
+        }
+        return historial;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Registra un lote y sus imágenes asociadas en la base de datos y en Cloudinary.
+     * Por cada imagen, la sube a Cloudinary, la registra en la base de datos y almacena su valoración.
+     *
+     * @param lote Objeto Lote que contiene los datos del lote y la lista de imágenes a registrar.
+     * @return Un objeto ResultadoRegistro que indica si la operación fue exitosa y el id del lote registrado.
+     */
    public static ResultadoRegistro registrarImagenesDeLote(Lote lote) {
        // Registrar el lote y obtener su ID
        int idLote = registrarLote(lote);
@@ -186,7 +433,23 @@ public class DBConnect {
        return new ResultadoRegistro(exito, idLote);
    }
 
-    // Metodo auxiliar para registrar la valoración de la imagen
+
+
+
+
+
+
+
+
+    /**
+     * Registra el resultado del análisis de una imagen en la base de datos.
+     * Extrae la valoración de la imagen, construye un objeto JSON con los datos relevantes
+     * y llama al método que inserta el resultado en la base de datos.
+     *
+     * @param imagen Objeto Imagen que contiene la valoración a registrar.
+     * @param idImagen ID de la imagen en la base de datos.
+     * @return true si el registro fue exitoso, false en caso contrario.
+     */
     private static boolean registrarResultadoAnalisisDesdeImagen(Imagen imagen, int idImagen) {
         JsonObject valoracion = imagen.getValoracion();
         if (valoracion == null) return false;
@@ -200,10 +463,37 @@ public class DBConnect {
         return registrarResultadoAnalisis(json);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Obtiene datos detallados de un lote para generar un reporte.
+     *
+     * @param id ID del lote a consultar.
+     * @return Un arreglo de String con la siguiente información:
+     *         [0] Fecha de creación del lote,
+     *         [1] Cantidad de imágenes asociadas,
+     *         [2] Condiciones y estado INVIMA del lote,
+     *         [3] Ciudad de procedencia,
+     *         [4] Calidad promedio,
+     *         [5] Cantidad de anomalías (calidad < 3),
+     *         [6] Promedio de calidad de ojos,
+     *         [7] Promedio de calidad de piel.
+     *         [8] Tiempo de pesca.
+     */
    public static String[] getDataReporte(String id) {
-       String[] data = new String[8];
+       String[] data = new String[9];
        int idLote = Integer.parseInt(id);
-       String queryLote = "SELECT fecha_creacion, condiciones, registrado_invima, ciudad FROM Lote WHERE id_lote = ?";
+       String queryLote = "SELECT fecha_creacion, condiciones, registrado_invima, ciudad, tiempo_pesca FROM Lote WHERE id_lote = ?";
        String queryImagenes = "SELECT COUNT(*) AS total FROM Imagen WHERE id_lote = ?";
        String queryResultados = "SELECT AVG(calidad_ojos) AS prom_ojos, AVG(calidad_piel) AS prom_piel, AVG(calidad) AS prom_calidad, COUNT(*) AS total, SUM(CASE WHEN calidad < 3 THEN 1 ELSE 0 END) AS anomalias FROM resultadoanalisis WHERE id_imagen IN (SELECT id_imagen FROM Imagen WHERE id_lote = ?)";
        try (Connection conn = getConnection()) {
@@ -215,6 +505,7 @@ public class DBConnect {
                    data[0] = rs.getString("fecha_creacion"); // fechaAnasis
                    data[2] = rs.getString("condiciones") + " | INVIMA: " + (rs.getBoolean("registrado_invima") ? "1" : "0"); // trazabilidadLote
                    data[3] = rs.getString("ciudad"); // ciudadLote
+                   data[8] = rs.getString("tiempo_pesca"); // tiempoPesca
                }
            }
 
@@ -233,9 +524,6 @@ public class DBConnect {
                var rs = stmt.executeQuery();
                if (rs.next()) {
 
-
-                   // ...
-
                    data[4] = String.format(Locale.US, "%.2f", rs.getDouble("prom_calidad")); // calidadPromedio
                    data[5] = String.valueOf(rs.getInt("anomalias")); // cantidadAnomalias
                    data[6] = String.format("%.2f", rs.getDouble("prom_ojos")); // calidadOjosProm
@@ -249,6 +537,22 @@ public class DBConnect {
    }
 
 
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Inserta un nuevo lote en la base de datos y retorna su ID generado.
+     *
+     * @param lote Objeto Lote con los datos a registrar.
+     * @return El ID del lote registrado si la operación fue exitosa, o -1 si ocurrió un error.
+     */
     public static int registrarLote(Lote lote) {
         String query = "INSERT INTO Lote (id_usuario, condiciones, ciudad, fecha_creacion, tiempo_pesca, registrado_invima) VALUES (?, ?, ?, ?, ?, ?) RETURNING id_lote";
         try (Connection conn = DBConnect.getConnection();
@@ -275,12 +579,23 @@ public class DBConnect {
         return -1;
     }
 
+
+
+
+    /**
+     * Inserta una imagen asociada a un lote en la base de datos y retorna su ID generado.
+     *
+     * @param idLote ID del lote al que pertenece la imagen.
+     * @param imagen Objeto Imagen que contiene la ruta de la imagen a registrar.
+     * @return El ID de la imagen registrada si la operación fue exitosa, o -1 si ocurrió un error.
+     */
     private static int registrarImagenEnBaseDeDatos(int idLote, Imagen imagen) {
-        String query = "INSERT INTO Imagen (id_lote, ruta_servicio, fecha_carga) VALUES (?, ?, CURRENT_TIMESTAMP) RETURNING id_imagen";
+        String query = "INSERT INTO Imagen (id_lote, ruta_servicio, nombre_archivo, fecha_carga) VALUES (?, ?, ?, CURRENT_TIMESTAMP) RETURNING id_imagen";
         try (Connection conn = DBConnect.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, idLote);
             stmt.setString(2, imagen.getPath());
+            stmt.setString(3, imagen.getFilename());
             var resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("id_imagen");
@@ -290,9 +605,31 @@ public class DBConnect {
         }
         return -1; // Retorna -1 si ocurre un error
     }
-    // En DBConnect.java
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Valida las credenciales de un usuario verificando el correo y la contraseña.
+     *
+     * @param correo Correo electrónico del usuario.
+     * @param password Contraseña ingresada por el usuario.
+     * @return true si las credenciales son válidas, false en caso contrario.
+     */
     public static boolean validarCredenciales(String correo, String password) {
         String query = "SELECT password FROM Usuario WHERE correo = ?";
 
@@ -313,6 +650,59 @@ public class DBConnect {
             return false;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   public static List<String[]> getXLSXinfo(String id) {
+       int idLote = Integer.parseInt(id);
+       List<String[]> info = new ArrayList<>();
+       String query = "SELECT i.nombre_archivo, i.ruta_servicio, r.calidad_piel, r.calidad_ojos, r.calidad " +
+                      "FROM Imagen i " +
+                      "LEFT JOIN resultadoanalisis r ON i.id_imagen = r.id_imagen " +
+                      "WHERE i.id_lote = ?";
+
+       try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+           stmt.setInt(1, idLote);
+           var rs = stmt.executeQuery();
+           while (rs.next()) {
+               String[] fila = new String[5];
+               fila[0] = rs.getString("nombre_archivo");
+               fila[1] = rs.getString("ruta_servicio");
+               fila[2] = rs.getString("calidad_piel");
+               fila[3] = rs.getString("calidad_ojos");
+               fila[4] = rs.getString("calidad");
+               info.add(fila);
+           }
+       } catch (SQLException e) {
+           System.out.println("Error al obtener informacion para XLSX: " + e.getMessage());
+       }
+       return info;
+   }
+
+
+
+
 
 
 }

@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static com.mycompany.prototiposoftware.ResultAlgorithmController.determinarCalidad;
+
 public class ReportGenerator {
     private static final Logger log = LoggerFactory.getLogger(ReportGenerator.class);
     // datos utilizables en la creacion del pdf
@@ -52,7 +54,7 @@ public class ReportGenerator {
     String promedioPiel = "nasdasd";
     String cantidadAnomalias = "0";
 
-    String calificacionPromedioLote = ResultAlgorithmController.determinarCalidad(calidadPromedio); //Baja, Media, Aceptable, Ideal. toca hacer la validación respecto al promedio con, por ejemplo, un if
+    String calificacionPromedioLote = determinarCalidad(calidadPromedio); //Baja, Media, Aceptable, Ideal. toca hacer la validación respecto al promedio con, por ejemplo, un if
     List<String[]> registrosAnalisisIndividual = new ArrayList<>(); //esta matriz debe almacenar las filas extraidas de la tabla de registro individual de cada pez perteneciente a una misma idLote
     String rutaGeneracionPDF = "";
 
@@ -65,14 +67,6 @@ public class ReportGenerator {
      * diferente añadiendo un parametro final de tipo <b>String</b> con la ruta deseada</p>
      *
      * @param idLote                ID único del lote analizado.
-     * @param fechaAnalisis         Fecha en la que se realizó el análisis del lote.
-     * @param cantidadMuestras      Número total de muestras analizadas dentro del lote.
-     * @param ciudadLote            Ciudad o lugar de procedencia del lote.
-     * @param trazabilidadLote      Información sobre la trazabilidad del lote (por ejemplo, origen, distribución).
-     * @param calidadPromedio       Promedio general de calidad calculado para el lote (ej. "3.7/5").
-     * @param promedioOjos          Promedio de calidad de los ojos de los peces del lote.
-     * @param promedioPiel          Promedio de calidad de la piel de los peces del lote.
-     * @param cantidadAnomalias     Número total de anomalías detectadas en las muestras.
      * @param registrosAnalisisIndividual Lista de registros individuales por muestra, donde cada arreglo
      *                                    debe tener la siguiente estructura:
      * <ul>
@@ -87,8 +81,8 @@ public class ReportGenerator {
      *
      * @throws IOException Si ocurre un error al generar o guardar el PDF.
      */
-    public void PDFgenerator(String idLote, String fechaAnalisis, String cantidadMuestras, String ciudadLote, String trazabilidadLote, String calidadPromedio, String promedioOjos, String promedioPiel, String cantidadAnomalias, String rutaGeneracionPDF, List<String[]> registrosAnalisisIndividual, String calidadFinalTextual) throws IOException {
-        PDFgenerator(idLote, fechaAnalisis, cantidadMuestras, ciudadLote, trazabilidadLote, calidadPromedio, promedioOjos, promedioPiel, cantidadAnomalias, rutaGeneracionPDF,registrosAnalisisIndividual, calidadFinalTextual,rutaCarpetaAnomalias);
+    public void PDFgenerator(String idLote,  String[] params, String rutaGeneracionPDF, List<String[]> registrosAnalisisIndividual) throws IOException {
+        PDFgenerator(idLote, params[0], params[1], params[3], params[2], params[4], params[6], params[7], params[5], rutaGeneracionPDF, registrosAnalisisIndividual, determinarCalidad(params[4]), rutaCarpetaAnomalias);
     }
 
     /**
@@ -365,36 +359,13 @@ public class ReportGenerator {
                 .setTextAlignment(TextAlignment.CENTER);
 
 
-
-        // -------------------------------------------- Extraccion de datos para insercion en tabla de imagenes anomalias
-
-        /*// datos de prueba sin base de datos//
-        registrosAnalisisIndividual.add(new String[]{"123124", "12-2-2025", "Villavicencio", "No se","4","4","4"});
-        registrosAnalisisIndividual.add(new String[]{"123125", "12-2-2025", "Villavicencio", "Puede que sepa","2","1","1.5"});
-        registrosAnalisisIndividual.add(new String[]{"123126", "12-2-2025", "Villavicencio", "No se","4","3","3.6"});
-        registrosAnalisisIndividual.add(new String[]{"123127", "12-2-2025", "Villavicencio", "Hmmm","5","1","2.5"});
-        registrosAnalisisIndividual.add(new String[]{"123128", "12-2-2025", "Villavicencio", "Si se","5","3","3.1"});
-        */
-
-        tableRegistroIndividual.addCell(new Cell().add(new Paragraph("ID Imagen").setFontSize(10))
+        tableRegistroIndividual.addCell(new Cell().add(new Paragraph("Nombre").setFontSize(10))
                 .setBackgroundColor(colorHex("#4295a5"))
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .setMargins(0, 5, 5, 0)
                 .setBorder(Border.NO_BORDER));
 
-        tableRegistroIndividual.addCell(new Cell().add(new Paragraph("Fecha").setFontSize(10))
-                .setBackgroundColor(colorHex("#4295a5"))
-                .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                .setMargins(0, 5, 5, 0)
-                .setBorder(Border.NO_BORDER));
-
-        tableRegistroIndividual.addCell(new Cell().add(new Paragraph("Ciudad").setFontSize(10))
-                .setBackgroundColor(colorHex("#4295a5"))
-                .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                .setMargins(0, 5, 5, 0)
-                .setBorder(Border.NO_BORDER));
-
-        tableRegistroIndividual.addCell(new Cell().add(new Paragraph("Trazabilidad").setFontSize(10))
+        tableRegistroIndividual.addCell(new Cell().add(new Paragraph("Archivo").setFontSize(10))
                 .setBackgroundColor(colorHex("#4295a5"))
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .setMargins(0, 5, 5, 0)

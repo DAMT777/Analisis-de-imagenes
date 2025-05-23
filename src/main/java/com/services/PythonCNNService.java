@@ -15,6 +15,13 @@ public class PythonCNNService {
     private static String endpoint = "http://127.0.0.1:8001/procesar/";
 
 
+    /**
+     * Envía la ruta de una imagen al servicio Python mediante una solicitud POST
+     * y devuelve la respuesta como un objeto JsonObject.
+     *
+     * @param imagePath Ruta de la imagen a procesar.
+     * @return JsonObject con la respuesta del servicio Python.
+     */
     public static JsonObject communicate(String imagePath) {
         JsonObject jsonData = new JsonObject();
         jsonData.addProperty("image_path", imagePath);
@@ -26,6 +33,15 @@ public class PythonCNNService {
         return JsonParser.parseString(response).getAsJsonObject();
     }
 
+    /**
+     * Envía una solicitud HTTP POST al endpoint especificado con los datos JSON proporcionados.
+     * Devuelve la respuesta del servidor como un String.
+     * Si ocurre un error, retorna un JSON con el mensaje de error.
+     *
+     * @param endpoint URL del servicio al que se enviará la solicitud POST.
+     * @param jsonData Datos en formato JSON que se enviarán en el cuerpo de la solicitud.
+     * @return Respuesta del servidor como String, o un JSON con el error si ocurre una excepción.
+     */
     public static String sendPostRequest(String endpoint, String jsonData) {
         try {
             URL url = new URL(endpoint);
