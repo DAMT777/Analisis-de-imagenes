@@ -27,7 +27,7 @@ Además, cuenta con una base de datos en la nube para la gestión de usuarios y 
 
 ---
 
-## 🧠 Módulo de Análisis por IA (Python)
+## 🧠 Módulo de Análisis con Deep Learning (Python)
 
 Para ejecutar correctamente el módulo de análisis basado en TensorFlow y ONNX, sigue estos pasos:
 
