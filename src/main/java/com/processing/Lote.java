@@ -12,8 +12,8 @@ public class Lote {
     private String path;
     private String condicion;
     private String procedencia;
-    private boolean registradoInvima;
-    private String tiempoPesca;
+    private boolean registradoInvima = true;
+    private String tiempoPesca = "3 dias";
 
     public Lote(int idUsuario, String fecha, String path, String[] contexto) {
         this.imagenes = new ArrayList<Imagen>();
@@ -21,9 +21,10 @@ public class Lote {
         this.idUsuario = idUsuario;
         this.path = path;
         this.condicion = contexto[0];
-        this.tiempoPesca = contexto[1];
-        this.procedencia = contexto[2];
-        this.registradoInvima = contexto[3].equals("true") ;
+        // actualizar data en el array
+        //this.tiempoPesca = contexto[1];
+        this.procedencia = contexto[1];
+        //this.registradoInvima = contexto[3].equals("true") ;
 
         // Lógica para carga las imágenes desde el path
         getImgsFromPath(path);

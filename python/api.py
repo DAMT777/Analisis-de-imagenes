@@ -9,18 +9,12 @@ import glob
 import sys
 from tensorflow.keras.models import load_model
 import numpy as np
-from fish_classifier import is_fish_image  # Asegúrate de importar la función
+from fish_classifier_true import is_fish
 
 # Cargar el modelo de clasificación de imágenes
 model = load_model('fish_binary_classifier.h5')
 
-# Función para verificar si una imagen contiene un pescado
-def is_fish_image(image_path: str, threshold: float = 0.5) -> bool:
-    img = Image.open(image_path).convert("RGB").resize((224, 224))
-    x = np.array(img) / 255.0
-    x = np.expand_dims(x, axis=0)
-    prob = model.predict(x)[0][0]
-    return prob > threshold
+
 
 os.environ["ORT_LOG_LEVEL"] = "ERROR"  # Solo errores críticos de ONNXRuntime
 import warnings
@@ -57,13 +51,21 @@ class BatchRequest(BaseModel):
     folder_path: str
     solo_ojo: bool = False
 
+@app.post("/es_pez/")
+async def verificar_si_es_pez(request: ImageRequest):
+    try:
+        image = Image.open(request.image_path)
+        es_pez = is_fish(request.image_path)
+        return {"es_pez": bool(es_pez)}
+    except FileNotFoundError:
+        return {"error": "La imagen no se encontró en la ruta especificada."}
+    except Exception as e:
+        return {"error": f"Error al verificar la imagen: {str(e)}"}
+
 @app.post("/procesar/")
 async def process_image(request: ImageRequest):
     try:
         image = Image.open(request.image_path)
-        # Verificar si la imagen es de un pescado usando fish_classifier.py
-        if not is_fish_image(request.image_path):
-            return {"error": "La imagen no corresponde a un pescado."}
         start_time = time.time()
         result = analyze_image(request.image_path, solo_ojo=request.solo_ojo)
         elapsed_time = time.time() - start_time

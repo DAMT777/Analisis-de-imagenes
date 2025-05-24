@@ -161,6 +161,7 @@ public class MainController {
     private void cargarImagen() {
 
         contextoLote = dialogScene();
+        DBConnect.contextoLote = contextoLote;
         System.out.println("Descripcion del lote: " + contextoLote[0] + " / Origen del lote: " + contextoLote[1]);
 
 
@@ -256,7 +257,7 @@ public class MainController {
 
     @FXML
     private void MCalgorithm() throws IOException {
-        System.out.println("Entra funcion el hijodeperra");
+
         //recordar que los datos de contexto que se piden en la ventana flotante los puede extraer como string con -> contextoLote[0], contextoLote[1]
         /*contextoLote[0] = "Refrigerado"; //Condicion lote
         contextoLote[1] = "2-3 dias";   //Tiempo de pezca
@@ -268,7 +269,7 @@ public class MainController {
 
             @Override
             protected Boolean call() throws Exception {
-                System.out.println("Entra hilo");
+
 
                 LocalDate fechaActual = LocalDate.now();
 
@@ -277,13 +278,13 @@ public class MainController {
                 String fechaFormateada = fechaActual.format(formato);
 
 
-                System.out.println("abajo de las fechas");
+
                 // mensaje de progreso
                 updateMessage("Cargando imágenes...");
 
 
-                String[] contextoLote  = {"Refrigerado","2-3 dias", "Villavicencio", "true"};
-                System.out.println("antes de los arreglos");
+                String[] contextoLote  = DBConnect.contextoLote;
+
                /* contextoLote[0] = "Refrigerado"; //Condicion lote
                 contextoLote[1] = "2-3 dias";   //Tiempo de pezca
                 contextoLote[2] = "Villavicencio"; //

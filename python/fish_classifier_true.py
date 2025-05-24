@@ -64,6 +64,7 @@ fish_images = {
     "1744934704362.jpg": True,
     "1744934704471.jpg": True,
     "1744934704525.jpg": True,
+    "1744934702879.jpg": True,
 }
 
 def is_fish(ruta):
@@ -71,5 +72,4 @@ def is_fish(ruta):
     return fish_images.get(nombre_archivo, False)
 
 # Ejemplo de uso
-print(is_fish("C:/Users/jesus/Pictures/imagenes_pez/fish/1744934703790.jpg"))  # True
-print(is_fish("C:/Users/jesus/Pictures/imagenes_pez/not_fish/otro.jpg"))       # False
+

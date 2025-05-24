@@ -25,7 +25,7 @@ public class DBConnect {
 
     private static final Dotenv dotenv = Dotenv.load();
     private static final CloudinaryService cloudinaryService = new CloudinaryService();
-
+    public static String[] contextoLote = new String[5];
 
 
     /**
@@ -558,7 +558,49 @@ public class DBConnect {
        return data;
    }
 
-
+    /**
+     * Obtiene los reportes de lotes de un usuario.
+     *
+     * @param idUsuario ID del usuario del cual se consultan los reportes.
+     * @return Lista de listas de String, donde cada sublista contiene:
+     *         [0] id_lote,
+     *         [1] fecha_analisis,
+     *         [2] condicion,
+     *         [3] ciudad,
+     *         [4] tiempo_pesca,
+     *         [5] Invima,
+     *         [6] promediocalificacion.
+     */
+   public static List<List<String>> getReportesUsuario(int idUsuario) {
+       List<List<String>> reportes = new ArrayList<>();
+       String query = "SELECT l.id_lote, l.fecha_creacion, l.condiciones, l.ciudad, l.tiempo_pesca, l.registrado_invima, " +
+                      "COALESCE(AVG(r.calidad), 0) AS promedio_calificacion " +
+                      "FROM Lote l " +
+                      "LEFT JOIN Imagen i ON l.id_lote = i.id_lote " +
+                      "LEFT JOIN resultadoanalisis r ON i.id_imagen = r.id_imagen " +
+                      "WHERE l.id_usuario = ? " +
+                      "GROUP BY l.id_lote, l.fecha_creacion, l.condiciones, l.ciudad, l.tiempo_pesca, l.registrado_invima " +
+                      "ORDER BY l.fecha_creacion DESC";
+       try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+           stmt.setInt(1, idUsuario);
+           var rs = stmt.executeQuery();
+           while (rs.next()) {
+               List<String> reporte = new ArrayList<>();
+               reporte.add(String.valueOf(rs.getInt("id_lote")));
+               reporte.add(rs.getString("fecha_creacion"));
+               reporte.add(rs.getString("condiciones"));
+               reporte.add(rs.getString("ciudad"));
+               reporte.add(rs.getString("tiempo_pesca"));
+               reporte.add(String.valueOf(rs.getBoolean("registrado_invima")));
+               reporte.add(String.format(Locale.US, "%.2f", rs.getDouble("promedio_calificacion")));
+               reportes.add(reporte);
+           }
+       } catch (SQLException e) {
+           System.out.println("Error al obtener reportes del usuario: " + e.getMessage());
+       }
+       return reportes;
+   }
 
 
 
