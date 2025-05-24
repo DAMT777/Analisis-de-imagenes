@@ -29,8 +29,7 @@ public class HistoryReportsController implements Initializable {
         reportFishTime.setCellValueFactory(new PropertyValueFactory<>("InvimaLote"));
         reportInvima.setCellValueFactory(new PropertyValueFactory<>("TiempoPescaLote"));
         reportCalificacion.setCellValueFactory(new PropertyValueFactory<>("CalificacionLote"));*/
-
-    List<String[]> datoHistoryReport = DBConnect.getReportHistoryUser();
+    List<String[]> datoHistoryReport = DBConnect.getReportHistory(UserSesionData.getIdUser());
 
     String idLote;
     String fecha;

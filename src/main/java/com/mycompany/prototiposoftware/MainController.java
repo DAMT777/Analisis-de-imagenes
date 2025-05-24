@@ -48,6 +48,7 @@ import java.util.List;
 public class MainController {
     String [] contextoLote = new String[5];
 
+
     @FXML
     private AnchorPane menuBox;  // menu expandible
 
@@ -111,10 +112,12 @@ public class MainController {
 
 
             //ya tienes la copia
-            String descripcionLote = ctrl.getDescripcion();
-            String origenLote = ctrl.getOrigen();
+            String ciudadLote = ctrl.getCiudad();
+            String registradoInvima = ctrl.getInvima();
+            String condicionLote = ctrl.getCondicion();
+            String tiempoPescaLote = ctrl.getTiempoPesca();
 
-            return new String[]{descripcionLote, origenLote};
+            return new String[]{ciudadLote, registradoInvima, condicionLote, tiempoPescaLote};
 
         } catch (Exception ex) {
             ex.printStackTrace();

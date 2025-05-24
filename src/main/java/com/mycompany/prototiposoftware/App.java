@@ -27,11 +27,12 @@ public class App extends Application {
         stage.setScene(scene);
 
         stage.setMinWidth(900);
-        stage.setMinHeight(600);
+        stage.setMinHeight(661);
 
 
-        stage.setWidth(900);
-        stage.setHeight(600);
+        //stage.setWidth(900);
+        //stage.setHeight(630);
+
         stage.setTitle("Sistema de clasificación de calidad de peces");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/SecondaryLogo.png")));
         stage.setResizable(false);
@@ -39,7 +40,7 @@ public class App extends Application {
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
+    public static void setRoot(String fxml) throws IOException {
         Parent newRoot = loadFXML(fxml);         // 1. Carga la escena que se quiere invocar y la almacena en una clase generica (aun no se invoca en la ventana visual)
         newRoot.setOpacity(0);                   // 2. Establece la opacidad al maximo (inicia invisible)
 
