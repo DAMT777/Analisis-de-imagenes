@@ -354,7 +354,6 @@ public class DBConnect {
      * Obtiene el historial paginado de reportes (lotes) de un usuario.
      *
      * @param idUsuario ID del usuario del cual se consultan los reportes.
-     * @param pagina Número de página (empezando desde 0) para la paginación.
      * @return Lista de arreglos de String, donde cada arreglo representa un reporte con los campos:
      *         [0] id_lote
      *         [1] fecha_creacion
@@ -363,21 +362,16 @@ public class DBConnect {
      *         [4] tiempo_pesca
      *         [5] registrado_invima.
      */
-    public static List<String[]> getReportHistory(int idUsuario, int pagina) {
-        int pageSize = 10;
-        int offset = pagina * pageSize;
+    public static List<String[]> getReportHistory(int idUsuario) {
         List<String[]> historial = new ArrayList<>();
 
         String query = "SELECT id_lote, fecha_creacion, condiciones, ciudad, tiempo_pesca, registrado_invima " +
                 "FROM Lote WHERE id_usuario = ? " +
-                "ORDER BY fecha_creacion DESC " +
-                "LIMIT ? OFFSET ?";
+                "ORDER BY fecha_creacion DESC ";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, idUsuario);
-            stmt.setInt(2, pageSize);
-            stmt.setInt(3, offset);
 
             var rs = stmt.executeQuery();
             while (rs.next()) {
@@ -602,6 +596,61 @@ public class DBConnect {
        return reportes;
    }
 
+
+
+
+
+
+   /**
+    * Obtiene todos los reportes (lotes) de la base de datos donde el usuario dueño del lote
+    * tiene el atributo `consentimiento_informado` establecido en true.
+    *
+    * <p>
+    * Cada reporte es una lista de Strings con la siguiente información:
+    * <ul>
+    *   <li>[0] id_lote</li>
+    *   <li>[1] fecha_creacion</li>
+    *   <li>[2] condiciones</li>
+    *   <li>[3] ciudad</li>
+    *   <li>[4] tiempo_pesca</li>
+    *   <li>[5] registrado_invima</li>
+    *   <li>[6] promedio_calificacion</li>
+    * </ul>
+    * </p>
+    *
+    * @return Lista de reportes filtrados por consentimiento informado.
+    *         Cada reporte es una lista de Strings con los campos mencionados.
+    */
+    public static List<List<String>> getReportesConConsentimiento() {
+        List<List<String>> reportes = new ArrayList<>();
+        String query = "SELECT l.id_lote, l.fecha_creacion, l.condiciones, l.ciudad, l.tiempo_pesca, l.registrado_invima, " +
+                       "COALESCE(AVG(r.calidad), 0) AS promedio_calificacion " +
+                       "FROM Lote l " +
+                       "JOIN usuario u ON l.id_usuario = u.id_usuario " +
+                       "LEFT JOIN Imagen i ON l.id_lote = i.id_lote " +
+                       "LEFT JOIN resultadoanalisis r ON i.id_imagen = r.id_imagen " +
+                       "WHERE u.consentimiento_informado = TRUE " +
+                       "GROUP BY l.id_lote, l.fecha_creacion, l.condiciones, l.ciudad, l.tiempo_pesca, l.registrado_invima " +
+                       "ORDER BY l.fecha_creacion DESC";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                List<String> reporte = new ArrayList<>();
+                reporte.add(String.valueOf(rs.getInt("id_lote")));
+                reporte.add(rs.getString("fecha_creacion"));
+                reporte.add(rs.getString("condiciones"));
+                reporte.add(rs.getString("ciudad"));
+                reporte.add(rs.getString("tiempo_pesca"));
+                reporte.add(String.valueOf(rs.getBoolean("registrado_invima")));
+                reporte.add(String.format(Locale.US, "%.2f", rs.getDouble("promedio_calificacion")));
+                reportes.add(reporte);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener reportes con consentimiento informado: " + e.getMessage());
+        }
+        return reportes;
+    }
 
 
 
