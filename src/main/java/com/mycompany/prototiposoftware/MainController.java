@@ -9,15 +9,23 @@ package com.mycompany.prototiposoftware;
  *
  */
 
-import com.practicas.Analizador;
-import com.practicas.DBConnect;
-import com.practicas.Lote;
+//import com.processing.Analizador;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import com.databaseInteractions.DBConnect;
+import com.processing.Lote;
+import com.processing.LoteProcessor;
+import com.processing.ResultadoRegistro;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -33,10 +41,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class MainController {
+    String [] contextoLote = new String[5];
+
 
     @FXML
     private AnchorPane menuBox;  // menu expandible
@@ -52,6 +63,9 @@ public class MainController {
 
     @FXML
     private GridPane gridPaneResultAlgorithm; // aun no se utiliza
+
+    @FXML
+    private Label progressLabel;  // menu expandible
 
     // esta funcion abre una ventana emergente y extrae el texto digitado en los textField que tiene dentro (correspondiente a origen del lote y descripcion)
     private String[] dialogScene() {
@@ -98,10 +112,12 @@ public class MainController {
 
 
             //ya tienes la copia
-            String descripcionLote = ctrl.getDescripcion();
-            String origenLote = ctrl.getOrigen();
+            String ciudadLote = ctrl.getCiudad();
+            String registradoInvima = ctrl.getInvima();
+            String condicionLote = ctrl.getCondicion();
+            String tiempoPescaLote = ctrl.getTiempoPesca();
 
-            return new String[]{descripcionLote, origenLote};
+            return new String[]{ciudadLote, registradoInvima, condicionLote, tiempoPescaLote};
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -113,6 +129,7 @@ public class MainController {
 
     @FXML    //cambio de escena al hacer lcick en salir
     private void irALoginController() throws IOException {
+        UserSesionData.clearSession();
         App.setRoot("LoginScene");
     }
 
@@ -146,7 +163,8 @@ public class MainController {
     @FXML    // carga la imagen pidiendo al usuario un archivo .jpg, o png
     private void cargarImagen() {
 
-        String[] contextoLote = dialogScene();
+        contextoLote = dialogScene();
+        DBConnect.contextoLote = contextoLote;
         System.out.println("Descripcion del lote: " + contextoLote[0] + " / Origen del lote: " + contextoLote[1]);
 
 
@@ -243,27 +261,90 @@ public class MainController {
     @FXML
     private void MCalgorithm() throws IOException {
 
-        //acá se llama al algoritmo, la imagen está guardada en src/main/imgFish.
+        //recordar que los datos de contexto que se piden en la ventana flotante los puede extraer como string con -> contextoLote[0], contextoLote[1]
+        /*contextoLote[0] = "Refrigerado"; //Condicion lote
+        contextoLote[1] = "2-3 dias";   //Tiempo de pezca
+        contextoLote[2] = "Villavicencio"; //
+        contextoLote[3] = "true"; //registrado INVIMA
+        */
+        Task<Boolean> tareaAnalisis = new Task<>() {
 
-        Lote lote = new Lote(0, "2023-10-01", 2, "./src/main/imgFish/");
 
-        Analizador.analizar(lote);
+            @Override
+            protected Boolean call() throws Exception {
 
-        boolean ok = DBConnect.registrarImagenesDeLote(lote).isExito();
 
-        Alert alerta = new Alert(ok ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
-        alerta.setTitle(ok ? "Éxito" : "Error");
-        alerta.setHeaderText(null);
-        alerta.setContentText(ok ? "Las imágenes se guardaron correctamente." : "Hubo un error al guardar las imágenes.");
-        alerta.showAndWait();
-        //siempre se almacena 1 unica imagen en esta carpeta, al terminar el algoritmo debería eliminarse.
+                LocalDate fechaActual = LocalDate.now();
 
-        eraseFiles();
-        UploadLoteIamgeHideUnHide();
-        tilePaneLoteImages.getChildren().clear();
-        irAResultAlgorithmScene();
+                // Formatear a "yyyy-MM-dd"
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String fechaFormateada = fechaActual.format(formato);
+
+
+
+                // mensaje de progreso
+                updateMessage("Cargando imágenes...");
+
+
+                String[] contextoLote  = DBConnect.contextoLote;
+
+               /* contextoLote[0] = "Refrigerado"; //Condicion lote
+                contextoLote[1] = "2-3 dias";   //Tiempo de pezca
+                contextoLote[2] = "Villavicencio"; //
+                contextoLote[3] = "true"; //registrado INVIMA
+                */
+                System.out.println("extra id, if");
+                if(UserSesionData.getIdUser() == null){
+                    System.out.println("nulo");
+                }
+
+                System.out.println("no nulo, es " + UserSesionData.getIdUser());
+                //Lote lote = new Lote(UserSesionData.getIdUser(), fechaActual.format(formato), "./src/main/imgFish/", contextoLote);
+                Lote lote = new Lote(UserSesionData.getIdUser(), fechaFormateada, "./src/main/imgFish/", contextoLote);
+                UserSesionData.setLotesCountUser(UserSesionData.getLotesCountUser()+1); //actualizar el contador sin tener que acceder a la base de datos
+
+
+                //bool, integer id
+                System.out.println("procesando imagenes afuera");
+                ResultadoRegistro resultRegister = LoteProcessor.procesarLote(lote, this::updateMessage);
+                System.out.println("procesando imagenes despues");
+                boolean ok = resultRegister.isExito();
+                lote.setId(resultRegister.getIdLote());
+
+                return ok;
+            }
+        };
+
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("loadScene.fxml"));
+        Parent root = loader.load();
+        LoadSceneController controller = loader.getController();
+        controller.bindTask(tareaAnalisis); // Primero haces el binding
+        App.scene.setRoot(root); // Luego cambias la escena
+
+
+        tareaAnalisis.setOnSucceeded(e -> {
+            boolean ok = tareaAnalisis.getValue();
+
+            Alert alerta = new Alert(ok ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
+            alerta.setTitle(ok ? "Éxito" : "Error");
+            alerta.setHeaderText(null);
+            alerta.setContentText(ok ? "Las imágenes se guardaron correctamente." : "Hubo un error al guardar las imágenes.");
+            alerta.showAndWait();
+
+            eraseFiles(); // borra las muestras de src/main/imgFish
+            UploadLoteIamgeHideUnHide();
+            tilePaneLoteImages.getChildren().clear();
+
+            try {
+                App.setRoot("MainScene");
+                irAResultAlgorithmScene();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        new Thread(tareaAnalisis).start();
     }
-
 
 }
 

@@ -4,11 +4,8 @@
  */
 package com.mycompany.prototiposoftware;
 
-/**
- * @author PC
- */
-
-import com.practicas.DBConnect;
+import com.databaseInteractions.DBConnect;
+import com.processing.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
@@ -35,6 +32,10 @@ public class LoginController {
 
 
         if (login) {
+        // en el objeto user están todos los datos del usuario
+        //listo el requerimiento
+        User user = DBConnect.getInfo(email);
+        UserSesionData.setAllUserData(user, DBConnect.getNLotes(user.getId()) );
             irAnalisisImg();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
