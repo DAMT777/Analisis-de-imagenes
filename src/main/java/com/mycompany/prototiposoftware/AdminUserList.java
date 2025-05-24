@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import com.mycompany.prototiposoftware.TableUserListView;
@@ -25,7 +26,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class AdminUserList implements Initializable {
 
-    List<User> users =  DBConnect.getUsuariosEmpresa(UserSesionData.getEmpresa());
+    List<String[]> users =  DBConnect.getUsuariosEmpresa(UserSesionData.getEmpresa());
 
     String id;
     String name;
@@ -98,11 +99,24 @@ public class AdminUserList implements Initializable {
         userDateCreation.setCellValueFactory(new PropertyValueFactory<>("FechaCreacion"));
         userRol.setCellValueFactory(new PropertyValueFactory<>("Rol"));
 
+        List<String> flatList = new ArrayList<>();
+        for (String[] fila : users) {
+            for (String dato : fila) {
+                flatList.add(dato);
+            }
+        }
 
-        ObservableList<TableUserListView> users = FXCollections.observableArrayList(
+        ObservableList<TableUserListView> users = FXCollections.observableArrayList();
 
-                new TableUserListView("123123", "Cesar", "Perez", "cesar@email.com", "Piscicultor")
-        );
+        for (int i = 0; i + 4 < flatList.size(); i += 5) {
+            id = flatList.get(i);
+            name = flatList.get(i + 1);
+            lastName = flatList.get(i + 2);
+            email = flatList.get(i + 3);
+            rol = flatList.get(i + 4);
+
+            users.add(new TableUserListView(id, name, lastName, email, rol));
+        }
         tableUserList.setItems(users);
     }
 }
