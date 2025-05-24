@@ -20,6 +20,9 @@ import com.utils.HashUtil;
  *   <li><b>Getters y Setters</b>: Métodos de acceso y modificación para los atributos.</li>
  * </ul>
  */
+
+
+
 public class User {
     private int id;
     private String nombre;
@@ -37,6 +40,10 @@ public class User {
      * @param email Correo electrónico del usuario.
      * @param password Contraseña en texto plano (será hasheada).
      */
+
+
+
+
     public User(String email, String password) {
         this.email = email;
         this.password = HashUtil.hashPassword(password);
@@ -51,6 +58,7 @@ public class User {
         this.password = password;
         this.rol = rol;
     }
+
     public String getEmpresa() {
         return empresa;
     }
@@ -66,7 +74,6 @@ public class User {
     public void setPassword(String password) {
         this.password = HashUtil.hashPassword(password);
     }
-
 
    /**
     * Registra un nuevo usuario en la base de datos si el usuario actual tiene rol "admin".
@@ -94,21 +101,16 @@ public class User {
    }
 
 
-
-
    /**
     * Obtiene un usuario por su correo solo si el usuario actual es admin.
     * @param correo Correo electrónico del usuario a buscar.
     * @return El objeto User encontrado o null si no es admin o no existe.
     */
+
    public User obtenerUsuarioPorCorreo(String correo) {
        if (!"admin".equalsIgnoreCase(this.rol)) return null;
        return DBConnect.obtenerUsuarioPorCorreo(correo);
    }
-
-
-
-
 
 
    /**
@@ -153,6 +155,7 @@ public class User {
      * solo si las credenciales son válidas.
      * No realiza ninguna acción si la autenticación falla o el usuario no existe.
      */
+
     private void getInfo() {
         if (iniciarSesion()) {
             User usuario = DBConnect.getInfo(this.email); // Obtener el objeto Usuario

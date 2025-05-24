@@ -1,6 +1,5 @@
 .table-view {
     -fx-background-color: white;
-    -fx-border-color: #09395e;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
     -fx-padding: 5;
@@ -44,3 +43,28 @@
 }
 
 
+.botonera Button{
+    -fx-cursor: hand;
+    -fx-blend-mode: src-over;
+    -fx-font-size: 11px;
+    -fx-background-radius: 15px;
+    -fx-font-weight: bold;
+    -fx-background-color: none;
+    -fx-text-fill: #707070;
+}
+
+.botonera Button:hover {
+    -fx-background-color: #38AEF5;
+    -fx-text-fill: white;
+}
+
+
+.toolBar Button{
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+}
+
+.toolBar Button:hover{
+    -fx-background-color: #38AEF5;
+    -fx-background-radius: 30px;
+}

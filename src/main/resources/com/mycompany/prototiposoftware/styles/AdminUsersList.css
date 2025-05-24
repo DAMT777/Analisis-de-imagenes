@@ -1,8 +1,21 @@
+.hboxUserListControl Button{
+    -fx-cursor: hand;
+    -fx-blend-mode: src-over;
+    -fx-font-size: 12px;
+    -fx-background-radius: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.hboxUserListControl Button:hover {
+    -fx-background-color: #bbd5ff;
+    -fx-text-fill: white;
+}
+
 .table-view {
     -fx-background-color: white;
-    -fx-border-color: #09395e;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
+    -fx-border-radius:  0 0 10 10;
+    -fx-background-radius: 0 0 10 10;
     -fx-padding: 5;
     -fx-table-cell-border-color: transparent;
 }
@@ -41,6 +54,27 @@
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-effect: none;
+}
+
+
+.companyNameTableUserList {
+
+    -fx-background-radius: 10 10 0 0;
+    -fx-border-color: black;
+    -fx-border-radius: 10 10 0 0;
+    -fx-border-width: 1 1 0 1;
+}
+
+
+.toolBar Button{
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+}
+
+.toolBar Button:hover{
+    -fx-background-color: #38AEF5;
+    -fx-background-radius: 30px;
+
 }
 
 
