@@ -48,9 +48,13 @@ public class User {
         this.apellido = apellido;
         this.email = email;
         //hashear la contraseña
-        this.password = password;
+        this.password = HashUtil.hashPassword(password);
         this.rol = rol;
     }
+    public User(int id){
+
+    }
+
     public String getEmpresa() {
         return empresa;
     }
