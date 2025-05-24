@@ -12,8 +12,8 @@ import com.google.gson.JsonParser;
 
 public class PythonCNNService {
 
-    private static String endpoint = "http://127.0.0.1:8001/procesar/";
-
+    private static String ProcessingEndpoint = "http://127.0.0.1:8001/procesar/";
+    private static String ClassifierEndpoint = "http://127.0.0.1:8001/es_pez/";
 
     /**
      * Envía la ruta de una imagen al servicio Python mediante una solicitud POST
@@ -28,7 +28,18 @@ public class PythonCNNService {
         jsonData.addProperty("solo_ojo", false);
 
         String data = jsonData.toString();
-        String response = sendPostRequest(endpoint, data);
+        String response = sendPostRequest(ProcessingEndpoint, data);
+
+        return JsonParser.parseString(response).getAsJsonObject();
+    }
+
+
+    public static JsonObject classifyImage(String imagePath) {
+        JsonObject jsonData = new JsonObject();
+        jsonData.addProperty("image_path", imagePath);
+
+        String data = jsonData.toString();
+        String response = sendPostRequest(ClassifierEndpoint, data);
 
         return JsonParser.parseString(response).getAsJsonObject();
     }
