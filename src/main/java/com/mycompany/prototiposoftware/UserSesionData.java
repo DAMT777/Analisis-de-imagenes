@@ -128,6 +128,23 @@ public class UserSesionData {
     }
 
     /**
+     * Obtiene la empresa del usuario autenticado.
+     * @return empresa del usuario o null si no hay sesión.
+     */
+    public static String getEmpresa() {
+        return usuario != null ? usuario.getEmpresa() : null;
+    }
+
+    /**
+     * Establece la empresa del usuario autenticado.
+     * @param empresa Rol del usuario.
+     */
+    public static void setEmpresa(String empresa) {
+        if (usuario != null) usuario.setEmpresa(empresa);
+    }
+
+
+    /**
      * Obtiene la cantidad histórica de lotes analizada por el usuario.
      * @return Cantidad de lotes.
      */

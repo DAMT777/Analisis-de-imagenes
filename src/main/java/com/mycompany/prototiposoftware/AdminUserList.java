@@ -1,6 +1,8 @@
 package com.mycompany.prototiposoftware;
 
 import com.processing.User;
+import com.databaseInteractions.DBConnect;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,8 +21,11 @@ import java.util.ResourceBundle;
 import com.mycompany.prototiposoftware.TableUserListView;
 import javafx.scene.layout.AnchorPane;
 
+
+
 public class AdminUserList implements Initializable {
-    List<User> users;
+
+    List<User> users =  DBConnect.getUsuariosEmpresa(UserSesionData.getEmpresa());
 
     String id;
     String name;
