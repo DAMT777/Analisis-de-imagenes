@@ -27,54 +27,83 @@ Además, cuenta con una base de datos en la nube para la gestión de usuarios y 
 
 ---
 
-## 🛠️ Instalación
+## 🧠 Módulo de Análisis por IA (Python)
 
-1. Clonar este repositorio:
-   ```bash
-   git clone https://github.com/tu_usuario/analisis-de-imagenes.git
+Para ejecutar correctamente el módulo de análisis basado en TensorFlow y ONNX, sigue estos pasos:
 
-2. Ir a la ubicacion del proyecto:
-   ```bash
-   cd analisis-de-imagenes
+### 1. Python
 
-3. Instalar dependencias
-    ```bash 
-    mvn install
+- **Versión requerida**: Python 3.9.x  
+- Descarga desde: https://www.python.org/downloads/release/python-390/
 
----
+### 2. Crear un entorno virtual (opcional pero recomendado)
 
-## ▶️ Ejecución del Proyecto
+```powershell
+py -m venv tf-env
+.\tf-env\Scripts\activate
+```
+### 3. CUDA y cuDNN (para uso con GPU)
+CUDA Toolkit 11.2 (es posible que necesiten crear una cuenta developer de nvidia)
+https://developer.nvidia.com/cuda-11.2.0-download-archive
 
-- **Opción 1:** Desde la terminal
-    ```bash 
-    mvn clean javafx:run
+cuDNN 8.1.1 (compatible con CUDA 11.2)
+https://developer.nvidia.com/rdp/cudnn-archive
 
-- **Opción 2:** Desde un IDE
+Descomprime y copia los archivos en las rutas respectivas:
 
-1. Abra el proyecto como un proyecto en maven. 
-2. Asegurarse que las dependencias de JavaFX se están importando correctamente 
-3. Ejecutar la clase App.java
+*.dll → C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\bin
 
----
+*.lib → C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\lib\x64
 
-## 📄 Licencia 
+*.h → C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\include
+
+### 4. Instalación de dependencias
+Descargar el archivo [requirements.txt](requirements.txt)
+Una vez activado el entorno virtual, y desde el mismo ejecutar: 
+```powershell
+pip install -r requirements.txt
+```
+Para instalar todas las dependencias necesarias.
+
+
+### 5. Ejecucion API Python
+Basta con ejecutar el Script [run_api.bat](python/run_api.bat) para correr la API, por defecto expone el puerto 8001. Recuerda tener VRAM suficiente jeje.
+
+
+▶️ Ejecución del Proyecto Java
+Opción 1: Desde la terminal
+
+```bash
+mvn clean javafx:run
+```
+
+Opción 2: Desde un IDE
+Abrir el proyecto como proyecto Maven.
+
+Verificar que las dependencias de JavaFX se importen correctamente.
+
+Ejecutar la clase App.java.
+
+
+
+📄 Licencia
 Este proyecto está licenciado bajo la Licencia MIT.
 
----
+💻 Equipo de desarrollo
+Diego Machado – Líder de proyecto
 
-## 💻 Equipo de desarrollo:
+Duvan Baquero – Diseñador
 
-- **Diego Machado** - Líder de proyecto
-- **Duvan Baquero** - Diseñador
-- **Carlos Barrera** - Analista
-- **Jesus Delgado** - Backend
-- **Johan Forero** - Backend
-- **César Pérez** - Frontend 
-- **Fabián Santofimio** - Tester
+Carlos Barrera – Analista
 
----
+Jesus Delgado – Backend
 
-## 🎓 Créditos
+Johan Forero – Backend
+
+César Pérez – Frontend
+
+Fabián Santofimio – Tester
+
+🎓 Créditos
 Proyecto desarrollado como parte del trabajo académico en la Universidad de los Llanos – Unillanos
 Facultad de Ingeniería – Ingeniería de Sistemas
-
