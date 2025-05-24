@@ -158,6 +158,27 @@ public class DBConnect {
 
         return info;
     }
+    public static List<String[]> getUsuariosEmpresa(String empresa) {
+        List<String[]> usuarios = new ArrayList<>();
+        String query = "SELECT id_usuario, nombre, apellido, correo, rol FROM usuario WHERE empresa = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, empresa);
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                String[] usuario = new String[5];
+                usuario[0] = String.valueOf(rs.getInt("id_usuario"));
+                usuario[1] = rs.getString("nombre");
+                usuario[2] = rs.getString("apellido");
+                usuario[3] = rs.getString("correo");
+                usuario[4] = rs.getString("rol");
+                usuarios.add(usuario);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener usuarios por empresa: " + e.getMessage());
+        }
+        return usuarios;
+    }
 
     /**
      * Registra el resultado del análisis de una imagen en la base de datos.

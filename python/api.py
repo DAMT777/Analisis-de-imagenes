@@ -7,6 +7,20 @@ from PIL import Image
 import os
 import glob
 import sys
+from tensorflow.keras.models import load_model
+import numpy as np
+from fish_classifier import is_fish_image  # Asegúrate de importar la función
+
+# Cargar el modelo de clasificación de imágenes
+model = load_model('fish_binary_classifier.h5')
+
+# Función para verificar si una imagen contiene un pescado
+def is_fish_image(image_path: str, threshold: float = 0.5) -> bool:
+    img = Image.open(image_path).convert("RGB").resize((224, 224))
+    x = np.array(img) / 255.0
+    x = np.expand_dims(x, axis=0)
+    prob = model.predict(x)[0][0]
+    return prob > threshold
 
 os.environ["ORT_LOG_LEVEL"] = "ERROR"  # Solo errores críticos de ONNXRuntime
 import warnings
@@ -47,6 +61,9 @@ class BatchRequest(BaseModel):
 async def process_image(request: ImageRequest):
     try:
         image = Image.open(request.image_path)
+        # Verificar si la imagen es de un pescado usando fish_classifier.py
+        if not is_fish_image(request.image_path):
+            return {"error": "La imagen no corresponde a un pescado."}
         start_time = time.time()
         result = analyze_image(request.image_path, solo_ojo=request.solo_ojo)
         elapsed_time = time.time() - start_time
@@ -66,19 +83,13 @@ async def process_batch(request: BatchRequest):
         if not image_paths:
             return {"error": "No se encontraron imágenes en la carpeta especificada."}
 
-        valid_paths = []
-        for img_path in image_paths:
-            try:
-                Image.open(img_path)
-                valid_paths.append(img_path)
-            except Exception:
-                pass
-
-        if not valid_paths:
-            return {"error": "No se encontraron imágenes válidas en la carpeta especificada."}
+        # Filtrar solo imágenes que sean de pescado usando fish_classifier.py
+        fish_image_paths = [img_path for img_path in image_paths if is_fish_image(img_path)]
+        if not fish_image_paths:
+            return {"error": "No se encontraron imágenes de pescado en la carpeta especificada."}
 
         start_time = time.time()
-        results = analyze_image_batch(valid_paths, solo_ojo=request.solo_ojo)
+        results = analyze_image_batch(fish_image_paths, solo_ojo=request.solo_ojo)
         elapsed_time = time.time() - start_time
 
         return {

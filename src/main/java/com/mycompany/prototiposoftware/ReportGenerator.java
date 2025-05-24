@@ -1,5 +1,10 @@
 package com.mycompany.prototiposoftware;
 
+
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
 import com.databaseInteractions.DBConnect;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -16,6 +21,7 @@ import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.action.PdfAction;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
 import com.itextpdf.layout.Document;
@@ -348,69 +354,67 @@ public class ReportGenerator {
 
 
 
-        columnas = new float[]{1, 1, 1, 1, 1, 1, 1};
+        // Tabla con 5 columnas: Nombre, Archivo, Calidad Piel, Calidad Ojos, Calidad General
+        columnas = new float[]{2, 2, 1, 1, 1};
         Table tableRegistroIndividual = new Table(UnitValue.createPercentArray(columnas))
                 .useAllAvailableWidth()
                 .setBorder(new SolidBorder(ColorConstants.BLACK, 0.5f))
                 .setMarginLeft(30)
                 .setMarginRight(30)
                 .setTextAlignment(TextAlignment.CENTER)
-                .setFontColor(colorHex("#111111"))
-                .setTextAlignment(TextAlignment.CENTER);
+                .setFontColor(colorHex("#111111"));
 
+        // Encabezados
+        String[] headers = {"Nombre", "Archivo", "Calidad Piel", "Calidad Ojos", "Calidad General"};
+        for (String header : headers) {
+            tableRegistroIndividual.addCell(new Cell().add(new Paragraph(header).setFontSize(10))
+                    .setBackgroundColor(colorHex("#4295a5"))
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setBorder(Border.NO_BORDER));
+        }
 
-        tableRegistroIndividual.addCell(new Cell().add(new Paragraph("Nombre").setFontSize(10))
-                .setBackgroundColor(colorHex("#4295a5"))
-                .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                .setMargins(0, 5, 5, 0)
-                .setBorder(Border.NO_BORDER));
-
-        tableRegistroIndividual.addCell(new Cell().add(new Paragraph("Archivo").setFontSize(10))
-                .setBackgroundColor(colorHex("#4295a5"))
-                .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                .setMargins(0, 5, 5, 0)
-                .setBorder(Border.NO_BORDER));
-
-        tableRegistroIndividual.addCell(new Cell().add(new Paragraph("Calidad Piel").setFontSize(10))
-                .setBackgroundColor(colorHex("#4295a5"))
-                .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                .setMargins(0, 5, 5, 0)
-                .setBorder(Border.NO_BORDER));
-
-        tableRegistroIndividual.addCell(new Cell().add(new Paragraph("Calidad Ojos").setFontSize(10))
-                .setBackgroundColor(colorHex("#4295a5"))
-                .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                .setMargins(0, 5, 5, 0)
-                .setBorder(Border.NO_BORDER));
-
-        tableRegistroIndividual.addCell(new Cell().add(new Paragraph("Calidad General").setFontSize(10))
-                .setBackgroundColor(colorHex("#4295a5"))
-                .setVerticalAlignment(VerticalAlignment.MIDDLE)
-                .setMargins(0, 5, 5, 0)
-                .setBorder(Border.NO_BORDER));
-
-        // -------------------------------------------- Extraccion de datos para insercion en tabla de registro individual
-
+        // Filas de datos
         for (String[] fila : registrosAnalisisIndividual) {
-            for (int col = 0; col < fila.length; col++) {
-                String valor = fila[col];
+            // Asume que fila[0]=Nombre, fila[1]=Archivo, fila[4]=Calidad Piel, fila[5]=Calidad Ojos, fila[6]=Calidad General
 
-                // Alternar colores según la columna sea par o impar
-                Color color;
-                if (col % 2 == 0) {
-                    color = colorHex("#f1f1f1");  // color columnas pares
-                } else {
-                    color = colorHex("#cccece");  // color columnas impares
-                }
+            // Nombre
+            tableRegistroIndividual.addCell(new Cell()
+                    .add(new Paragraph(fila[0]).setFontSize(8).setFontColor(colorHex("#414141")))
+                    .setBackgroundColor(colorHex("#f1f1f1"))
+                    .setBorder(Border.NO_BORDER)
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE));
 
-                tableRegistroIndividual.addCell(
-                        new Cell()
-                                .add(new Paragraph(valor).setFontSize(8).setFontColor(colorHex("#414141")))
-                                .setMargins(0, 5, 5, 0)
-                                .setBorder(Border.NO_BORDER)
-                                .setBackgroundColor(color)
-                                .setVerticalAlignment(VerticalAlignment.MIDDLE));
-            }
+            // Archivo como hipervínculo corto
+            String fullPath = fila[1];
+            String fileName = new java.io.File(fullPath).getName();
+            Link link = new Link(fileName, PdfAction.createURI(fullPath));
+            Paragraph linkParagraph = new Paragraph().add(link.setFontColor(ColorConstants.BLUE).setUnderline());
+            tableRegistroIndividual.addCell(new Cell()
+                    .add(linkParagraph.setFontSize(8))
+                    .setBackgroundColor(colorHex("#cccece"))
+                    .setBorder(Border.NO_BORDER)
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE));
+
+            // Calidad Piel
+            tableRegistroIndividual.addCell(new Cell()
+                    .add(new Paragraph(fila[2]).setFontSize(8).setFontColor(colorHex("#414141")))
+                    .setBackgroundColor(colorHex("#f1f1f1"))
+                    .setBorder(Border.NO_BORDER)
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE));
+
+            // Calidad Ojos
+            tableRegistroIndividual.addCell(new Cell()
+                    .add(new Paragraph(fila[3]).setFontSize(8).setFontColor(colorHex("#414141")))
+                    .setBackgroundColor(colorHex("#cccece"))
+                    .setBorder(Border.NO_BORDER)
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE));
+
+            // Calidad General
+            tableRegistroIndividual.addCell(new Cell()
+                    .add(new Paragraph(fila[4]).setFontSize(8).setFontColor(colorHex("#414141")))
+                    .setBackgroundColor(colorHex("#f1f1f1"))
+                    .setBorder(Border.NO_BORDER)
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE));
         }
 //################################# FIN DISEÑO ELEMENTOS CUERPO INFERIOR #####################################
 
@@ -637,8 +641,59 @@ public class ReportGenerator {
         document.close();
         System.out.println("PDF tamaño Carta generado: " + dest);
     }
+//############################################## MÉTODO PARA CREAR EXCEL  ################################################
+/**
+ * Exporta los registros individuales a un archivo Excel (.xlsx).
+ *
+ * <p>
+ * Crea un archivo Excel con las columnas: Nombre, Archivo, Calidad Piel, Calidad Ojos y Calidad General,
+ * y escribe los datos de la lista proporcionada.
+ * </p>
+ *
+ * @param rutaArchivo Ruta completa donde se guardará el archivo Excel generado (por ejemplo: "C:/reportes/tabla_individual.xlsx").
+ * @param registrosAnalisisIndividual Lista de arreglos de String, donde cada arreglo representa una fila con los siguientes datos:
+ *                                   <ul>
+ *                                     <li>[0] Nombre</li>
+ *                                     <li>[1] Archivo (ruta o nombre del archivo)</li>
+ *                                     <li>[2] Calidad Piel</li>
+ *                                     <li>[3] Calidad Ojos</li>
+ *                                     <li>[4] Calidad General</li>
+ *                                   </ul>
+ * @throws IOException Si ocurre un error al crear o guardar el archivo Excel.
+ *
+ * <b>Uso:</b>
+ * <pre>
+ *   reportGenerator.exportarExcel("C:/reportes/tabla_individual.xlsx", registrosAnalisisIndividual);
+ * </pre>
+ */
+public void exportarExcel(String rutaArchivo, List<String[]> registrosAnalisisIndividual) throws IOException {
+    org.apache.poi.ss.usermodel.Workbook workbook = new org.apache.poi.xssf.usermodel.XSSFWorkbook();
+    org.apache.poi.ss.usermodel.Sheet sheet = workbook.createSheet("Registros Individuales");
 
+    String[] headers = {"Nombre", "Archivo", "Calidad Piel", "Calidad Ojos", "Calidad General"};
+    org.apache.poi.ss.usermodel.Row headerRow = sheet.createRow(0);
+    for (int i = 0; i < headers.length; i++) {
+        org.apache.poi.ss.usermodel.Cell cell = headerRow.createCell(i);
+        cell.setCellValue(headers[i]);
+    }
 
+    int rowNum = 1;
+    for (String[] fila : registrosAnalisisIndividual) {
+        org.apache.poi.ss.usermodel.Row row = sheet.createRow(rowNum++);
+        for (int i = 0; i < headers.length; i++) {
+            row.createCell(i).setCellValue(fila[i] != null ? fila[i] : "");
+        }
+    }
+
+    for (int i = 0; i < headers.length; i++) {
+        sheet.autoSizeColumn(i);
+    }
+
+    try (FileOutputStream fileOut = new FileOutputStream(rutaArchivo)) {
+        workbook.write(fileOut);
+    }
+    workbook.close();
+}
 
 
 //############################################## MÉTODOS VARIOS ################################################
