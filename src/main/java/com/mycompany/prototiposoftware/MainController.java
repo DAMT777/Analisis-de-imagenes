@@ -19,19 +19,21 @@ import com.processing.Lote;
 import com.processing.LoteProcessor;
 import com.processing.ResultadoRegistro;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -41,12 +43,20 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.LinkedList;
 import java.util.List;
-
 
 public class MainController {
     String [] contextoLote = new String[5];
+
+    @FXML
+    private HBox analisisHbox;
+    @FXML
+    private HBox reportsHBox;
+    @FXML
+    private HBox userHBox;
+    @FXML
+    private HBox adminListUserHBox;
+
 
 
     @FXML
@@ -126,6 +136,27 @@ public class MainController {
         return new String[]{"", ""};
     }
 
+    @FXML
+    private void handleHBoxClick(MouseEvent event) {
+        try {
+            // Obtener el HBox que disparó el evento
+            HBox clickedHBox = (HBox) event.getSource();
+
+            // Obtener el fx:id del HBox
+            String hboxId = clickedHBox.getId();
+
+            // Obtener el Stage actual desde el HBox
+            Stage stage = (Stage) clickedHBox.getScene().getWindow();
+
+            // Cambiar escena usando Utilities
+            changeScene.changeScene(stage, hboxId);  // Asumiendo que el archivo fxml se llama igual que el id + ".fxml"
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Aquí puedes mostrar un mensaje al usuario si quieres
+        }
+    }
+
 
     @FXML    //cambio de escena al hacer lcick en salir
     private void irALoginController() throws IOException {
@@ -159,60 +190,62 @@ public class MainController {
         alerta.showAndWait();
     }
 
-
-    @FXML    // carga la imagen pidiendo al usuario un archivo .jpg, o png
+    @FXML
     private void cargarImagen() {
-
         contextoLote = dialogScene();
         DBConnect.contextoLote = contextoLote;
         System.out.println("Descripcion del lote: " + contextoLote[0] + " / Origen del lote: " + contextoLote[1]);
 
+        tilePaneLoteImages.setHgap(2);
+        //tilePaneLoteImages.setVgap(10);
+        tilePaneLoteImages.setPrefColumns(9);
 
-        tilePaneLoteImages.setHgap(10); // Espacio horizontal entre imágenes
-        tilePaneLoteImages.setVgap(10); // Espacio vertical
-        tilePaneLoteImages.setPrefColumns(3); // Hasta 5 imágenes por fila (luego baja de línea)
-
-        eraseFiles(); // borra la imagen que esté en la carpeta imgFish, si hay alguna, esto por si el usuario se equivoca de imagen, simplemente sube otra y se elimina la anterior.
+        eraseFiles();
 
         FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JPG Files (*.jpg)", "*.jpg"),
+                new FileChooser.ExtensionFilter("PNG Files (*.png)", "*.png")
+        );
 
-        FileChooser.ExtensionFilter extFilterJpg = new FileChooser.ExtensionFilter("JPG Files (*.jpg)", "*.jpg");
-        FileChooser.ExtensionFilter extFilterPng = new FileChooser.ExtensionFilter("PNG Files (*.png)", "*.png");
-
-        fileChooser.getExtensionFilters().addAll(extFilterJpg, extFilterPng);
         List<File> archivos = fileChooser.showOpenMultipleDialog(null);
 
         if (archivos != null) {
-            if (archivos.size() > 10) {
-                errorMessage("El limite de imagenes son maximo 10");
+            if (archivos.size() > 50) {
+                errorMessage("El límite de imágenes es máximo 50");
             } else {
                 UploadLoteIamgeHideUnHide();
+
                 for (File archivo : archivos) {
                     String imagePath = archivo.toURI().toString();
-
                     Image image = new Image(imagePath);
 
-                    //double withPref = 300;
-
-                    //imageViewMain.setFitWidth(withPref);
-                    //imageViewMain.setPreserveRatio(true);
-
-
                     ImageView iv = new ImageView(image);
-                    iv.setFitWidth(100);
-                    iv.setFitHeight(100);
-                    iv.setPreserveRatio(false);
+                    iv.setFitWidth(70);
+                    iv.setFitHeight(70);
+                    iv.setPreserveRatio(false); // Queremos clip cuadrado uniforme
 
+                    // Clip de esquinas redondeadas
+                    Rectangle clip = new Rectangle(70, 70);
+                    clip.setArcWidth(14);
+                    clip.setArcHeight(14);
+                    iv.setClip(clip);
 
-                    tilePaneLoteImages.getChildren().add(iv);
+                    // Contenedor con estilo visual limpio
+                    StackPane imageContainer = new StackPane(iv);
+                    imageContainer.setPrefSize(70, 70);
+                    imageContainer.setStyle(
+                            "-fx-background-color: white;" +
+                                    "-fx-background-radius: 20;" +
+                                    "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 0, 2);" +
+                                    "-fx-padding: 5;"
+                    );
 
-
-                    //imageViewMain.setImage(image);
+                    tilePaneLoteImages.getChildren().add(imageContainer);
 
                     saveImage(archivo);
                 }
             }
-
         }
     }
 

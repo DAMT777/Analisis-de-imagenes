@@ -1,6 +1,5 @@
 package com.mycompany.prototiposoftware;
 
-import com.processing.User;
 import com.databaseInteractions.DBConnect;
 
 import javafx.collections.FXCollections;
@@ -15,16 +14,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import com.mycompany.prototiposoftware.TableUserListView;
+
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 
-
-public class AdminUserList implements Initializable {
+public class AdminUserListController implements Initializable {
 
     List<String[]> users =  DBConnect.getUsuariosEmpresa(UserSesionData.getEmpresa());
 
@@ -42,7 +42,35 @@ public class AdminUserList implements Initializable {
      userDateCreation.setCellValueFactory(new PropertyValueFactory<>("FechaCreacion"));
      userRol.setCellValueFactory(new PropertyValueFactory<>("Rol"));*/
 
+    @FXML
+    private HBox analisisHbox;
+    @FXML
+    private HBox reportsHBox;
+    @FXML
+    private HBox userHBox;
+    @FXML
+    private HBox adminListUserHBox;
 
+    @FXML
+    private void handleHBoxClick(MouseEvent event) {
+        try {
+            // Obtener el HBox que disparó el evento
+            HBox clickedHBox = (HBox) event.getSource();
+
+            // Obtener el fx:id del HBox
+            String hboxId = clickedHBox.getId();
+
+            // Obtener el Stage actual desde el HBox
+            Stage stage = (Stage) clickedHBox.getScene().getWindow();
+
+            // Cambiar escena usando Utilities
+            changeScene.changeScene(stage, hboxId);  // Asumiendo que el archivo fxml se llama igual que el id + ".fxml"
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Aquí puedes mostrar un mensaje al usuario si quieres
+        }
+    }
 
 
     @FXML
