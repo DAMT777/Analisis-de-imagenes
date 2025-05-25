@@ -14,7 +14,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AdminPanelController  implements Initializable {
-
+/*
+*
+*
+* registrarUsuario(String nombre, String apellido, String empresa, String correo, String passwordHash, String rol)
+* la password se hashea con HashUtil.hashPassword(String password) y debe pasarsela al metodo ya hasheada
+*
+* */
 
     @FXML
     private TextField actualName;

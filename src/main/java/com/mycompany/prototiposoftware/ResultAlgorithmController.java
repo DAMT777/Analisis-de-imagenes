@@ -193,6 +193,7 @@ public class ResultAlgorithmController implements Initializable {
             System.out.println("❌ La ruta no es válida o no existe: " + ruta);
         }
     }
+    //crear metodo para guardar excel
 
     @FXML
     private void menuBoxExpand() {

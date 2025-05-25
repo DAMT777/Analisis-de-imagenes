@@ -11,15 +11,9 @@ from tensorflow.keras.models import load_model
 import numpy as np
 from fish_classifier_true import is_fish
 import onnxruntime as ort
-print("Available providers:", ort.get_available_providers())
-# Cargar el modelo de clasificación de imágenes
-#model = load_model('fish_binary_classifier.h5')
 
 
 
-os.environ["ORT_LOG_LEVEL"] = "ERROR"  # Solo errores críticos de ONNXRuntime
-import warnings
-warnings.filterwarnings("ignore")
 
 app = FastAPI()
 

@@ -25,26 +25,15 @@ import org.apache.hc.client5.http.io.ConnectionEndpoint;
 
 
 public class DBConnect {
-    private static HikariDataSource dataSource;
     private static final Dotenv dotenv = Dotenv.load();
     private static final CloudinaryService cloudinaryService = new CloudinaryService();
     public static String[] contextoLote = new String[5];
-    static {
-        HikariConfig config = new HikariConfig();
-        String url = "jdbc:postgresql://" + dotenv.get("PGHOST") + ":" + dotenv.get("PGPORT") + "/" + dotenv.get("PGDATABASE") + "?sslmode=require&pool_mode=" + dotenv.get("POOL_MODE");
-        config.setJdbcUrl(url);
-        config.setMaximumPoolSize(2);         // 👈 seguro para Supabase Free
-        config.setMinimumIdle(1);
-        config.setIdleTimeout(6000);         // cierra conexiones inactivas después de 30 seg
-        config.setMaxLifetime(20000);         // vida máxima de una conexión: 60 seg
-        config.setConnectionTimeout(10000);   // espera máx. para obtener conexión
-        config.setUsername(dotenv.get("PGUSER"));
-        config.setPassword(dotenv.get("PGPASSWORD"));
-        dataSource = new HikariDataSource(config);
-    }
 
     public static Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
+        String url = "jdbc:postgresql://" + dotenv.get("PGHOST") + ":" + dotenv.get("PGPORT") + "/" + dotenv.get("PGDATABASE") + "?sslmode=require";
+        String user = dotenv.get("PGUSER");
+        String password = dotenv.get("PGPASSWORD");
+        return java.sql.DriverManager.getConnection(url, user, password);
     }
     /**
      * Obtiene una conexión a la base de datos PostgreSQL usando las variables de entorno del archivo .env.
@@ -844,6 +833,7 @@ public class DBConnect {
        }
        return info;
    }
+
 
 
 

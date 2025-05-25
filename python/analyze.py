@@ -8,7 +8,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # Cargar el modelo entrenado
-model = tf.keras.models.load_model('C:/Users/jesus/IdeaProjects/Analisis-de-imagenes/modelo_entrenado.h5')
+model = tf.keras.models.load_model('../modelo_entrenado.h5')
 
 # Procesa una sola imagen
 def analyze_image(ruta_imagen, solo_ojo=False):

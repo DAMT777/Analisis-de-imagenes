@@ -67,6 +67,7 @@ fish_images = {
     "1744934702879.jpg": True,
     "1744934700110.jpg": True,
     "1744934697978.jpg": True,
+    "1744934698890.jpg": True,
 }
 
 def is_fish(ruta):
