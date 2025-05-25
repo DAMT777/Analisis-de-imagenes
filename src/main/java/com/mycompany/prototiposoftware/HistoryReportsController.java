@@ -145,6 +145,7 @@ public class HistoryReportsController implements Initializable {
             condition = flatList.get(i + 2);
             city = flatList.get(i + 3);
             invima = flatList.get(i + 4);
+            invima = invima.equals("true") ? "Si" : "No";
             fishTime = flatList.get(i + 5);
 
             calificacion = flatList.get(i + 6);
