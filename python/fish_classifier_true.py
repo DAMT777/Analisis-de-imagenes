@@ -74,5 +74,4 @@ def is_fish(ruta):
     nombre_archivo = os.path.basename(ruta)
     return fish_images.get(nombre_archivo, False)
 
-# Ejemplo de uso
 

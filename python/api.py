@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from PIL import Image
 from analyze import analyze_image, analyze_image_batch
-# from fish_classifier_true import is_fish
+from fish_classifier_true import is_fish
 # import onnxruntime as ort
 
 # === CONFIGURACIÓN DE LA APLICACIÓN ===

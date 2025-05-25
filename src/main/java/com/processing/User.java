@@ -41,6 +41,7 @@ public class User {
     public User(String email, String password) {
         this.email = email;
         this.password = HashUtil.hashPassword(password);
+        getInfo();
     }
 
     public User(int id, String nombre, String apellido, String email, String empresa, String password, String rol) {
@@ -50,6 +51,15 @@ public class User {
         this.email = email;
         this.empresa = empresa;
         //hashear la contraseña
+        this.password = HashUtil.hashPassword(password);
+        this.rol = rol;
+    }
+
+    public User(String nombre, String apellido, String email, String empresa, String password, String rol){
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.empresa = empresa;
         this.password = HashUtil.hashPassword(password);
         this.rol = rol;
     }
@@ -75,7 +85,7 @@ public class User {
         password = HashUtil.hashPassword(password);
         boolean updated = DBConnect.actualizarPasswordUsuario(id, password);
         if (updated) {
-            this.password = password;
+            this.password = password    ;
         }
         return updated;
     }
