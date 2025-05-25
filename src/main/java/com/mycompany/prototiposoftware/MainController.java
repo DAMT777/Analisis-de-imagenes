@@ -194,7 +194,8 @@ public class MainController {
     private void cargarImagen() {
         contextoLote = dialogScene();
         DBConnect.contextoLote = contextoLote;
-        System.out.println("Descripcion del lote: " + contextoLote[0] + " / Origen del lote: " + contextoLote[1]);
+        System.out.println("Ciudad: " + contextoLote[0] + " / Registrado invima: " + contextoLote[1]);
+        System.out.println("Condicion lote: " + contextoLote[2] + " / Tiempo de pesca: " + contextoLote[3]);
 
         tilePaneLoteImages.setHgap(2);
         //tilePaneLoteImages.setVgap(10);

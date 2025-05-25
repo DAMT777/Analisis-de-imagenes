@@ -10,9 +10,10 @@ import sys
 from tensorflow.keras.models import load_model
 import numpy as np
 from fish_classifier_true import is_fish
-
+import onnxruntime as ort
+print("Available providers:", ort.get_available_providers())
 # Cargar el modelo de clasificación de imágenes
-model = load_model('fish_binary_classifier.h5')
+#model = load_model('fish_binary_classifier.h5')
 
 
 
@@ -71,8 +72,8 @@ async def process_image(request: ImageRequest):
         elapsed_time = time.time() - start_time
         result["processing_time_seconds"] = round(elapsed_time, 3)
         return result
-    except FileNotFoundError:
-        return {"error": "La imagen no se encontró en la ruta especificada."}
+    except FileNotFoundError as e:
+        return {"error": f"La imagen no se encontró en la ruta especificada: {str(e)}" }
     except Exception as e:
         return {"error": f"Error al procesar la imagen: {str(e)}"}
 

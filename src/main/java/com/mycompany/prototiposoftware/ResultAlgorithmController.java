@@ -24,6 +24,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -112,7 +113,11 @@ public class ResultAlgorithmController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        datosPDFLote = DBConnect.getDataReporte(idLote);
+        try {
+            datosPDFLote = DBConnect.getDataReporte(idLote);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         if (datosPDFLote.length == 0) {
             // Está vacío o no inicializado
             System.out.println("El array está vacío o es null");
