@@ -1,7 +1,10 @@
 package com.mycompany.prototiposoftware;
 
+import com.databaseInteractions.DBConnect;
+import com.processing.User;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -15,14 +18,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AdminPanelController  implements Initializable {
-/*
-*
-*
-* registrarUsuario(String nombre, String apellido, String empresa, String correo, String passwordHash, String rol)
-* la password se hashea con HashUtil.hashPassword(String password) y debe pasarsela al metodo ya hasheada
-*
-* */
 
+    public void errorMessage(String message) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(null);
+        alerta.setContentText(message);
+
+        alerta.showAndWait();
+    }
+
+    @FXML
+    private TextField idUser;
     @FXML
     private TextField actualName;
     @FXML
@@ -37,7 +44,7 @@ public class AdminPanelController  implements Initializable {
     @FXML
     private TextField newEmail;
     @FXML
-    private TextField newPassword;
+    private PasswordField newPassword;
     @FXML
     private PasswordField confirmNewPassword;
 
@@ -92,12 +99,31 @@ public class AdminPanelController  implements Initializable {
         menuBox.setManaged(menuBox.isVisible());
     }
 
+
     @FXML
     private void userUpdate() throws IOException {
-        /*
-        * incluir logica de del crud desde la basde de datos acá
-        * */
+        boolean nombreVacio = newName.getText().isEmpty();
+        boolean apellidoVacio = newApellido.getText().isEmpty();
+        boolean emailVacio = newEmail.getText().isEmpty();
+        boolean passwordVacio = newPassword.getText().isEmpty();
 
+        if (nombreVacio && apellidoVacio && emailVacio && passwordVacio) {
+            errorMessage("Al menos un campo debe ser modificado.");
+            return;
+        }
+
+        int userId = Integer.parseInt(idUser.getText());
+        String nombre = newName.getText().isEmpty() ? actualName.getText() : newName.getText();
+        String apellido = newApellido.getText().isEmpty() ? actualApellido.getText() : newApellido.getText();
+        String email = newEmail.getText().isEmpty() ? actualEmail.getText() : newEmail.getText();
+
+        // Actualizar datos del usuario
+        DBConnect.actualizarUsuario(userId, nombre, apellido, UserSesionData.getEmpresa(), email, "user");
+
+        // Si la contraseña nueva no está vacía y coincide con la confirmación, actualizarla
+        if (!newPassword.getText().isEmpty() && newPassword.getText().equals(confirmNewPassword.getText())) {
+            DBConnect.actualizarPasswordUsuario(userId, newPassword.getText());
+        }
 
         irAdminUserList();
     }
@@ -110,23 +136,16 @@ public class AdminPanelController  implements Initializable {
         actualName.setText(u.getNombre());
         actualApellido.setText(u.getApellido());
         actualEmail.setText(u.getEmail());
-        //actualPassword.setText(u.getRol());
+        idUser.setText(u.getId());
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
 
-
-
         actualName.setText(actualName.getText());
         actualApellido.setText(actualApellido.getText());
         actualEmail.setText(actualEmail.getText());
 
-
-        newName.setText(newName.getText());
-        newApellido.setText(newApellido.getText());
-        newEmail.setText(newEmail.getText());
-        newPassword.setText(newPassword.getText());
     }
 
 }
