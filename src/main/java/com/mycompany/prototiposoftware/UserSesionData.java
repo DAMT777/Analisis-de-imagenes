@@ -43,8 +43,7 @@ public class UserSesionData {
      * Establece el objeto Usuario autenticado.
      * @param usuario Objeto Usuario.
      */
-    public static void setUsuario(User usuario) {
-        UserSesionData.usuario = usuario;
+    public static void setUsuario(User usuario) {UserSesionData.usuario = usuario;
     }
 
     /**
@@ -108,8 +107,13 @@ public class UserSesionData {
      * @param email Correo electrónico.
      */
     public static void setEmailUser(String email) {
-        if (usuario != null) usuario.setEmail(email);
+        if (usuario != null) usuario.setUserEmail(usuario.getId(), email);
     }
+
+    public static void setPasswordUser(String password) {
+        if (usuario != null) usuario.setUserPassword(usuario.getId(), password);
+    }
+
 
     /**
      * Obtiene el rol del usuario autenticado.

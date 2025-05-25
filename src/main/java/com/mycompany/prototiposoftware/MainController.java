@@ -125,6 +125,10 @@ public class MainController {
     // ---------------------------------------------------------------------------------------Fin Tool bar inferior
 
 
+    @FXML
+    private void irUserScene() throws IOException {
+        App.setRoot("UserInfoPanelScene");
+    }
 
 
     @FXML
