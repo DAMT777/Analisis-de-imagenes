@@ -100,12 +100,12 @@ public class UserSesionData {
      * Establece el correo electrónico del usuario autenticado.
      * @param email Correo electrónico.
      */
-    public static void setEmailUser(int id, String email) {
-        if (usuario != null) usuario.setUserEmail(id, email);
+    public static void setEmailUser(Integer idUser, String email) {
+        if (usuario != null) usuario.setUserEmail(idUser, email);
     }
 
-    public static void setPasswordUser(String password) {
-        if (usuario != null) usuario.setUserPassword(usuario.getId(), password);
+    public static void setPasswordUser(Integer idUser, String password) {
+        if (usuario != null) usuario.setUserPassword(idUser, password);
     }
 
 

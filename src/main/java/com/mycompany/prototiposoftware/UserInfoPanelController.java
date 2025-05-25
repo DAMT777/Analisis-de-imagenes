@@ -2,6 +2,7 @@ package com.mycompany.prototiposoftware;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -49,6 +50,16 @@ public class UserInfoPanelController implements Initializable {
         }
     }
 
+    public void errorMessage(String message) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(null);
+        alerta.setContentText(message);
+
+        alerta.showAndWait();
+    }
+
+
     @FXML
     private void irMainScene() throws IOException {
         App.setRoot("MainScene");
@@ -87,17 +98,30 @@ public class UserInfoPanelController implements Initializable {
 
     @FXML
     private void userUpdate() throws IOException {
-        /*
-         * incluir logica de del crud desde la basde de datos acá
-         * */
+        // Validar si los campos no están vacíos
+        boolean cambioRealizado = false;
 
+        if (!newPassword.getText().isEmpty()) {
+            if (newPassword.getText().equals(confirmNewPassword.getText())) {
+                // Aquí iría la lógica para actualizar la contraseña
+                UserSesionData.setPasswordUser(UserSesionData.getIdUser(),newPassword.getText());
+                cambioRealizado = true;
+            }
+        }
 
+        if (!newEmail.getText().isEmpty() && !confirmNewEmail.getText().isEmpty()) {
+            if (newEmail.getText().equals(confirmNewEmail.getText())) {
+                // Aquí iría la lógica para actualizar el email
+                UserSesionData.setEmailUser(UserSesionData.getIdUser(),newEmail.getText());
+                cambioRealizado = true;
+            }
+        }
 
-
-
-
-
-        irMainScene();
+        if (cambioRealizado) {
+            irMainScene();
+        } else {
+            errorMessage("Los campos no pueden estar vacíos o no coinciden.");
+        }
     }
 
 

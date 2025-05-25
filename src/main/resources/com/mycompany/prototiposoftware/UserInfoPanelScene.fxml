@@ -88,9 +88,9 @@
                               </Label>
                               <GridPane alignment="CENTER" hgap="20.0" prefHeight="361.0" prefWidth="737.0" style="-fx-border-color: black; -fx-background-color: #cccece;" vgap="20.0">
                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.33331807454425" minWidth="10.0" prefWidth="183.000005086263" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="240.66668701171875" minWidth="10.0" prefWidth="151.66666158040366" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="255.33329264322919" minWidth="10.0" prefWidth="141.33331298828125" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="240.00000508626303" minWidth="10.0" prefWidth="142.66666158040366" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="240.66668701171875" minWidth="10.0" prefWidth="175.33333333333337" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="255.33329264322919" minWidth="10.0" prefWidth="159.33333333333337" />
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="316.66667683919275" minWidth="10.0" prefWidth="179.33332316080725" />
                                 </columnConstraints>
                                 <rowConstraints>

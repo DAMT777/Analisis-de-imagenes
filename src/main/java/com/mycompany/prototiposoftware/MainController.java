@@ -125,6 +125,16 @@ public class MainController {
     // ---------------------------------------------------------------------------------------Fin Tool bar inferior
 
 
+    public void errorMessage(String message) {
+        Alert alerta = new Alert(AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(null);
+        alerta.setContentText(message);
+
+        alerta.showAndWait();
+    }
+
+
     @FXML
     private void irUserScene() throws IOException {
         App.setRoot("UserInfoPanelScene");
@@ -223,14 +233,6 @@ public class MainController {
         hBoxUploadLoteImage.setManaged(hBoxUploadLoteImage.isVisible());
     }
 
-    public void errorMessage(String message) {
-        Alert alerta = new Alert(AlertType.ERROR);
-        alerta.setTitle("Error");
-        alerta.setHeaderText(null);
-        alerta.setContentText(message);
-
-        alerta.showAndWait();
-    }
 
     @FXML
     private void cargarImagen() {
