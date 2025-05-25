@@ -37,10 +37,6 @@ public class User {
      * @param email Correo electrónico del usuario.
      * @param password Contraseña en texto plano (será hasheada).
      */
-
-
-
-
     public User(String email, String password) {
         this.email = email;
         this.password = HashUtil.hashPassword(password);
@@ -59,30 +55,57 @@ public class User {
 
 
 
-    public String getEmpresa() {
-        return empresa;
-    }
-
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
-    }
-
-    /**
-     * Establece la contraseña del usuario aplicando hash para mayor seguridad.
-     *
-     * @param password Contraseña en texto plano que será hasheada y almacenada.
-     */
-    public void setPassword(String password) {
-        this.password = HashUtil.hashPassword(password);
-    }
-
     public boolean setUserPassword(int id, String password) {
-        return DBConnect.actualizarPasswordUsuario(id, password);
+        boolean updated = DBConnect.actualizarPasswordUsuario(id, password);
+        if (updated) {
+            this.password = HashUtil.hashPassword(password);
+        }
+        return updated;
     }
 
     public boolean setUserEmail(int id, String email) {
-        return DBConnect.actualizarCorreoUsuario(id, email);
+        boolean updated = DBConnect.actualizarCorreoUsuario(id, email);
+        if (updated) {
+            this.email = email;
+        }
+        return updated;
     }
+
+    public boolean setUserNombre(int id, String nombre) {
+        boolean updated = DBConnect.actualizarNombreUsuario(id, nombre);
+        if (updated) {
+            this.nombre = nombre;
+        }
+        return updated;
+    }
+
+    public boolean setUserApellido(int id, String apellido) {
+        boolean updated = DBConnect.actualizarApellidoUsuario(id, apellido);
+        if (updated) {
+            this.apellido = apellido;
+        }
+        return updated;
+    }
+
+    public boolean setUserEmpresa(int id, String empresa) {
+        boolean updated = DBConnect.actualizarEmpresaUsuario(id, empresa);
+        if (updated) {
+            this.empresa = empresa;
+        }
+        return updated;
+    }
+
+    public boolean setUserRol(int id, String rol) {
+        boolean updated = DBConnect.actualizarRolUsuario(id, rol);
+        if (updated) {
+            this.rol = rol;
+        }
+        return updated;
+    }
+
+
+
+
    /**
     * Registra un nuevo usuario en la base de datos si el usuario actual tiene rol "admin".
     * Valida que el objeto y sus campos requeridos no sean nulos.
@@ -184,40 +207,18 @@ public class User {
     public int getId() {
         return id;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
     }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
+    public String getEmpresa() { return empresa; }
     public String getApellido() {
         return apellido;
     }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
     public String getEmail() {
         return email;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getRol() {
         return rol;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
 }
