@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="900.0" style="-fx-background-color: #E6E6E6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.prototiposoftware.AboutUsController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="900.0" style="-fx-background-color: #E6E6E6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.prototiposoftware.AboutUsControllers">
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -358,7 +358,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox fx:id="adminListUserHBox" alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="219.0">
+                        <HBox fx:id="adminListUserHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="45.0" prefWidth="219.0">
                            <children>
                               <Circle disable="true" fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
                               <Label text="Lista de usuarios" textFill="#535353">
