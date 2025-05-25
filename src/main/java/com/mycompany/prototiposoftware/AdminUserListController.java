@@ -5,8 +5,12 @@ import com.databaseInteractions.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -118,6 +122,8 @@ public class AdminUserListController implements Initializable {
 
 
 
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
 
@@ -152,5 +158,38 @@ public class AdminUserListController implements Initializable {
             users.add(new TableUserListView(id, name, lastName, email, rol));
         }
         tableUserList.setItems(users);
+
+        tableUserList.setRowFactory(tv -> {
+            TableRow<TableUserListView> row = new TableRow<>();
+            row.setOnMouseClicked(ev -> {
+                if (!row.isEmpty() && ev.getClickCount() == 2) {
+                    TableUserListView seleccionado = row.getItem();
+                    abrirAdminPanelConUsuario(seleccionado);
+                }
+            });
+            return row;
+        });
+    }
+
+
+    /**
+     * Carga AdminPanel.fxml, obtiene su controlador y le pasa
+     * el usuario seleccionado antes de mostrar la nueva escena.
+     */
+    private void abrirAdminPanelConUsuario(TableUserListView usuario) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminPanel.fxml"));
+            Parent root = loader.load();
+
+            // Obtén el controlador de AdminPanel y pásale el usuario
+            AdminPanelController ctrl = loader.getController();
+            ctrl.setUsuarioSeleccionado(usuario);
+
+            // Cambia la escena
+            Stage stage = (Stage) tableUserList.getScene().getWindow();
+            App.scene.setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

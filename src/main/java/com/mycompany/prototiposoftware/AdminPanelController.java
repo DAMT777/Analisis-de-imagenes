@@ -69,7 +69,7 @@ public class AdminPanelController  implements Initializable {
 
     @FXML
     private void irAdminUserList() throws IOException {
-        App.setRoot("AdminUserList");
+        App.setRoot("AdminUsersList");
     }
 
     @FXML    //cambio de escena al hacer lcick en salir
@@ -89,8 +89,22 @@ public class AdminPanelController  implements Initializable {
 
     }
 
+    /**
+     * Este método lo invocamos desde el AdminUserListController
+     * para inyectar los datos del usuario seleccionado.
+     */
+    public void setUsuarioSeleccionado(TableUserListView u) {
+        actualName.setText(u.getNombre());
+        actualApellido.setText(u.getApellido());
+        actualEmail.setText(u.getEmail());
+        actualPassword.setText(u.getRol());
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
+
+
+
         actualName.setText(actualName.getText());
         actualApellido.setText(actualApellido.getText());
         actualEmail.setText(actualEmail.getText());

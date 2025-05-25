@@ -178,6 +178,11 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
+                        <Button mnemonicParsing="false" style="-fx-background-color: #38AEF5; -fx-background-radius: 50; -fx-effect: dropshadow( one-pass-box , rgba(0, 0, 0, 0.3) , 15, 0.5 , 0 , 0 );" text="Generar Excel" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
                      </children>
                   </HBox>
                   <Region maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="19.0" prefWidth="900.0" />
@@ -250,7 +255,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </AnchorPane>
-      <AnchorPane fx:id="menuBox1" layoutX="10.0" layoutY="226.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 0 20 20 0;" visible="false" AnchorPane.leftAnchor="0.0">
+      <AnchorPane fx:id="menuBox" layoutX="10.0" layoutY="226.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 0 20 20 0;" visible="false" AnchorPane.leftAnchor="0.0">
          <children>
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>

@@ -181,7 +181,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox fx:id="adminListUserHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
+                        <HBox fx:id="adminListUserHBox" alignment="CENTER_LEFT" disable="true" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
                               <Label text="Lista de usuarios">
