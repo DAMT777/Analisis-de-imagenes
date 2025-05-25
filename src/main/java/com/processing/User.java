@@ -28,6 +28,7 @@ public class User {
     private String email;
     private String password;
     private String rol;
+    private String imgProfilePath;
 
 
     /**
@@ -62,6 +63,14 @@ public class User {
         return updated;
     }
 
+    public boolean setUserLastName(int id, String apellido) {
+        boolean updated = DBConnect.actualizarApellidoUsuario(id, apellido);
+        if (updated) {
+            this.apellido = apellido;
+        }
+        return updated;
+    }
+
     public boolean setUserPassword(int id, String password) {
         boolean updated = DBConnect.actualizarPasswordUsuario(id, password);
         if (updated) {
@@ -78,13 +87,6 @@ public class User {
         return updated;
     }
 
-    public boolean setUserLastName(int id, String apellido) {
-        boolean updated = DBConnect.actualizarApellidoUsuario(id, apellido);
-        if (updated) {
-            this.apellido = apellido;
-        }
-        return updated;
-    }
 
     public boolean setUserEmpresa(int id, String empresa) {
         boolean updated = DBConnect.actualizarEmpresaUsuario(id, empresa);
@@ -103,7 +105,13 @@ public class User {
     }
 
 
-
+    public boolean setUserProfileImage(int id, String rutaImagenLocal) {
+        String updated = DBConnect.actualizarImagenPerfil(id, rutaImagenLocal);
+        // Si tienes un atributo local para la imagen, actualízalo aquí:
+        if(updated != null) this.imgProfilePath = updated;
+        // if (updated) this.imgProfilePath = DBConnect.getProfilePath(id);
+        return updated != null;
+    }
 
    /**
     * Registra un nuevo usuario en la base de datos si el usuario actual tiene rol "admin".
@@ -202,6 +210,7 @@ public class User {
             }
         }
     }
+
 
     public int getId() {
         return id;

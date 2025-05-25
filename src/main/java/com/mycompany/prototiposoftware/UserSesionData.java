@@ -107,7 +107,9 @@ public class UserSesionData {
     public static void setPasswordUser(Integer idUser, String password) {
         if (usuario != null) usuario.setUserPassword(idUser, password);
     }
-
+    public static void setProfileImgUser(int id, String profileImg) {
+        if (usuario != null) usuario.setUserProfileImage(id, profileImg);
+    }
 
     /**
      * Obtiene el rol del usuario autenticado.

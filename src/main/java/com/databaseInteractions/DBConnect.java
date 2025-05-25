@@ -924,7 +924,27 @@ public static boolean actualizarRolUsuario(int idUsuario, String nuevoRol) {
         return false;
     }
 }
+public static String actualizarImagenPerfil(int idUsuario, String rutaImagenLocal) {
+    // Subir la imagen a Cloudinary
+    String urlImagen = cloudinaryService.subirImagen(rutaImagenLocal);
+    if (urlImagen == null) {
+        System.out.println("No se pudo subir la imagen de perfil a Cloudinary.");
+        return null;
+    }
 
+    // Actualizar la URL en la base de datos
+    String query = "UPDATE usuario SET img_profile_path = ? WHERE id_usuario = ?";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, urlImagen);
+        stmt.setInt(2, idUsuario);
+        int rowsUpdated = stmt.executeUpdate();
+        return rowsUpdated > 0 ? urlImagen : null;
+    } catch (SQLException e) {
+        System.out.println("Error al actualizar la imagen de perfil: " + e.getMessage());
+        return null;
+    }
+}
 
 
 
