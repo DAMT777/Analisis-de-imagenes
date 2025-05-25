@@ -376,13 +376,14 @@ public class DBConnect {
 
             var rs = stmt.executeQuery();
             while (rs.next()) {
-                String[] reporte = new String[6];
+                String[] reporte = new String[7];
                 reporte[0] = String.valueOf(rs.getInt("id_lote"));
                 reporte[1] = rs.getString("fecha_creacion");
                 reporte[2] = rs.getString("condiciones");
                 reporte[3] = rs.getString("ciudad");
                 reporte[4] = rs.getString("tiempo_pesca");
                 reporte[5] = String.valueOf(rs.getBoolean("registrado_invima"));
+                reporte[6] = "5";
                 historial.add(reporte);
             }
         } catch (SQLException e) {
@@ -834,7 +835,35 @@ public class DBConnect {
        return info;
    }
 
+// Actualiza el correo electrónico de un usuario por su ID
+public static boolean actualizarCorreoUsuario(int idUsuario, String nuevoCorreo) {
+    String query = "UPDATE usuario SET correo = ? WHERE id_usuario = ?";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, nuevoCorreo);
+        stmt.setInt(2, idUsuario);
+        int rowsUpdated = stmt.executeUpdate();
+        return rowsUpdated > 0;
+    } catch (SQLException e) {
+        System.out.println("Error al actualizar correo: " + e.getMessage());
+        return false;
+    }
+}
 
+// Actualiza la contraseña (ya hasheada) de un usuario por su ID
+public static boolean actualizarPasswordUsuario(int idUsuario, String nuevoPasswordHash) {
+    String query = "UPDATE usuario SET password = ? WHERE id_usuario = ?";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, nuevoPasswordHash);
+        stmt.setInt(2, idUsuario);
+        int rowsUpdated = stmt.executeUpdate();
+        return rowsUpdated > 0;
+    } catch (SQLException e) {
+        System.out.println("Error al actualizar contraseña: " + e.getMessage());
+        return false;
+    }
+}
 
 
 

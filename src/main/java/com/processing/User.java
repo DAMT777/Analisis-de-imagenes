@@ -76,7 +76,13 @@ public class User {
         this.password = HashUtil.hashPassword(password);
     }
 
+    public boolean setUserPassword(int id, String password) {
+        return DBConnect.actualizarPasswordUsuario(id, password);
+    }
 
+    public boolean setUserEmail(int id, String email) {
+        return DBConnect.actualizarCorreoUsuario(id, email);
+    }
    /**
     * Registra un nuevo usuario en la base de datos si el usuario actual tiene rol "admin".
     * Valida que el objeto y sus campos requeridos no sean nulos.
