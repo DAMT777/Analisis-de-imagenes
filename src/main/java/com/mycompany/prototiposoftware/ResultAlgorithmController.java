@@ -9,11 +9,12 @@ import com.databaseInteractions.DBConnect;
 import com.processing.Lote;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -49,6 +50,17 @@ public class ResultAlgorithmController implements Initializable {
     List<String[]> analisisIndividuales;
 
 
+
+    // ---------------------------------------------------------------------------------- Menu Lateral
+    @FXML
+    private AnchorPane menuBox;  // menu expandible
+
+    @FXML
+    private void menuBoxExpand() {
+        menuBox.setVisible(!menuBox.isVisible());
+        menuBox.setManaged(menuBox.isVisible());
+    }
+
     @FXML
     private HBox analisisHbox;
     @FXML
@@ -78,13 +90,50 @@ public class ResultAlgorithmController implements Initializable {
             // Aquí puedes mostrar un mensaje al usuario si quieres
         }
     }
+    // ----------------------------------------------------------------------------------------Fin Menu Lateral
 
 
-
-
+    // ---------------------------------------------------------------------------------------Tool bar inferior
+    @FXML
+    private javafx.scene.control.Button userSceneToolBar;
+    @FXML
+    private javafx.scene.control.Button settingsSceneToolBar;
+    @FXML
+    private javafx.scene.control.Button aboutUsSceneToolBar;
+    @FXML
+    private javafx.scene.control.Button helpSceneToolBar;
 
     @FXML
-    private AnchorPane menuBox;  // menu expandible
+    private void toolBarBoxClick(ActionEvent event) {
+        try {
+            // Obtener el HBox que disparó el evento
+            javafx.scene.control.Button clickedButton = (Button) event.getSource();
+
+            // Obtener el fx:id del HBox
+            String buttonId = clickedButton.getId();
+
+            // Obtener el Stage actual desde el HBox
+            Stage stage = (Stage) clickedButton.getScene().getWindow();
+
+            // Cambiar escena usando Utilities
+            changeScene.changeScene(stage, buttonId);  // Asumiendo que el archivo fxml se llama igual que el id + ".fxml"
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Aquí puedes mostrar un mensaje al usuario si quieres
+        }
+    }
+    // ---------------------------------------------------------------------------------------Fin Tool bar inferior
+
+
+    public void errorMessage(String message) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(null);
+        alerta.setContentText(message);
+
+        alerta.showAndWait();
+    }
 
     @FXML
     private Label labelCalificacionPromedio;
@@ -196,10 +245,45 @@ public class ResultAlgorithmController implements Initializable {
     //crear metodo para guardar excel
 
     @FXML
-    private void menuBoxExpand() {
-        menuBox.setVisible(!menuBox.isVisible());
-        menuBox.setManaged(menuBox.isVisible());
+    private void generateExcel() throws IOException {
+
+        String ruta;
+
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Seleccionar carpeta para guardar el reporte Excel");
+
+
+        // Puedes pasarle el Stage principal si lo tienes
+        File selectedDirectory = directoryChooser.showDialog(null); // o reemplaza null con tu Stage si lo tienes
+
+        if (selectedDirectory != null) {
+            ruta = selectedDirectory.getAbsolutePath();
+        } else {
+            return;
+        }
+
+        String rutaGeneracionExcel = ruta;
+
+        ReportGenerator reporte = new ReportGenerator();
+        analisisIndividuales = DBConnect.getXLSXinfo(idLote);
+        //reporte.PDFgenerator(idLote, datosPDFLote, rutaGeneracionExcel, analisisIndividuales);
+        reporte.exportarExcel(rutaGeneracionExcel,analisisIndividuales);
+        analisisIndividuales.clear(); // Limpia la lista
+
+        File carpeta = new File(ruta);
+
+        if (carpeta.exists() && carpeta.isDirectory()) {
+            try {
+                Desktop.getDesktop().open(carpeta);
+            } catch (IOException e) {
+                System.out.println("⚠️ Error al abrir la carpeta: " + e.getMessage());
+            }
+        } else {
+            System.out.println("❌ La ruta no es válida o no existe: " + ruta);
+        }
     }
+
+
 
     @FXML
     private void irAnalisisImg() throws IOException {

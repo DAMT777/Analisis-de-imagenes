@@ -1,14 +1,19 @@
 package com.mycompany.prototiposoftware;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class AboutUsControllers {
+    // ---------------------------------------------------------------------------------- Menu Lateral
     @FXML
     private AnchorPane menuBox;  // menu expandible
 
@@ -17,6 +22,7 @@ public class AboutUsControllers {
         menuBox.setVisible(!menuBox.isVisible());
         menuBox.setManaged(menuBox.isVisible());
     }
+
     @FXML
     private HBox analisisHbox;
     @FXML
@@ -46,6 +52,50 @@ public class AboutUsControllers {
             // Aquí puedes mostrar un mensaje al usuario si quieres
         }
     }
+    // ----------------------------------------------------------------------------------------Fin Menu Lateral
+
+
+    // ---------------------------------------------------------------------------------------Tool bar inferior
+    @FXML
+    private Button userSceneToolBar;
+    @FXML
+    private Button settingsSceneToolBar;
+    @FXML
+    private Button aboutUsSceneToolBar;
+    @FXML
+    private Button helpSceneToolBar;
+
+    @FXML
+    private void toolBarBoxClick(ActionEvent event) {
+        try {
+            // Obtener el HBox que disparó el evento
+            Button clickedButton = (Button) event.getSource();
+
+            // Obtener el fx:id del HBox
+            String buttonId = clickedButton.getId();
+
+            // Obtener el Stage actual desde el HBox
+            Stage stage = (Stage) clickedButton.getScene().getWindow();
+
+            // Cambiar escena usando Utilities
+            changeScene.changeScene(stage, buttonId);  // Asumiendo que el archivo fxml se llama igual que el id + ".fxml"
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Aquí puedes mostrar un mensaje al usuario si quieres
+        }
+    }
+    // ---------------------------------------------------------------------------------------Fin Tool bar inferior
+
+
+    public void errorMessage(String message) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(null);
+        alerta.setContentText(message);
+
+        alerta.showAndWait();
+    }
 
 
 
@@ -55,4 +105,14 @@ public class AboutUsControllers {
         App.setRoot("LoginScene");
     }
 
+    @FXML    //cambio de escena al hacer lcick en salir
+    private void regresar() throws IOException {
+        UserSesionData.clearSession();
+        if (Objects.equals(UserSesionData.getRolUser(), "user")) {
+            App.setRoot("MainScene");
+        } else{
+            App.setRoot("AdminUsersList");
+        }
+        App.setRoot("LoginScene");
+    }
 }

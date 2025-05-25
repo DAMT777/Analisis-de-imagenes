@@ -2,11 +2,10 @@ package com.mycompany.prototiposoftware;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -23,6 +22,16 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class HistoryReportsController implements Initializable {
+
+    // ---------------------------------------------------------------------------------- Menu Lateral
+    @FXML
+    private AnchorPane menuBox;  // menu expandible
+
+    @FXML
+    private void menuBoxExpand() {
+        menuBox.setVisible(!menuBox.isVisible());
+        menuBox.setManaged(menuBox.isVisible());
+    }
 
     @FXML
     private HBox analisisHbox;
@@ -53,6 +62,50 @@ public class HistoryReportsController implements Initializable {
             // Aquí puedes mostrar un mensaje al usuario si quieres
         }
     }
+    // ----------------------------------------------------------------------------------------Fin Menu Lateral
+
+
+    // ---------------------------------------------------------------------------------------Tool bar inferior
+    @FXML
+    private Button userSceneToolBar;
+    @FXML
+    private Button settingsSceneToolBar;
+    @FXML
+    private Button aboutUsSceneToolBar;
+    @FXML
+    private Button helpSceneToolBar;
+
+    @FXML
+    private void toolBarBoxClick(ActionEvent event) {
+        try {
+            // Obtener el HBox que disparó el evento
+            Button clickedButton = (Button) event.getSource();
+
+            // Obtener el fx:id del HBox
+            String buttonId = clickedButton.getId();
+
+            // Obtener el Stage actual desde el HBox
+            Stage stage = (Stage) clickedButton.getScene().getWindow();
+
+            // Cambiar escena usando Utilities
+            changeScene.changeScene(stage, buttonId);  // Asumiendo que el archivo fxml se llama igual que el id + ".fxml"
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Aquí puedes mostrar un mensaje al usuario si quieres
+        }
+    }
+    // ---------------------------------------------------------------------------------------Fin Tool bar inferior
+
+
+    public void errorMessage(String message) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(null);
+        alerta.setContentText(message);
+
+        alerta.showAndWait();
+    }
 
 
 
@@ -76,9 +129,6 @@ public class HistoryReportsController implements Initializable {
 
     @FXML
     private Label companyNameTableUserList;
-
-    @FXML
-    private AnchorPane menuBox;  // menu expandible
 
     @FXML
     private TableView<TableUserHistoryReports> tableUserHistoryReports;
@@ -109,14 +159,6 @@ public class HistoryReportsController implements Initializable {
         UserSesionData.clearSession();
         App.setRoot("LoginScene");
     }
-
-    @FXML
-    private void menuBoxExpand() {
-        menuBox.setVisible(!menuBox.isVisible());
-        menuBox.setManaged(menuBox.isVisible());
-    }
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources){

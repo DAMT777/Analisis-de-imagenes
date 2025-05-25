@@ -1,6 +1,11 @@
 package com.mycompany.prototiposoftware;
 
+import com.databaseInteractions.DBConnect;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -11,18 +16,15 @@ import java.io.IOException;
 
 public class NewUserPanelController {
 
-    @FXML
-    private TextField newName;
-    @FXML
-    private TextField newApellido;
-    @FXML
-    private TextField newEmail;
-    @FXML
-    private TextField newPassword;
-
-
+    // ---------------------------------------------------------------------------------- Menu Lateral
     @FXML
     private AnchorPane menuBox;  // menu expandible
+
+    @FXML
+    private void menuBoxExpand() {
+        menuBox.setVisible(!menuBox.isVisible());
+        menuBox.setManaged(menuBox.isVisible());
+    }
 
     @FXML
     private HBox analisisHbox;
@@ -53,10 +55,49 @@ public class NewUserPanelController {
             // Aquí puedes mostrar un mensaje al usuario si quieres
         }
     }
+    // ----------------------------------------------------------------------------------------Fin Menu Lateral
+
+
+    // ---------------------------------------------------------------------------------------Tool bar inferior
+    @FXML
+    private Button userSceneToolBar;
+    @FXML
+    private Button settingsSceneToolBar;
+    @FXML
+    private Button aboutUsSceneToolBar;
+    @FXML
+    private Button helpSceneToolBar;
 
     @FXML
-    private void irAdminUserList() throws IOException {
-        App.setRoot("AdminUsersList");
+    private void toolBarBoxClick(ActionEvent event) {
+        try {
+            // Obtener el HBox que disparó el evento
+            Button clickedButton = (Button) event.getSource();
+
+            // Obtener el fx:id del HBox
+            String buttonId = clickedButton.getId();
+
+            // Obtener el Stage actual desde el HBox
+            Stage stage = (Stage) clickedButton.getScene().getWindow();
+
+            // Cambiar escena usando Utilities
+            changeScene.changeScene(stage, buttonId);  // Asumiendo que el archivo fxml se llama igual que el id + ".fxml"
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Aquí puedes mostrar un mensaje al usuario si quieres
+        }
+    }
+    // ---------------------------------------------------------------------------------------Fin Tool bar inferior
+
+
+    public void errorMessage(String message) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(null);
+        alerta.setContentText(message);
+
+        alerta.showAndWait();
     }
 
     @FXML    //cambio de escena al hacer lcick en salir
@@ -65,15 +106,43 @@ public class NewUserPanelController {
         App.setRoot("LoginScene");
     }
 
+
     @FXML
-    private void menuBoxExpand() {
-        menuBox.setVisible(!menuBox.isVisible());
-        menuBox.setManaged(menuBox.isVisible());
+    private CheckBox checkBoxAdmin;
+    @FXML
+    private TextField newName;
+    @FXML
+    private TextField newApellido;
+    @FXML
+    private TextField newEmail;
+    @FXML
+    private TextField newPassword;
+    @FXML
+    private TextField confirmNewPassword;
+
+    @FXML
+    private void irAdminUserList() throws IOException {
+        App.setRoot("AdminUsersList");
     }
 
     @FXML
-    private void userUpdate() {
+    private void userUpdate() throws IOException {
+        String nombre = newName.getText();
+        String apellido = newApellido.getText();
+        String email = newEmail.getText();
+        String password = newPassword.getText();
+        String confirmPass = confirmNewPassword.getText();
+        String rol = checkBoxAdmin.isSelected() ? "admin" : "user";
 
+        if (!nombre.isEmpty() && !apellido.isEmpty() && !email.isEmpty() && !password.isEmpty() && !confirmPass.isEmpty()) {
+            if (!password.equals(confirmPass)) {
+                errorMessage("Las contraseñas no coinciden.");
+                return;
+            }
+            DBConnect.registrarUsuario(nombre, apellido, UserSesionData.getEmpresa(), email, password, rol);
+            App.setRoot("MainScene");
+        } else {
+            errorMessage("Todos los campos son obligatorios.");
+        }
     }
-
 }

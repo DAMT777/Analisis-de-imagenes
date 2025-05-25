@@ -136,7 +136,7 @@
                   <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="900.0" spacing="10.0" styleClass="hboxUserListControl" stylesheets="@styles/AdminUsersList.css">
                      <children>
                         <Button mnemonicParsing="false" onAction="#irAdminUserList" prefHeight="31.0" prefWidth="83.0" style="-fx-background-color: #09395E;" text="Regresar" textFill="WHITE" />
-                        <Button mnemonicParsing="false" onAction="#irAdminUserList" prefHeight="31.0" style="-fx-background-color: #38AEF5;" text="Confirmar Cambios" />
+                        <Button mnemonicParsing="false" onAction="#userUpdate" prefHeight="31.0" style="-fx-background-color: #38AEF5;" text="Confirmar Cambios" />
                      </children>
                   </HBox>
                   <Region maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="19.0" prefWidth="900.0" VBox.vgrow="ALWAYS" />
@@ -148,7 +148,7 @@
          <children>
             <HBox alignment="CENTER" layoutX="12.0" layoutY="1.0" prefHeight="30.0" prefWidth="135.0" spacing="2.0" style="-fx-background-color: #09395E; -fx-background-radius: 40; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;" styleClass="toolBar" stylesheets="@styles/historyReportsTableStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="userSceneToolBar" mnemonicParsing="false" onAction="#toolBarBoxClick">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -160,7 +160,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="settingsSceneToolBar" mnemonicParsing="false" onAction="#toolBarBoxClick">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -172,7 +172,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="aboutUsSceneToolBar" mnemonicParsing="false" onAction="#toolBarBoxClick">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" style="bac: #09395E;">
                            <image>
@@ -184,7 +184,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="helpSceneToolBar" mnemonicParsing="false" onAction="#toolBarBoxClick">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>

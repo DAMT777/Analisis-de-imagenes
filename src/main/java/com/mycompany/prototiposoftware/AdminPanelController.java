@@ -2,12 +2,10 @@ package com.mycompany.prototiposoftware;
 
 import com.databaseInteractions.DBConnect;
 import com.processing.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -19,38 +17,16 @@ import java.util.ResourceBundle;
 
 public class AdminPanelController  implements Initializable {
 
-    public void errorMessage(String message) {
-        Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setTitle("Error");
-        alerta.setHeaderText(null);
-        alerta.setContentText(message);
 
-        alerta.showAndWait();
-    }
-
-    @FXML
-    private TextField idUser;
-    @FXML
-    private TextField actualName;
-    @FXML
-    private TextField actualApellido;
-    @FXML
-    private TextField actualEmail;
-
-    @FXML
-    private TextField newName;
-    @FXML
-    private TextField newApellido;
-    @FXML
-    private TextField newEmail;
-    @FXML
-    private PasswordField newPassword;
-    @FXML
-    private PasswordField confirmNewPassword;
-
-
+    // ---------------------------------------------------------------------------------- Menu Lateral
     @FXML
     private AnchorPane menuBox;  // menu expandible
+
+    @FXML
+    private void menuBoxExpand() {
+        menuBox.setVisible(!menuBox.isVisible());
+        menuBox.setManaged(menuBox.isVisible());
+    }
 
     @FXML
     private HBox analisisHbox;
@@ -81,10 +57,49 @@ public class AdminPanelController  implements Initializable {
             // Aquí puedes mostrar un mensaje al usuario si quieres
         }
     }
+    // ----------------------------------------------------------------------------------------Fin Menu Lateral
+
+
+    // ---------------------------------------------------------------------------------------Tool bar inferior
+    @FXML
+    private Button userSceneToolBar;
+    @FXML
+    private Button settingsSceneToolBar;
+    @FXML
+    private Button aboutUsSceneToolBar;
+    @FXML
+    private Button helpSceneToolBar;
 
     @FXML
-    private void irAdminUserList() throws IOException {
-        App.setRoot("AdminUsersList");
+    private void toolBarBoxClick(ActionEvent event) {
+        try {
+            // Obtener el HBox que disparó el evento
+            Button clickedButton = (Button) event.getSource();
+
+            // Obtener el fx:id del HBox
+            String buttonId = clickedButton.getId();
+
+            // Obtener el Stage actual desde el HBox
+            Stage stage = (Stage) clickedButton.getScene().getWindow();
+
+            // Cambiar escena usando Utilities
+            changeScene.changeScene(stage, buttonId);  // Asumiendo que el archivo fxml se llama igual que el id + ".fxml"
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Aquí puedes mostrar un mensaje al usuario si quieres
+        }
+    }
+    // ---------------------------------------------------------------------------------------Fin Tool bar inferior
+
+
+    public void errorMessage(String message) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(null);
+        alerta.setContentText(message);
+
+        alerta.showAndWait();
     }
 
     @FXML    //cambio de escena al hacer lcick en salir
@@ -92,13 +107,37 @@ public class AdminPanelController  implements Initializable {
         UserSesionData.clearSession();
         App.setRoot("LoginScene");
     }
+    //------------------------------------------------------------------------------------------Reutilizar
+
+
+
+
+
 
     @FXML
-    private void menuBoxExpand() {
-        menuBox.setVisible(!menuBox.isVisible());
-        menuBox.setManaged(menuBox.isVisible());
+    private TextField actualName;
+    @FXML
+    private TextField actualApellido;
+    @FXML
+    private TextField actualEmail;
+
+    @FXML
+    private TextField newName;
+    @FXML
+    private TextField newApellido;
+    @FXML
+    private TextField newEmail;
+    @FXML
+    private PasswordField newPassword;
+    @FXML
+    private PasswordField confirmNewPassword;
+
+    @FXML
+    private void irAdminUserList() throws IOException {
+        App.setRoot("AdminUsersList");
     }
 
+    String idUser = "";
 
     @FXML
     private void userUpdate() throws IOException {
@@ -112,7 +151,7 @@ public class AdminPanelController  implements Initializable {
             return;
         }
 
-        int userId = Integer.parseInt(idUser.getText());
+        int userId = Integer.parseInt(idUser);
         String nombre = newName.getText().isEmpty() ? actualName.getText() : newName.getText();
         String apellido = newApellido.getText().isEmpty() ? actualApellido.getText() : newApellido.getText();
         String email = newEmail.getText().isEmpty() ? actualEmail.getText() : newEmail.getText();
@@ -136,7 +175,7 @@ public class AdminPanelController  implements Initializable {
         actualName.setText(u.getNombre());
         actualApellido.setText(u.getApellido());
         actualEmail.setText(u.getEmail());
-        idUser.setText(u.getId());
+        idUser = u.getId();
     }
 
     @Override

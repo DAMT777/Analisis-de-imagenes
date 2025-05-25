@@ -4,15 +4,13 @@ import com.databaseInteractions.DBConnect;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
@@ -30,19 +28,16 @@ import javafx.stage.Stage;
 
 public class AdminUserListController implements Initializable {
 
-    String id;
-    String name;
-    String lastName;
-    String email;
-    String rol;
 
-    /*companyNameTableUserList.setText("Unillanos");
-    userId.setCellValueFactory(new PropertyValueFactory<>("Id"));
-     userName.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
-     userLastName.setCellValueFactory(new PropertyValueFactory<>("Apellido"));
-     userEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
-     userDateCreation.setCellValueFactory(new PropertyValueFactory<>("FechaCreacion"));
-     userRol.setCellValueFactory(new PropertyValueFactory<>("Rol"));*/
+    // ---------------------------------------------------------------------------------- Menu Lateral
+    @FXML
+    private AnchorPane menuBox;  // menu expandible
+
+    @FXML
+    private void menuBoxExpand() {
+        menuBox.setVisible(!menuBox.isVisible());
+        menuBox.setManaged(menuBox.isVisible());
+    }
 
     @FXML
     private HBox analisisHbox;
@@ -55,8 +50,6 @@ public class AdminUserListController implements Initializable {
 
     @FXML
     private void handleHBoxClick(MouseEvent event) {
-
-
         try {
             // Obtener el HBox que disparó el evento
             HBox clickedHBox = (HBox) event.getSource();
@@ -75,13 +68,59 @@ public class AdminUserListController implements Initializable {
             // Aquí puedes mostrar un mensaje al usuario si quieres
         }
     }
+    // ----------------------------------------------------------------------------------------Fin Menu Lateral
 
+
+    // ---------------------------------------------------------------------------------------Tool bar inferior
+    @FXML
+    private Button userSceneToolBar;
+    @FXML
+    private Button settingsSceneToolBar;
+    @FXML
+    private Button aboutUsSceneToolBar;
+    @FXML
+    private Button helpSceneToolBar;
+
+    @FXML
+    private void toolBarBoxClick(ActionEvent event) {
+        try {
+            // Obtener el HBox que disparó el evento
+            Button clickedButton = (Button) event.getSource();
+
+            // Obtener el fx:id del HBox
+            String buttonId = clickedButton.getId();
+
+            // Obtener el Stage actual desde el HBox
+            Stage stage = (Stage) clickedButton.getScene().getWindow();
+
+            // Cambiar escena usando Utilities
+            changeScene.changeScene(stage, buttonId);  // Asumiendo que el archivo fxml se llama igual que el id + ".fxml"
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Aquí puedes mostrar un mensaje al usuario si quieres
+        }
+    }
+    // ---------------------------------------------------------------------------------------Fin Tool bar inferior
+
+
+    public void errorMessage(String message) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(null);
+        alerta.setContentText(message);
+
+        alerta.showAndWait();
+    }
+
+    String id;
+    String name;
+    String lastName;
+    String email;
+    String rol;
 
     @FXML
     private Label companyNameTableUserList;
-
-    @FXML
-    private AnchorPane menuBox;  // menu expandible
 
     @FXML
     private TableView<TableUserListView> tableUserList;
@@ -112,12 +151,6 @@ public class AdminUserListController implements Initializable {
     private void irALoginController() throws IOException {
         UserSesionData.clearSession();
         App.setRoot("LoginScene");
-    }
-
-    @FXML
-    private void menuBoxExpand() {
-        menuBox.setVisible(!menuBox.isVisible());
-        menuBox.setManaged(menuBox.isVisible());
     }
 
     @Override
