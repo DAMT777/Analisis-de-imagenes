@@ -137,32 +137,16 @@ public class HistoryReportsController implements Initializable {
             }
         }
 
-        ObservableList<TableUserHistoryReports> users = FXCollections.observableArrayList(
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
-                new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5")
-        );
+        ObservableList<TableUserHistoryReports> users = FXCollections.observableArrayList();
 
         for (int i = 0; i + 6 < flatList.size(); i += 7) {
             idLote = flatList.get(i);
             fecha = flatList.get(i + 1);
             condition = flatList.get(i + 2);
             city = flatList.get(i + 3);
-            fishTime = flatList.get(i + 4);
-            invima = flatList.get(i + 5);
+            invima = flatList.get(i + 4);
+            fishTime = flatList.get(i + 5);
+
             calificacion = flatList.get(i + 6);
 
             users.add(new TableUserHistoryReports(idLote, fecha, condition, city, fishTime,invima,calificacion));
