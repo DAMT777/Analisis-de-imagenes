@@ -865,6 +865,66 @@ public static boolean actualizarPasswordUsuario(int idUsuario, String nuevoPassw
     }
 }
 
+// Actualiza el nombre de un usuario por su ID
+public static boolean actualizarNombreUsuario(int idUsuario, String nuevoNombre) {
+    String query = "UPDATE usuario SET nombre = ? WHERE id_usuario = ?";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, nuevoNombre);
+        stmt.setInt(2, idUsuario);
+        int rowsUpdated = stmt.executeUpdate();
+        return rowsUpdated > 0;
+    } catch (SQLException e) {
+        System.out.println("Error al actualizar nombre: " + e.getMessage());
+        return false;
+    }
+}
+
+// Actualiza el apellido de un usuario por su ID
+public static boolean actualizarApellidoUsuario(int idUsuario, String nuevoApellido) {
+    String query = "UPDATE usuario SET apellido = ? WHERE id_usuario = ?";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, nuevoApellido);
+        stmt.setInt(2, idUsuario);
+        int rowsUpdated = stmt.executeUpdate();
+        return rowsUpdated > 0;
+    } catch (SQLException e) {
+        System.out.println("Error al actualizar apellido: " + e.getMessage());
+        return false;
+    }
+}
+
+// Actualiza la empresa de un usuario por su ID
+public static boolean actualizarEmpresaUsuario(int idUsuario, String nuevaEmpresa) {
+    String query = "UPDATE usuario SET empresa = ? WHERE id_usuario = ?";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, nuevaEmpresa);
+        stmt.setInt(2, idUsuario);
+        int rowsUpdated = stmt.executeUpdate();
+        return rowsUpdated > 0;
+    } catch (SQLException e) {
+        System.out.println("Error al actualizar empresa: " + e.getMessage());
+        return false;
+    }
+}
+
+// Actualiza el rol de un usuario por su ID
+public static boolean actualizarRolUsuario(int idUsuario, String nuevoRol) {
+    String query = "UPDATE usuario SET rol = ? WHERE id_usuario = ?";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, nuevoRol);
+        stmt.setInt(2, idUsuario);
+        int rowsUpdated = stmt.executeUpdate();
+        return rowsUpdated > 0;
+    } catch (SQLException e) {
+        System.out.println("Error al actualizar rol: " + e.getMessage());
+        return false;
+    }
+}
+
 
 
 

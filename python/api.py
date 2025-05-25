@@ -9,8 +9,8 @@ import glob
 import sys
 from tensorflow.keras.models import load_model
 import numpy as np
-from fish_classifier_true import is_fish
-import onnxruntime as ort
+# from fish_classifier_true import is_fish
+# import onnxruntime as ort
 
 
 
@@ -46,16 +46,16 @@ class BatchRequest(BaseModel):
     folder_path: str
     solo_ojo: bool = False
 
-@app.post("/es_pez/")
-async def verificar_si_es_pez(request: ImageRequest):
-    try:
-        image = Image.open(request.image_path)
-        es_pez = is_fish(request.image_path)
-        return {"es_pez": bool(es_pez)}
-    except FileNotFoundError:
-        return {"error": "La imagen no se encontró en la ruta especificada."}
-    except Exception as e:
-        return {"error": f"Error al verificar la imagen: {str(e)}"}
+# @app.post("/es_pez/")
+# async def verificar_si_es_pez(request: ImageRequest):
+#     try:
+#         image = Image.open(request.image_path)
+#         es_pez = is_fish(request.image_path)
+#         return {"es_pez": bool(es_pez)}
+#     except FileNotFoundError:
+#         return {"error": "La imagen no se encontró en la ruta especificada."}
+#     except Exception as e:
+#         return {"error": f"Error al verificar la imagen: {str(e)}"}
 
 @app.post("/procesar/")
 async def process_image(request: ImageRequest):
