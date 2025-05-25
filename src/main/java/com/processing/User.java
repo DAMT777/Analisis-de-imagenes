@@ -72,9 +72,10 @@ public class User {
     }
 
     public boolean setUserPassword(int id, String password) {
+        password = HashUtil.hashPassword(password);
         boolean updated = DBConnect.actualizarPasswordUsuario(id, password);
         if (updated) {
-            this.password = HashUtil.hashPassword(password);
+            this.password = password;
         }
         return updated;
     }
