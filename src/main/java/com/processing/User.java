@@ -54,6 +54,13 @@ public class User {
     }
 
 
+    public boolean setUserName(int id, String nombre) {
+        boolean updated = DBConnect.actualizarNombreUsuario(id, nombre);
+        if (updated) {
+            this.nombre = nombre;
+        }
+        return updated;
+    }
 
     public boolean setUserPassword(int id, String password) {
         boolean updated = DBConnect.actualizarPasswordUsuario(id, password);
@@ -71,15 +78,7 @@ public class User {
         return updated;
     }
 
-    public boolean setUserNombre(int id, String nombre) {
-        boolean updated = DBConnect.actualizarNombreUsuario(id, nombre);
-        if (updated) {
-            this.nombre = nombre;
-        }
-        return updated;
-    }
-
-    public boolean setUserApellido(int id, String apellido) {
+    public boolean setUserLastName(int id, String apellido) {
         boolean updated = DBConnect.actualizarApellidoUsuario(id, apellido);
         if (updated) {
             this.apellido = apellido;

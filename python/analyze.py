@@ -1,11 +1,9 @@
-import tensorflow as tf
-from tensorflow.keras.preprocessing import image
 from preprocess import preprocess_image, preprocess_image_batch
 import numpy as np
 import os
-os.environ["ORT_LOG_LEVEL"] = "ERROR"  # Solo errores críticos de ONNXRuntime
-import warnings
-warnings.filterwarnings("ignore")
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Solo muestra warnings y errores (no info)
+import tensorflow as tf
+from tensorflow.keras.preprocessing import image
 
 # Cargar el modelo entrenado
 model = tf.keras.models.load_model('../modelo_entrenado.h5')

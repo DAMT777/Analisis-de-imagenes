@@ -74,7 +74,7 @@ public class UserSesionData {
      * @param nombre Nombre del usuario.
      */
     public static void setFirtsNameUser(int id, String nombre) {
-        if (usuario != null) usuario.setUserNombre(id, nombre);
+        if (usuario != null) usuario.setUserName(id, nombre);
     }
 
     /**
@@ -90,7 +90,7 @@ public class UserSesionData {
      * @param apellido Apellido del usuario.
      */
     public static void setLastNameUser(int id, String apellido) {
-        if (usuario != null) usuario.setUserApellido(id, apellido);
+        if (usuario != null) usuario.setUserLastName(id, apellido);
     }
 
     /**

@@ -6,22 +6,64 @@ from PIL import Image
 from rembg import remove, new_session
 import onnxruntime as ort
 import warnings
+import time
+import tensorflow as tf
+import subprocess
 
 os.environ["ORT_LOG_LEVEL"] = "ERROR"
 warnings.filterwarnings("ignore")
 
+
+
+
 # === CONFIGURAR LA SESIÓN ===
 def obtener_sesion_rembg():
     providers = ort.get_available_providers()
+    print("Proveedores ONNX disponibles:")
+    for idx, prov in enumerate(providers):
+        print(f"  [{idx}] {prov}")
     if "TensorrtExecutionProvider" in providers:
+        print("¡Hardware compatible con TensorRT detectado! Usando TensorrtExecutionProvider para sesion CNN")
         return new_session("tensorrt")
     elif "CUDAExecutionProvider" in providers:
+        print("¡Hardware compatible con CUDA detectado! Usando CUDAExecutionProvider para sesion CNN")
         return new_session("cuda")
     else:
+        print("Se usara CPUExecutionProvider para sesion CNN")
         return new_session("cpu")
 
+
+
+
+
+
+
+
+
+
+
+
 # Crear la sesión global una vez
+t0 = time.time()
+print("===========================")
+print("Escaneando hardware...")
+
 rembg_session = obtener_sesion_rembg()
+print("Sesión CNN creada")
+print(f"Tiempo en crear la sesión: {time.time() - t0:.2f} segundos")
+print("Inicialiazando API...")
+print("==========================")
+
+
+
+
+
+
+
+
+
+
+
 
 
 def preprocess_image(image_path, solo_ojo=False):
@@ -77,6 +119,18 @@ def preprocess_image(image_path, solo_ojo=False):
     return os.path.abspath(seg_path)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 def preprocess_image_batch(image_paths, solo_ojo=False):
     seg_paths = []
     batch_imgs = []
@@ -89,3 +143,4 @@ def preprocess_image_batch(image_paths, solo_ojo=False):
             image_array = image_resized / 255.0
             batch_imgs.append(image_array)
     return seg_paths, batch_imgs
+
