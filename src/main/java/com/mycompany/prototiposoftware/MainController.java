@@ -48,6 +48,18 @@ import java.util.List;
 public class MainController {
     String [] contextoLote = new String[5];
 
+
+
+    // ---------------------------------------------------------------------------------- Menu Lateral
+    @FXML
+    private AnchorPane menuBox;  // menu expandible
+
+    @FXML
+    private void menuBoxExpand() {
+        menuBox.setVisible(!menuBox.isVisible());
+        menuBox.setManaged(menuBox.isVisible());
+    }
+
     @FXML
     private HBox analisisHbox;
     @FXML
@@ -57,10 +69,63 @@ public class MainController {
     @FXML
     private HBox adminListUserHBox;
 
+    @FXML
+    private void handleHBoxClick(MouseEvent event) {
+        try {
+            // Obtener el HBox que disparó el evento
+            HBox clickedHBox = (HBox) event.getSource();
 
+            // Obtener el fx:id del HBox
+            String hboxId = clickedHBox.getId();
+
+            // Obtener el Stage actual desde el HBox
+            Stage stage = (Stage) clickedHBox.getScene().getWindow();
+
+            // Cambiar escena usando Utilities
+            changeScene.changeScene(stage, hboxId);  // Asumiendo que el archivo fxml se llama igual que el id + ".fxml"
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Aquí puedes mostrar un mensaje al usuario si quieres
+        }
+    }
+    // ----------------------------------------------------------------------------------------Fin Menu Lateral
+
+
+    // ---------------------------------------------------------------------------------------Tool bar inferior
+    @FXML
+    private Button userSceneToolBar;
+    @FXML
+    private Button settingsSceneToolBar;
+    @FXML
+    private Button aboutUsSceneToolBar;
+    @FXML
+    private Button helpSceneToolBar;
 
     @FXML
-    private AnchorPane menuBox;  // menu expandible
+    private void toolBarBoxClick(ActionEvent event) {
+        try {
+            // Obtener el HBox que disparó el evento
+            Button clickedButton = (Button) event.getSource();
+
+            // Obtener el fx:id del HBox
+            String buttonId = clickedButton.getId();
+
+            // Obtener el Stage actual desde el HBox
+            Stage stage = (Stage) clickedButton.getScene().getWindow();
+
+            // Cambiar escena usando Utilities
+            changeScene.changeScene(stage, buttonId);  // Asumiendo que el archivo fxml se llama igual que el id + ".fxml"
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Aquí puedes mostrar un mensaje al usuario si quieres
+        }
+    }
+    // ---------------------------------------------------------------------------------------Fin Tool bar inferior
+
+
+
 
     @FXML
     private HBox hBoxUploadLoteImage;
@@ -93,8 +158,8 @@ public class MainController {
 
             Stage dialog = new Stage(); //Esta linea crea un stage, que sería como tal la ventana vacia
 
-            dialog.setWidth(545);
-            dialog.setHeight(435);
+            //dialog.setWidth(545);
+            //dialog.setHeight(435);
             dialog.setResizable(false);
 
             //initModality() es un metodo que indica como se comportara la ventana respecto a las demas
@@ -136,27 +201,6 @@ public class MainController {
         return new String[]{"", ""};
     }
 
-    @FXML
-    private void handleHBoxClick(MouseEvent event) {
-        try {
-            // Obtener el HBox que disparó el evento
-            HBox clickedHBox = (HBox) event.getSource();
-
-            // Obtener el fx:id del HBox
-            String hboxId = clickedHBox.getId();
-
-            // Obtener el Stage actual desde el HBox
-            Stage stage = (Stage) clickedHBox.getScene().getWindow();
-
-            // Cambiar escena usando Utilities
-            changeScene.changeScene(stage, hboxId);  // Asumiendo que el archivo fxml se llama igual que el id + ".fxml"
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Aquí puedes mostrar un mensaje al usuario si quieres
-        }
-    }
-
 
     @FXML    //cambio de escena al hacer lcick en salir
     private void irALoginController() throws IOException {
@@ -169,12 +213,6 @@ public class MainController {
         App.setRoot("ResultAlgorithmScene");
     }
 
-
-    @FXML
-    private void menuBoxExpand() {
-        menuBox.setVisible(!menuBox.isVisible());
-        menuBox.setManaged(menuBox.isVisible());
-    }
 
     private void UploadLoteIamgeHideUnHide() {
         hBoxUploadLoteImage.setVisible(!hBoxUploadLoteImage.isVisible());
@@ -295,12 +333,12 @@ public class MainController {
     @FXML
     private void MCalgorithm() throws IOException {
 
-        //recordar que los datos de contexto que se piden en la ventana flotante los puede extraer como string con -> contextoLote[0], contextoLote[1]
-        /*contextoLote[0] = "Refrigerado"; //Condicion lote
-        contextoLote[1] = "2-3 dias";   //Tiempo de pezca
-        contextoLote[2] = "Villavicencio"; //
-        contextoLote[3] = "true"; //registrado INVIMA
-        */
+        if (tilePaneLoteImages.getChildren().isEmpty()) {
+            errorMessage("Por favor cargue alguna imagen para el análisis.");
+            return;
+        }
+
+
         Task<Boolean> tareaAnalisis = new Task<>() {
 
 

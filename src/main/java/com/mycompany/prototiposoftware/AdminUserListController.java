@@ -103,8 +103,8 @@ public class AdminUserListController implements Initializable {
 
 
     @FXML
-    private void irAdminPanel() throws IOException{
-        App.setRoot("AdminPanel");
+    private void irNewUserPanel() throws IOException{
+        App.setRoot("NewUserPanelScene");
     }
 
 
@@ -119,10 +119,6 @@ public class AdminUserListController implements Initializable {
         menuBox.setVisible(!menuBox.isVisible());
         menuBox.setManaged(menuBox.isVisible());
     }
-
-
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources){

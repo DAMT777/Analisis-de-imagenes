@@ -8,31 +8,42 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class changeScene {
-    public static void changeScene(Stage stage, String hboxId) {
+    public static void changeScene(Stage stage, String nodeId) {
         String fxmlFile;
 
-        switch (hboxId) {
+        switch (nodeId) {
+            //-----------------------------------------------------Menu lateral
             case "analisisHbox":
-                fxmlFile = "/com/mycompany/prototiposoftware/MainScene.fxml";
+                fxmlFile = "MainScene";
                 break;
             case "reportsHBox":
-                fxmlFile = "/com/mycompany/prototiposoftware/HistoryReports.fxml";
+                fxmlFile = "HistoryReports";
                 break;
             case "userHBox":
-                fxmlFile = "/com/mycompany/prototiposoftware/ResultAlgorithmScene.fxml";
+                fxmlFile = "ResultAlgorithmScene";
                 break;
             case "adminListUserHBox":
-                fxmlFile = "/com/mycompany/prototiposoftware/AdminUsersList.fxml";
+                fxmlFile = "AdminUsersList";
+                break;
+            // ---------------------------------------------------ToolBar
+            case "userSceneToolBar":
+                fxmlFile = "UserScene";
+                break;
+            case "settingsSceneToolBar":
+                fxmlFile = "SettingsScene";
+                break;
+            case "aboutUsSceneToolBar":
+                fxmlFile = "AboutUsScene";
+                break;
+            case "helpSceneToolBar":
+                fxmlFile = "HelpScene";
                 break;
             default:
-                System.err.println("ID de HBox no reconocido: " + hboxId);
+                System.err.println("ID no reconocida: " + nodeId);
                 return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(changeScene.class.getResource(fxmlFile));
-            Parent root = loader.load();
-            App.scene.setRoot(root);
-
+            App.setRoot(fxmlFile);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

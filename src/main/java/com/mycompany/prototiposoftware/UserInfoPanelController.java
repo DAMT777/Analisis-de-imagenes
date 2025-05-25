@@ -1,35 +1,29 @@
 package com.mycompany.prototiposoftware;
 
-import com.databaseInteractions.DBConnect;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 
-public class AboutUsController{
+public class UserInfoPanelController {
+
+    @FXML
+    private TextField newName;
+    @FXML
+    private TextField newApellido;
+    @FXML
+    private TextField newEmail;
+    @FXML
+    private TextField newPassword;
+
+
     @FXML
     private AnchorPane menuBox;  // menu expandible
 
-    @FXML
-    private void menuBoxExpand() {
-        menuBox.setVisible(!menuBox.isVisible());
-        menuBox.setManaged(menuBox.isVisible());
-    }
     @FXML
     private HBox analisisHbox;
     @FXML
@@ -60,12 +54,26 @@ public class AboutUsController{
         }
     }
 
-
+    @FXML
+    private void irAdminUserList() throws IOException {
+        App.setRoot("AdminUsersList");
+    }
 
     @FXML    //cambio de escena al hacer lcick en salir
     private void irALoginController() throws IOException {
         UserSesionData.clearSession();
         App.setRoot("LoginScene");
+    }
+
+    @FXML
+    private void menuBoxExpand() {
+        menuBox.setVisible(!menuBox.isVisible());
+        menuBox.setManaged(menuBox.isVisible());
+    }
+
+    @FXML
+    private void userUpdate() {
+
     }
 
 }

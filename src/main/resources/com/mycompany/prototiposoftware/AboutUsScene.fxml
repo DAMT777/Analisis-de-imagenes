@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="900.0" style="-fx-background-color: #E6E6E6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.prototiposoftware.AboutUsController">
+   <children>
+      <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #09395E; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;">
+               <children>
+                  <Circle fill="WHITE" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label prefHeight="17.0" prefWidth="95.0" text="Rol" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="103.0" HBox.hgrow="SOMETIMES" />
+                  <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../img/MainLogo.png" />
+                     </image>
+                     <viewport>
+                        <Rectangle2D height="76.0" minY="38.0" width="186.0" />
+                     </viewport>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="124.0" HBox.hgrow="SOMETIMES" />
+                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#irALoginController" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: #38AEF5; -fx-border-radius: 500;" text="Cerrar Sesion">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/Arrow%20left-circle.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
+            </HBox>
+            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Region prefHeight="19.0" prefWidth="900.0" />
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="298.0" prefWidth="820.0" style="-fx-background-radius: 50; -fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label alignment="CENTER" layoutX="27.0" layoutY="29.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="767.0" style="-fx-background-color: #38AEF5;" text="Sobre nosotros" textFill="WHITE" AnchorPane.leftAnchor="27.333333333333258" AnchorPane.rightAnchor="25.66666666666663">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font></Label>
+                        <ScrollPane fitToWidth="true" layoutX="27.0" layoutY="55.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefWidth="767.0" style="-fx-border-color: black; -fx-background-color: transparent;" AnchorPane.bottomAnchor="56.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="55.0">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                           <content>
+                              <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="545.0" prefWidth="693.0">
+                                 <children>
+                                    <TextFlow maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefWidth="764.0" textAlignment="JUSTIFY">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Somos un equipo multidisciplinario de seis estudiantes de Ingeniería de Sistemas de la " wrappingWidth="22.13671875" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Universidad de los llanos ">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" en Colombia-Meta, comprometidos con la innovación y la excelencia académica. Nuestro proyecto nació como respuesta a la carencia de metodologías ágiles para la clasificación de la calidad de la carne de pez en Colombia, y desde sus inicios ha buscado fusionar rigor científico con prácticas de desarrollo de software de vanguardia." wrappingWidth="767.2872314453125" />
+                                       </children>
+                                    </TextFlow>
+                                    <Region maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="14.0" prefWidth="695.0" />
+                                    <TextFlow maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefWidth="758.0" textAlignment="JUSTIFY">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nuestro equipo de desarrollo está conformado por los siguientes integrantes:" />
+                                       </children>
+                                    </TextFlow>
+                                    <Region maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="11.0" prefWidth="764.0" />
+                                    <TextFlow prefHeight="5.0" prefWidth="764.0" textAlignment="JUSTIFY">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Diego Machado – Líder de Proyecto: ">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Responsable de coordinar al equipo y asegurar que todas las partes del proyecto avancen de manera organizada y alineadas con los objetivos. Supervisa los tiempos, gestiona prioridades y facilita la comunicación entre todos los integrantes. Su liderazgo garantiza que el proyecto se mantenga enfocado, eficiente y orientado a ofrecer el mejor resultado posible para el cliente." />
+                                       </children>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </TextFlow>
+                                    <Region maxHeight="7.0" minHeight="-Infinity" prefHeight="7.0" prefWidth="764.0" />
+                                    <TextFlow prefHeight="5.0" prefWidth="764.0" textAlignment="JUSTIFY">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Duván Baquero - Diseñador: ">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Encargado de transformar ideas en esquemas visuales comprensibles. Gracias a sus diagramas y modelos gráficos, el equipo puede visualizar cómo funcionará el sistema antes de construirlo. Su trabajo asegura claridad desde el inicio y permite tomar mejores decisiones en cada etapa del desarrollo." />
+                                       </children>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </TextFlow>
+                                    <Region maxHeight="7.0" minHeight="-Infinity" prefHeight="7.0" prefWidth="764.0" />
+                                    <TextFlow maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefWidth="764.0" textAlignment="JUSTIFY">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Carlos Barrera - Analista de datos: ">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enfocado en entender y organizar la información que necesita el sistema. Analiza los datos clave para que las funcionalidades desarrolladas sean útiles, prácticas y orientadas a los objetivos del usuario final. Su labor ayuda a que el producto tenga sentido desde el punto de vista funcional y estratégico." />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </TextFlow>
+                                    <Region maxHeight="7.0" minHeight="-Infinity" prefHeight="7.0" prefWidth="764.0" />
+                                    <TextFlow maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefWidth="764.0" textAlignment="JUSTIFY">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Jesús Delgado y Johan Forero - Desarrolladores Backend: ">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Encargados de construir la parte del sistema que no se ve, pero que hace que todo funcione correctamente. Desde la conexión con bases de datos hasta la lógica que sostiene las funciones principales, su trabajo garantiza que el producto sea sólido, estable y segur" />
+                                       </children>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </TextFlow>
+                                    <Region maxHeight="7.0" minHeight="-Infinity" prefHeight="7.0" prefWidth="764.0" />
+                                    <TextFlow maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefWidth="744.0" textAlignment="JUSTIFY">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="César Pérez - Desarrollador Frontend: ">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Encargado de dar vida a la interfaz con la que interactúa el usuario. Transforma los diseños en pantallas funcionales, intuitivas y visualmente agradables. Su trabajo garantiza una experiencia fluida y coherente para quien utiliza el producto (Si, yo soy el que hago esta sección visual)." />
+                                       </children>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </TextFlow>
+                                    <Region maxHeight="7.0" minHeight="-Infinity" prefHeight="7.0" prefWidth="764.0" />
+                                    <TextFlow maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefWidth="764.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fabián Santofimio – Especialista en Calidad (QA Tester): ">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tiene como misión asegurar que todo funcione correctamente antes de llegar al usuario final. Revisa cada detalle, detecta errores y propone mejoras. Su trabajo es esencial para entregar un producto confiable y sin fallos." />
+                                       </children>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </TextFlow>
+                                    <Region minHeight="-Infinity" prefHeight="17.0" prefWidth="744.0" />
+                                    <TextFlow maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefWidth="764.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Adoptamos " />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Scrum ">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="como marco de trabajo ágil, fomentando la comunicación constante, la retroalimentación temprana y la entrega continua de valor. Nuestro enfoque colaborativo nos ha permitido iterar rápidamente sobre prototipos, incorporar mejoras y mantener un cronograma ajustado sin sacrificar calidad." />
+                                       </children>
+                                    </TextFlow>
+                                    <Region minHeight="-Infinity" prefHeight="17.0" prefWidth="744.0" />
+                                    <TextFlow maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefWidth="764.0" textAlignment="JUSTIFY">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A día de hoy (25 de Mayo de 2025), seguimos cursando nuestra carrera universitaria y continuamos aprendiendo y creciendo a través de este desafío. Nuestro objetivo a largo plazo es convertir esta solución en un estándar para la industria pesquera nacional, contribuyendo a procesos más eficientes, sostenibles y confiables para pescadores, distribuidores y entes reguladores." />
+                                       </children>
+                                    </TextFlow>
+                                    <Region minHeight="-Infinity" prefHeight="17.0" prefWidth="744.0" />
+                                    <TextFlow maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefWidth="764.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Con este proyecto, reafirmamos nuestro compromiso con la investigación aplicada, la transformación digital y el bienestar de las comunidades locales." />
+                                       </children>
+                                    </TextFlow>
+                                 </children>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="40.0" right="40.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <Region prefHeight="19.0" prefWidth="900.0" />
+                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="37.0" prefWidth="900.0" spacing="10.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="114.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 30;" text="Regresar" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <Region maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="19.0" prefWidth="900.0" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <AnchorPane layoutX="747.0" layoutY="558.6666666666666" maxHeight="32.0" maxWidth="160.0" minHeight="30.0" minWidth="89.0" prefHeight="32.0" prefWidth="160.0" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="12.0">
+         <children>
+            <HBox alignment="CENTER" layoutX="12.0" layoutY="1.0" prefHeight="30.0" prefWidth="135.0" spacing="2.0" style="-fx-background-color: #09395E; -fx-background-radius: 40; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;" styleClass="toolBar" stylesheets="@styles/historyReportsTableStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/User.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/Tool.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" style="bac: #09395E;">
+                           <image>
+                              <Image url="@../../../img/Info%20circle.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/Help%20circle.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="226.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#menuBoxExpand" prefHeight="283.0" prefWidth="26.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 0 20 20 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;" AnchorPane.leftAnchor="0.0">
+         <children>
+            <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="5.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" AnchorPane.leftAnchor="0.0">
+               <image>
+                  <Image url="@../../../img/Arrow%20left-circle-white.png" />
+               </image>
+            </ImageView>
+         </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </AnchorPane>
+      <AnchorPane fx:id="menuBox" layoutY="226.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 0 20 20 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);" visible="false" AnchorPane.leftAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="194.0" style="-fx-background-color: white;">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                     <children>
+                        <HBox fx:id="analisisHbox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="45.0" prefWidth="219.0">
+                           <children>
+                              <Circle fill="#d9d9d9" radius="10.0" stroke="#ffffff00" strokeType="INSIDE" />
+                              <Label text="Análisis">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding></Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox fx:id="reportsHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="45.0" prefWidth="194.0">
+                           <children>
+                              <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                              <Label text="Reportes">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding></Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox fx:id="userHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="45.0" prefWidth="219.0">
+                           <children>
+                              <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                              <Label text="Usuario">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding></Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox fx:id="adminListUserHBox" alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="219.0">
+                           <children>
+                              <Circle disable="true" fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                              <Label text="Lista de usuarios" textFill="#535353">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding></Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="20.0" fitWidth="43.0" onMouseClicked="#menuBoxExpand" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../img/Arrow%20left-circle-white.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

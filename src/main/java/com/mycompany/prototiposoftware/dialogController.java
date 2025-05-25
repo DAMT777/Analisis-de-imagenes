@@ -13,10 +13,14 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class dialogController implements Initializable {
@@ -29,6 +33,8 @@ public class dialogController implements Initializable {
     private ComboBox<String> comboBoxCondicion;
     @FXML
     private ComboBox<String> comboBoxTiempoPesca;
+    @FXML
+    private VBox warning;
 
 
     // Variables para exponer los datos fuera
@@ -40,6 +46,7 @@ public class dialogController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        warning.setVisible(false);
         comboBoxCiudad.setItems(FXCollections.observableArrayList(
                 "Leticia",
                 "Medellín",
@@ -68,6 +75,7 @@ public class dialogController implements Initializable {
                 "Mitú",
                 "Puerto Carreño"
         ));
+        comboBoxCiudad.getItems().sort(String::compareToIgnoreCase);
 
         comboBoxInvima.setItems(FXCollections.observableArrayList(
                 "Si",
@@ -95,6 +103,18 @@ public class dialogController implements Initializable {
     // Handler del botón “Enviar”
     @FXML
     private void onEnviar() {
+
+
+        List<ComboBox<String>> comboBoxes = Arrays.asList(
+                comboBoxCiudad, comboBoxInvima, comboBoxCondicion, comboBoxTiempoPesca
+        );
+
+        boolean todosSeleccionados = comboBoxes.stream().allMatch(cb -> cb.getValue() != null && !cb.getValue().isEmpty());
+        if (!todosSeleccionados) {
+            warning.setVisible(true);
+            return;
+        }
+
         datoCiudad = comboBoxCiudad.getValue();
         datoInvima = comboBoxInvima.getValue();
         datoCondicion = comboBoxCondicion.getValue();
