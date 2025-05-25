@@ -3,6 +3,7 @@ package com.mycompany.prototiposoftware;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -28,8 +29,7 @@ public class AdminPanelController  implements Initializable {
     private TextField actualApellido;
     @FXML
     private TextField actualEmail;
-    @FXML
-    private TextField actualPassword;
+
     @FXML
     private TextField newName;
     @FXML
@@ -38,6 +38,8 @@ public class AdminPanelController  implements Initializable {
     private TextField newEmail;
     @FXML
     private TextField newPassword;
+    @FXML
+    private PasswordField confirmNewPassword;
 
 
     @FXML
@@ -91,8 +93,13 @@ public class AdminPanelController  implements Initializable {
     }
 
     @FXML
-    private void userUpdate() {
+    private void userUpdate() throws IOException {
+        /*
+        * incluir logica de del crud desde la basde de datos acá
+        * */
 
+
+        irAdminUserList();
     }
 
     /**
@@ -103,7 +110,7 @@ public class AdminPanelController  implements Initializable {
         actualName.setText(u.getNombre());
         actualApellido.setText(u.getApellido());
         actualEmail.setText(u.getEmail());
-        actualPassword.setText(u.getRol());
+        //actualPassword.setText(u.getRol());
     }
 
     @Override
@@ -114,7 +121,6 @@ public class AdminPanelController  implements Initializable {
         actualName.setText(actualName.getText());
         actualApellido.setText(actualApellido.getText());
         actualEmail.setText(actualEmail.getText());
-        actualPassword.setText(actualPassword.getText());
 
 
         newName.setText(newName.getText());

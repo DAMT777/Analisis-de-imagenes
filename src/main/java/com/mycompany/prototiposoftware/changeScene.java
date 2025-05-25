@@ -20,14 +20,14 @@ public class changeScene {
                 fxmlFile = "HistoryReports";
                 break;
             case "userHBox":
-                fxmlFile = "ResultAlgorithmScene";
+                fxmlFile = "UserInfoPanelScene";
                 break;
             case "adminListUserHBox":
                 fxmlFile = "AdminUsersList";
                 break;
             // ---------------------------------------------------ToolBar
             case "userSceneToolBar":
-                fxmlFile = "UserScene";
+                fxmlFile = "UserInfoPanelScene";
                 break;
             case "settingsSceneToolBar":
                 fxmlFile = "SettingsScene";

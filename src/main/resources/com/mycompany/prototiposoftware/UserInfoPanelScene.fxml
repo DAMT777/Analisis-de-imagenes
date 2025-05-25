@@ -5,6 +5,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -26,7 +27,7 @@
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #09395E; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;">
                <children>
                   <Circle fill="WHITE" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Label prefHeight="17.0" prefWidth="95.0" text="Administrador" textFill="WHITE">
+                  <Label prefHeight="17.0" prefWidth="95.0" text="Piscicultor" textFill="WHITE">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -101,22 +102,21 @@
                                     <RowConstraints maxHeight="24.999979654947907" minHeight="0.666656494140625" prefHeight="8.999979654947907" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="24.999979654947907" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="24.66668701171875" minHeight="0.0" prefHeight="18.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="17.33331298828125" minHeight="7.33331298828125" prefHeight="7.33331298828125" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="24.66668701171875" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="21.333333333333314" minHeight="0.0" prefHeight="21.333333333333314" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="21.333333333333314" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <TextField disable="true" prefHeight="25.0" prefWidth="313.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                    <TextField disable="true" prefHeight="25.0" prefWidth="229.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                    <TextField disable="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                    <TextField fx:id="actualName" disable="true" prefHeight="25.0" prefWidth="313.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <TextField fx:id="actualEmail" disable="true" prefHeight="25.0" prefWidth="229.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <TextField fx:id="actualLastName" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                                     <Label text="Nombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <Label text="Apellido" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    <Label text="Correo" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <Label prefWidth="392.0" text="Nueva Contraseña" GridPane.rowIndex="8" />
-                                    <Label prefHeight="17.0" prefWidth="145.0" text="Confirmar Contraseña" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-                                    <TextField prefHeight="25.0" prefWidth="281.0" GridPane.columnIndex="3" GridPane.rowIndex="8" />
-                                    <Circle fill="DODGERBLUE" radius="26.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <Label text="Apellido" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="Correo" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label prefWidth="392.0" text="Nueva Contraseña" GridPane.rowIndex="9" />
+                                    <Label prefHeight="17.0" prefWidth="145.0" text="Confirmar Contraseña" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                                    <Circle fill="WHITE" radius="26.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                     <Label text="Foto de perfil" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <Separator prefHeight="16.0" prefWidth="716.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="7" />
                                     <Label alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-background-color: #09395E;" text="Actualizar Datos" textFill="WHITE" GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
@@ -124,11 +124,13 @@
                                           <Insets />
                                        </GridPane.margin>
                                     </Label>
-                                    <Separator prefHeight="16.0" prefWidth="716.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="9" />
-                                    <Label text="Label" GridPane.rowIndex="10" />
-                                    <Label text="Label" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                                    <TextField GridPane.columnIndex="3" GridPane.rowIndex="10" />
+                                    <Separator prefHeight="16.0" prefWidth="716.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="10" />
+                                    <Label text="Nuevo Correo" GridPane.rowIndex="11" />
+                                    <Label text="Confirmar Nuevo Correo" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+                                    <TextField fx:id="newEmail" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                                    <TextField fx:id="confirmNewEmail" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+                                    <PasswordField fx:id="newPassword" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                    <PasswordField fx:id="confirmNewPassword" GridPane.columnIndex="3" GridPane.rowIndex="9" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -147,8 +149,8 @@
                   <Region prefHeight="11.0" prefWidth="900.0" />
                   <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="900.0" spacing="10.0" styleClass="hboxUserListControl" stylesheets="@styles/AdminUsersList.css">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#irAdminUserList" prefHeight="31.0" prefWidth="83.0" style="-fx-background-color: #09395E;" text="Regresar" textFill="WHITE" />
-                        <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="79.0" style="-fx-background-color: #38AEF5;" text="Actualizar" />
+                        <Button mnemonicParsing="false" onAction="#irMainScene" prefHeight="31.0" prefWidth="83.0" style="-fx-background-color: #09395E;" text="Regresar" textFill="WHITE" />
+                        <Button mnemonicParsing="false" onAction="#userUpdate" prefHeight="31.0" prefWidth="79.0" style="-fx-background-color: #38AEF5;" text="Actualizar" />
                      </children>
                   </HBox>
                   <Region maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="19.0" prefWidth="900.0" VBox.vgrow="ALWAYS" />
@@ -230,7 +232,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                      <children>
-                        <HBox fx:id="analisisHbox" alignment="CENTER_LEFT" disable="true" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
+                        <HBox fx:id="analisisHbox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="#ffffff00" strokeType="INSIDE" />
                               <Label text="Análisis">
@@ -246,7 +248,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox fx:id="reportsHBox" alignment="CENTER_LEFT" disable="true" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
+                        <HBox fx:id="reportsHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
                               <Label text="Reportes">
@@ -262,7 +264,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox fx:id="userHBox" alignment="CENTER_LEFT" disable="true" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
+                        <HBox fx:id="userHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
                               <Label text="Usuario">
@@ -278,10 +280,10 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox fx:id="adminListUserHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0" style="-fx-background-color: #09395E;">
+                        <HBox fx:id="adminListUserHBox" alignment="CENTER_LEFT" disable="true" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
                            <children>
-                              <Circle fill="DODGERBLUE" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                              <Label text="Lista de usuarios" textFill="WHITE">
+                              <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                              <Label text="Lista de usuarios">
                                  <padding>
                                     <Insets left="5.0" />
                                  </padding>

@@ -55,11 +55,6 @@ public class UserSesionData {
         return usuario.getId();
     }
 
-    /**
-     * Establece el ID del usuario autenticado.
-     * @param idUser ID del usuario.
-     */
-
 
     /**
      * Obtiene el nombre del usuario autenticado.
@@ -108,6 +103,11 @@ public class UserSesionData {
     public static void setEmailUser(int id, String email) {
         if (usuario != null) usuario.setUserEmail(id, email);
     }
+
+    public static void setPasswordUser(String password) {
+        if (usuario != null) usuario.setUserPassword(usuario.getId(), password);
+    }
+
 
     /**
      * Obtiene el rol del usuario autenticado.

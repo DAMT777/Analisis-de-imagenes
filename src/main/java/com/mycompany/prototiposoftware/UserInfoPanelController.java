@@ -1,6 +1,8 @@
 package com.mycompany.prototiposoftware;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -8,19 +10,12 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class UserInfoPanelController {
+public class UserInfoPanelController implements Initializable {
 
-    @FXML
-    private TextField newName;
-    @FXML
-    private TextField newApellido;
-    @FXML
-    private TextField newEmail;
-    @FXML
-    private TextField newPassword;
-
-
+    //------------------------------------------------------------------------------------------Menu lateral
     @FXML
     private AnchorPane menuBox;  // menu expandible
 
@@ -55,8 +50,8 @@ public class UserInfoPanelController {
     }
 
     @FXML
-    private void irAdminUserList() throws IOException {
-        App.setRoot("AdminUsersList");
+    private void irMainScene() throws IOException {
+        App.setRoot("MainScene");
     }
 
     @FXML    //cambio de escena al hacer lcick en salir
@@ -71,9 +66,47 @@ public class UserInfoPanelController {
         menuBox.setManaged(menuBox.isVisible());
     }
 
-    @FXML
-    private void userUpdate() {
 
+    // ------------------------------- variables actuales
+    @FXML
+    private TextField actualName;
+    @FXML
+    private TextField actualLastName;
+    @FXML
+    private TextField actualEmail;
+
+    //-------------------------------- variables de cambio
+    @FXML
+    private PasswordField newPassword;
+    @FXML
+    private PasswordField confirmNewPassword;
+    @FXML
+    private TextField newEmail;
+    @FXML
+    private PasswordField confirmNewEmail;
+
+    @FXML
+    private void userUpdate() throws IOException {
+        /*
+         * incluir logica de del crud desde la basde de datos acá
+         * */
+
+
+
+
+
+
+
+        irMainScene();
+    }
+
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources){
+        actualEmail.setText(UserSesionData.getEmailUser());
+        actualName.setText(UserSesionData.getFirtsNameUser());
+        actualLastName.setText(UserSesionData.getLastNameUser());
     }
 
 }

@@ -111,12 +111,12 @@
                                     <TextField fx:id="actualEmail" disable="true" editable="false" text="cesar@email.com" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <TextField fx:id="newApellido" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                                     <TextField fx:id="newEmail" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                    <TextField fx:id="newPassword" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                                     <PasswordField fx:id="actualPassword" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <Label text="Nuevo Nombre" GridPane.columnIndex="2" />
                                     <Label text="Nuevo Apellido" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                     <Label text="Nuevo Correo:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                     <Label text="Confirmar Contraseña" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <PasswordField fx:id="newPassword" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -136,7 +136,7 @@
                   <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="900.0" spacing="10.0" styleClass="hboxUserListControl" stylesheets="@styles/AdminUsersList.css">
                      <children>
                         <Button mnemonicParsing="false" onAction="#irAdminUserList" prefHeight="31.0" prefWidth="83.0" style="-fx-background-color: #09395E;" text="Regresar" textFill="WHITE" />
-                        <Button mnemonicParsing="false" prefHeight="31.0" style="-fx-background-color: #38AEF5;" text="Confirmar Cambios" />
+                        <Button mnemonicParsing="false" onAction="#irAdminUserList" prefHeight="31.0" style="-fx-background-color: #38AEF5;" text="Confirmar Cambios" />
                      </children>
                   </HBox>
                   <Region maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="19.0" prefWidth="900.0" VBox.vgrow="ALWAYS" />
