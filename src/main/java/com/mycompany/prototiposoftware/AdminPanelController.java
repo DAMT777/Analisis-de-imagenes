@@ -1,11 +1,41 @@
 package com.mycompany.prototiposoftware;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class AdminPanelController {
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class AdminPanelController  implements Initializable {
+
+
+    @FXML
+    private TextField actualName;
+    @FXML
+    private TextField actualApellido;
+    @FXML
+    private TextField actualEmail;
+    @FXML
+    private TextField actualPassword;
+    @FXML
+    private TextField newName;
+    @FXML
+    private TextField newApellido;
+    @FXML
+    private TextField newEmail;
+    @FXML
+    private TextField newPassword;
+
+
+    @FXML
+    private AnchorPane menuBox;  // menu expandible
 
     @FXML
     private HBox analisisHbox;
@@ -35,6 +65,42 @@ public class AdminPanelController {
             e.printStackTrace();
             // Aquí puedes mostrar un mensaje al usuario si quieres
         }
+    }
+
+    @FXML
+    private void irAdminUserList() throws IOException {
+        App.setRoot("AdminUserList");
+    }
+
+    @FXML    //cambio de escena al hacer lcick en salir
+    private void irALoginController() throws IOException {
+        UserSesionData.clearSession();
+        App.setRoot("LoginScene");
+    }
+
+    @FXML
+    private void menuBoxExpand() {
+        menuBox.setVisible(!menuBox.isVisible());
+        menuBox.setManaged(menuBox.isVisible());
+    }
+
+    @FXML
+    private void userUpdate() {
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources){
+        actualName.setText(actualName.getText());
+        actualApellido.setText(actualApellido.getText());
+        actualEmail.setText(actualEmail.getText());
+        actualPassword.setText(actualPassword.getText());
+
+
+        newName.setText(newName.getText());
+        newApellido.setText(newApellido.getText());
+        newEmail.setText(newEmail.getText());
+        newPassword.setText(newPassword.getText());
     }
 
 }

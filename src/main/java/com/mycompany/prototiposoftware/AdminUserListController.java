@@ -26,8 +26,6 @@ import javafx.stage.Stage;
 
 public class AdminUserListController implements Initializable {
 
-    List<String[]> users =  DBConnect.getUsuariosEmpresa(UserSesionData.getEmpresa());
-
     String id;
     String name;
     String lastName;
@@ -53,6 +51,8 @@ public class AdminUserListController implements Initializable {
 
     @FXML
     private void handleHBoxClick(MouseEvent event) {
+
+
         try {
             // Obtener el HBox que disparó el evento
             HBox clickedHBox = (HBox) event.getSource();
@@ -95,10 +95,14 @@ public class AdminUserListController implements Initializable {
     private TableColumn<TableUserListView, String> userEmail;
 
     @FXML
-    private TableColumn<TableUserListView, String> userDateCreation;
+    private TableColumn<TableUserListView, String> userRol;
+
 
     @FXML
-    private TableColumn<TableUserListView, String> userRol;
+    private void irAdminPanel() throws IOException{
+        App.setRoot("AdminPanel");
+    }
+
 
     @FXML    //cambio de escena al hacer lcick en salir
     private void irALoginController() throws IOException {
@@ -117,6 +121,9 @@ public class AdminUserListController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources){
 
+        List<String[]> usersData =  DBConnect.getUsuariosEmpresa(UserSesionData.getEmpresa());
+        System.out.println("Empresa: " + UserSesionData.getEmpresa());
+
         LocalDate today = LocalDate.now();
 
         companyNameTableUserList.setText("Unillanos");
@@ -124,11 +131,10 @@ public class AdminUserListController implements Initializable {
         userName.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
         userLastName.setCellValueFactory(new PropertyValueFactory<>("Apellido"));
         userEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
-        userDateCreation.setCellValueFactory(new PropertyValueFactory<>("FechaCreacion"));
         userRol.setCellValueFactory(new PropertyValueFactory<>("Rol"));
 
         List<String> flatList = new ArrayList<>();
-        for (String[] fila : users) {
+        for (String[] fila : usersData) {
             for (String dato : fila) {
                 flatList.add(dato);
             }

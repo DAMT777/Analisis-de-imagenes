@@ -179,7 +179,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </AnchorPane>
-      <AnchorPane fx:id="menuBox" layoutY="226.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 0 20 20 0;" AnchorPane.leftAnchor="0.0">
+      <AnchorPane fx:id="menuBox" layoutY="226.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 0 20 20 0;" visible="false" AnchorPane.leftAnchor="0.0">
          <children>
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -235,8 +235,8 @@
                         </HBox>
                         <HBox fx:id="adminListUserHBox" alignment="CENTER_LEFT" disable="true" prefHeight="47.0" prefWidth="219.0">
                            <children>
-                              <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                              <Label text="Lista de usuarios" textFill="#d9d9d9">
+                              <Circle disable="true" fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                              <Label text="Lista de usuarios" textFill="#535353">
                                  <padding>
                                     <Insets left="5.0" />
                                  </padding></Label>

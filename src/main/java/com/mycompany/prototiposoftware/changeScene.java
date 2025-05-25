@@ -22,19 +22,17 @@ public class changeScene {
                 fxmlFile = "/com/mycompany/prototiposoftware/ResultAlgorithmScene.fxml";
                 break;
             case "adminListUserHBox":
-                fxmlFile = "/com/mycompany/prototiposoftware/AdminPanel.fxml";
+                fxmlFile = "/com/mycompany/prototiposoftware/AdminUsersList.fxml";
                 break;
             default:
                 System.err.println("ID de HBox no reconocido: " + hboxId);
                 return;
         }
-
-
         try {
             FXMLLoader loader = new FXMLLoader(changeScene.class.getResource(fxmlFile));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
+            App.scene.setRoot(root);
+
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
