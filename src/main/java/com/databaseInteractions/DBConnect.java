@@ -157,6 +157,7 @@ public class DBConnect {
                         resultSet.getString("nombre"),
                         resultSet.getString("apellido"),
                         resultSet.getString("correo"),
+                        resultSet.getString("empresa"),
                         resultSet.getString("password"),
                         resultSet.getString("rol")
                 );
@@ -286,6 +287,7 @@ public class DBConnect {
                         rs.getString("nombre"),
                         rs.getString("apellido"),
                         rs.getString("correo"),
+                        rs.getString("empresa"),
                         rs.getString("password"),
                         rs.getString("rol")
                 );
@@ -775,6 +777,23 @@ public class DBConnect {
             System.out.println("Error al validar credenciales: " + e.getMessage());
             return false;
         }
+    }
+
+
+
+    public static String getProfilePath(int idUsuario) {
+        String query = "SELECT img_profile_path FROM usuario WHERE id_usuario = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, idUsuario);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("img_profile_path");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener profile_path: " + e.getMessage());
+        }
+        return null;
     }
 
 

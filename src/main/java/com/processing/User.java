@@ -46,22 +46,23 @@ public class User {
         this.password = HashUtil.hashPassword(password);
     }
 
-    public User(int id, String nombre, String apellido, String email, String password, String rol) {
+    public User(int id, String nombre, String apellido, String email, String empresa, String password, String rol) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
+        this.empresa = empresa;
         //hashear la contraseña
         this.password = HashUtil.hashPassword(password);
         this.rol = rol;
     }
-    public User(int id){
 
-    }
+
 
     public String getEmpresa() {
         return empresa;
     }
+
     public void setEmpresa(String empresa) {
         this.empresa = empresa;
     }

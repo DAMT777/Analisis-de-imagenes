@@ -126,7 +126,7 @@ public class AdminUserListController implements Initializable {
 
         LocalDate today = LocalDate.now();
 
-        companyNameTableUserList.setText("Unillanos");
+        companyNameTableUserList.setText(UserSesionData.getEmpresa());
         userId.setCellValueFactory(new PropertyValueFactory<>("Id"));
         userName.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
         userLastName.setCellValueFactory(new PropertyValueFactory<>("Apellido"));
