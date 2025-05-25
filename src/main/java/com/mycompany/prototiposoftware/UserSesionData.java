@@ -111,6 +111,8 @@ public class UserSesionData {
         if (usuario != null) usuario.setUserProfileImage(id, profileImg);
     }
 
+    
+
     /**
      * Obtiene el rol del usuario autenticado.
      * @return Rol del usuario o null si no hay sesión.

@@ -94,7 +94,7 @@ public class UserInfoPanelController implements Initializable {
     @FXML
     private TextField newEmail;
     @FXML
-    private PasswordField confirmNewEmail;
+    private TextField confirmNewEmail;
 
     @FXML
     private void userUpdate() throws IOException {
