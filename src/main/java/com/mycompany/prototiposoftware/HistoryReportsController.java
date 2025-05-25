@@ -122,7 +122,6 @@ public class HistoryReportsController implements Initializable {
     public void initialize(URL location, ResourceBundle resources){
 
         LocalDate today = LocalDate.now();
-
         companyNameTableUserList.setText("Unillanos");
         reportIdLote.setCellValueFactory(new PropertyValueFactory<>("IdLote"));
         reportFecha.setCellValueFactory(new PropertyValueFactory<>("FechaAnalisis"));
@@ -137,7 +136,6 @@ public class HistoryReportsController implements Initializable {
                 flatList.add(dato);
             }
         }
-
 
         ObservableList<TableUserHistoryReports> users = FXCollections.observableArrayList(
                 new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5"),
@@ -158,7 +156,6 @@ public class HistoryReportsController implements Initializable {
                 new TableUserHistoryReports("12313","12-12-12", "refrigerado", "Villavicencio", "2-3 Dias", "Si", "5")
         );
 
-
         for (int i = 0; i + 6 < flatList.size(); i += 7) {
             idLote = flatList.get(i);
             fecha = flatList.get(i + 1);
@@ -170,7 +167,6 @@ public class HistoryReportsController implements Initializable {
 
             users.add(new TableUserHistoryReports(idLote, fecha, condition, city, fishTime,invima,calificacion));
         }
-
         tableUserHistoryReports.setItems(users);
     }
 
