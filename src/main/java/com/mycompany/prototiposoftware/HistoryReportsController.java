@@ -1,7 +1,10 @@
 package com.mycompany.prototiposoftware;
 
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,9 +18,8 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.databaseInteractions.DBConnect;
 import javafx.scene.layout.HBox;
@@ -162,9 +164,25 @@ public class HistoryReportsController implements Initializable {
         App.setRoot("LoginScene");
     }
 
+    @FXML private ComboBox<String> comboCity;
+    @FXML private ComboBox<String> comboCondition;
+    @FXML private ComboBox<String> comboInvima;
+    @FXML private ComboBox<String> comboFishTime;
+
+    private ObservableList<TableUserHistoryReports> masterData;
+    private FilteredList<TableUserHistoryReports> filteredData;
+
+    @FXML private void onFiltrarVillavicencio() {
+        filteredData.setPredicate(r -> "Villavicencio".equalsIgnoreCase(r.getCiudadAnalisis()));
+    }
+
+    @FXML private void onMostrarTodo() {
+        filteredData.setPredicate(p -> true);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
-
+        /*
         LocalDate today = LocalDate.now();
         companyNameTableUserList.setText("Unillanos");
         reportIdLote.setCellValueFactory(new PropertyValueFactory<>("IdLote"));
@@ -198,6 +216,7 @@ public class HistoryReportsController implements Initializable {
         }
         tableUserHistoryReports.setItems(users);
 
+
         tableUserHistoryReports.setRowFactory(tv -> {
             TableRow<TableUserHistoryReports> row = new TableRow<>();
             row.setOnMouseClicked(ev -> {
@@ -207,6 +226,111 @@ public class HistoryReportsController implements Initializable {
                 }
             });
             return row;
+        });
+
+         */
+
+        // 1) Inicializar columnas del TableView
+        reportIdLote      .setCellValueFactory(new PropertyValueFactory<>("idLote"));
+        reportFecha       .setCellValueFactory(new PropertyValueFactory<>("fechaAnalisis"));
+        reportCondition   .setCellValueFactory(new PropertyValueFactory<>("condicionesLote"));
+        reportCity        .setCellValueFactory(new PropertyValueFactory<>("ciudadAnalisis"));
+        reportInvima      .setCellValueFactory(new PropertyValueFactory<>("invimaLote"));
+        reportFishTime    .setCellValueFactory(new PropertyValueFactory<>("tiempoPescaLote"));
+        reportCalificacion.setCellValueFactory(new PropertyValueFactory<>("calificacionLote"));
+
+        // 2) Construir la lista maestra desde datoHistoryReport
+        masterData = FXCollections.observableArrayList();
+        List<String> flatList = new ArrayList<>();
+        for (String[] fila : datoHistoryReport) {
+            Collections.addAll(flatList, fila);
+        }
+        for (int i = 0; i + 6 < flatList.size(); i += 7) {
+            String id       = flatList.get(i);
+            String fecha    = flatList.get(i + 1);
+            String cond     = flatList.get(i + 2);
+            String ciudad   = flatList.get(i + 3);
+            String invima   = flatList.get(i + 4).equals("true") ? "Si" : "No";
+            String tiempo   = flatList.get(i + 5);
+            String calif    = flatList.get(i + 6);
+            masterData.add(new TableUserHistoryReports(id, fecha, cond, ciudad, invima, tiempo, calif));
+        }
+
+        // 3) Extraer valores únicos de cada columna
+        Set<String> cities     = masterData.stream().map(TableUserHistoryReports::getCiudadAnalisis)
+                .collect(Collectors.toCollection(TreeSet::new));
+        Set<String> conditions = masterData.stream().map(TableUserHistoryReports::getCondicionesLote)
+                .collect(Collectors.toCollection(TreeSet::new));
+        Set<String> invimas    = masterData.stream().map(TableUserHistoryReports::getInvimaLote)
+                .collect(Collectors.toCollection(TreeSet::new));
+        Set<String> times      = masterData.stream().map(TableUserHistoryReports::getTiempoPescaLote)
+                .collect(Collectors.toCollection(TreeSet::new));
+
+        // 4) Poblar ComboBoxes con "Todos" + valores únicos
+        List<String> list = new ArrayList<>();
+        list.add("Todos");
+        list.addAll(cities);
+        comboCity.setItems(FXCollections.observableArrayList(list));
+
+        list = new ArrayList<>();
+        list.add("Todos");
+        list.addAll(conditions);
+        comboCondition.setItems(FXCollections.observableArrayList(list));
+
+        list = new ArrayList<>();
+        list.add("Todos");
+        list.addAll(invimas);
+        comboInvima.setItems(FXCollections.observableArrayList(list));
+
+        list = new ArrayList<>();
+        list.add("Todos");
+        list.addAll(times);
+        comboFishTime.setItems(FXCollections.observableArrayList(list));
+
+        // Seleccionar "Todos" por defecto
+        comboCity.getSelectionModel().selectFirst();
+        comboCondition.getSelectionModel().selectFirst();
+        comboInvima.getSelectionModel().selectFirst();
+        comboFishTime.getSelectionModel().selectFirst();
+
+        // 5) Crear FilteredList y SortedList para la tabla
+        filteredData = new FilteredList<>(masterData, p -> true);
+        SortedList<TableUserHistoryReports> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableUserHistoryReports.comparatorProperty());
+        tableUserHistoryReports.setItems(sortedData);
+
+        // 6) Listener que aplica los filtros combinados
+        ChangeListener<String> listener = (obs, old, val) -> applyFilters();
+        comboCity.valueProperty().addListener(listener);
+        comboCondition.valueProperty().addListener(listener);
+        comboInvima.valueProperty().addListener(listener);
+        comboFishTime.valueProperty().addListener(listener);
+
+        // 7) Doble clic en fila para abrir siguiente escena
+        tableUserHistoryReports.setRowFactory(tv -> {
+            TableRow<TableUserHistoryReports> row = new TableRow<>();
+            row.setOnMouseClicked(ev -> {
+                if (!row.isEmpty() && ev.getClickCount() == 2) {
+                    abrirResultAlgorithmConUsuario(row.getItem());
+                }
+            });
+            return row;
+        });
+
+    }
+    /** Reconstruye el Predicate según las selecciones de los ComboBoxes */
+    private void applyFilters() {
+        String selCity  = comboCity.getValue();
+        String selCond  = comboCondition.getValue();
+        String selInv   = comboInvima.getValue();
+        String selTime  = comboFishTime.getValue();
+
+        filteredData.setPredicate(report -> {
+            boolean okCity = selCity.equals("Todos") || selCity.equals(report.getCiudadAnalisis());
+            boolean okCond = selCond.equals("Todos") || selCond.equals(report.getCondicionesLote());
+            boolean okInv  = selInv.equals("Todos")  || selInv.equals(report.getInvimaLote());
+            boolean okTime = selTime.equals("Todos") || selTime.equals(report.getTiempoPescaLote());
+            return okCity && okCond && okInv && okTime;
         });
     }
 
