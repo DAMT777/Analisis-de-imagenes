@@ -12,6 +12,7 @@ public class Lote {
     private String path;
     private String condicion;
     private String procedencia;
+    private int anomalias;
     private boolean registradoInvima = true;
     private String tiempoPesca = "3 dias";
 
@@ -20,11 +21,12 @@ public class Lote {
         this.fecha = fecha;
         this.idUsuario = idUsuario;
         this.path = path;
-        this.condicion = contexto[0];
+        this.procedencia = contexto[0];
         // actualizar data en el array
-        //this.tiempoPesca = contexto[1];
-        this.procedencia = contexto[1];
-        //this.registradoInvima = contexto[3].equals("true") ;
+        this.registradoInvima = contexto[1].equals("Si") ;
+        this.condicion = contexto[2];
+        this.tiempoPesca = contexto[3];
+
 
         // Lógica para carga las imágenes desde el path
         getImgsFromPath(path);
@@ -38,7 +40,12 @@ public class Lote {
         this.imagenes = new ArrayList<Imagen>();
         getImgsFromPath(path);
     }
-
+    public void setAnomalias(int anomalias) {
+        this.anomalias = anomalias;
+    }
+    public int getAnomalias() {
+        return anomalias;
+    }
     public String getCondiciones() {
         return condicion;
     }

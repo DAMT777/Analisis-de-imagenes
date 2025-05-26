@@ -5,7 +5,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,13 +15,25 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #E6E6E6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.prototiposoftware.MainController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="900.0" style="-fx-background-color: #E6E6E6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.prototiposoftware.MainController">
    <children>
-      <AnchorPane layoutY="78.0" prefHeight="337.0" prefWidth="900.0" style="-fx-background-color: #09395E;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="550.0" spacing="20.0" style="-fx-background-color: #09395E;">
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #09395E; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;">
                <children>
+                  <Circle fill="WHITE" onMouseClicked="#irUserScene" radius="20.0" stroke="BLACK" strokeType="INSIDE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Circle>
+                  <Label prefHeight="17.0" prefWidth="95.0" text="Piscicultor" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="103.0" HBox.hgrow="SOMETIMES" />
                   <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../img/MainLogo.png" />
@@ -31,147 +42,82 @@
                         <Rectangle2D height="76.0" minY="38.0" width="186.0" />
                      </viewport>
                      <HBox.margin>
-                        <Insets left="30.0" />
+                        <Insets />
                      </HBox.margin>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <Region maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="0.0" HBox.hgrow="SOMETIMES" />
-                  <TextField maxWidth="500.0" prefHeight="25.0" prefWidth="260.0" promptText="Buscar reporte" style="-fx-background-radius: 500;" HBox.hgrow="SOMETIMES">
-                     <cursor>
-                        <Cursor fx:constant="TEXT" />
-                     </cursor>
-                  </TextField>
-                  <Region maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="0.0" HBox.hgrow="SOMETIMES" />
-                  <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="353.0">
-                     <children>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="156.0" spacing="5.0">
-                           <children>
-                              <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../img/Help%20circle.png" />
-                                 </image>
-                              </ImageView>
-                              <Label prefHeight="17.0" prefWidth="89.0" text="Sobre nosotros" textFill="WHITE">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor></Label>
-                              <Region maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="0.0" HBox.hgrow="SOMETIMES" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="172.0" spacing="5.0">
-                           <children>
-                              <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../img/Info%20circle.png" />
-                                 </image>
-                              </ImageView>
-                              <Label prefHeight="17.0" prefWidth="125.0" text="Indicaciones de uso" textFill="WHITE">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor></Label>
-                              <Region maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="0.0" HBox.hgrow="SOMETIMES" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="135.0" spacing="5.0">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#irALoginController" style="-fx-background-color: #38AEF5; -fx-border-radius: 500;" text="Salir.">
-                                 <graphic>
-                                    <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../img/Arrow%20left-circle.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                              <Region maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="0.0" HBox.hgrow="SOMETIMES" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
-            <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="20.0">
-               <children>
-                  <Region maxHeight="500.0" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="673.0" VBox.vgrow="SOMETIMES" />
-                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="593.0" prefWidth="603.0" style="-fx-background-radius: 50; -fx-background-color: white;" VBox.vgrow="SOMETIMES">
+                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="124.0" HBox.hgrow="SOMETIMES" />
+                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#irALoginController" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: #38AEF5; -fx-border-radius: 500;" text="Cerrar Sesion">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/Arrow%20left-circle.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
-                     <children>
-                        <TilePane fx:id="tilePaneLoteImages" layoutY="-6.666666666666667" prefHeight="415.0" prefWidth="603.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-7.0">
-                           <padding>
-                              <Insets left="20.0" top="20.0" />
-                           </padding>
-                        </TilePane>
-                        <HBox fx:id="hBoxUploadLoteImage" layoutY="141.0" prefHeight="150.0" prefWidth="119.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                           <children>
-                              <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="SOMETIMES" />
-                              <ImageView fx:id="imageViewMain" fitHeight="147.0" fitWidth="161.0" nodeOrientation="INHERIT" onMouseClicked="#cargarImagen" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
-                                 <image>
-                                    <Image url="@../../../img/UploadLote.png" />
-                                 </image>
-                              </ImageView>
-                              <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="SOMETIMES" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </AnchorPane>
-                     <Button mnemonicParsing="false" onAction="#MCalgorithm" style="-fx-background-color: #09395E; -fx-background-radius: 30;" text="Analizar Lote" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="15.0" />
+                        <Font name="System Bold" size="12.0" />
                      </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
                   </Button>
-                  <Region prefHeight="77.0" prefWidth="700.0" VBox.vgrow="SOMETIMES" />
                </children>
                <padding>
-                  <Insets left="100.0" right="100.0" />
+                  <Insets left="20.0" right="20.0" />
                </padding>
+            </HBox>
+            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+               <children>
+                  <Region maxHeight="49.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="19.0" prefWidth="900.0" />
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-radius: 50; -fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;" VBox.vgrow="ALWAYS">
+                     <children>
+                        <TilePane fx:id="tilePaneLoteImages" alignment="CENTER" layoutX="36.0" layoutY="28.0" prefColumns="9" prefHeight="387.0" prefRows="11" prefWidth="759.0" style="-fx-border-radius: 20; -fx-border-color: gray;" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="24.66666666666663" AnchorPane.topAnchor="28.0">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </TilePane>
+                        <VBox alignment="CENTER" layoutX="41.0" layoutY="37.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="36.666666666666686" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="41.33333333333326" AnchorPane.topAnchor="37.0">
+                           <children>
+                              <HBox fx:id="hBoxUploadLoteImage" alignment="CENTER" prefHeight="150.0" prefWidth="737.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <ImageView fx:id="imageViewMain" fitHeight="147.0" fitWidth="161.0" nodeOrientation="INHERIT" onMouseClicked="#cargarImagen" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../img/UploadLote.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="40.0" right="40.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  <Region maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="11.0" prefWidth="900.0" />
+                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="37.0" prefWidth="900.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                     <children>
+                           <Button mnemonicParsing="false" onAction="#MCalgorithm" style="-fx-background-color: #09395E; -fx-background-radius: 30;" text="Analizar Lote" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <Region maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="19.0" prefWidth="900.0" VBox.vgrow="ALWAYS" />
+               </children>
             </VBox>
          </children>
       </VBox>
-      <AnchorPane layoutX="778.3333333333333" layoutY="558.6666666666666" maxHeight="32.0" maxWidth="100.0" minHeight="30.0" minWidth="99.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="32.0" prefWidth="99.0" AnchorPane.bottomAnchor="9.333333333333371" AnchorPane.rightAnchor="22.33333333333337">
+      <AnchorPane layoutX="1.0" layoutY="226.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#menuBoxExpand" prefHeight="283.0" prefWidth="26.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 0 20 20 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;">
          <children>
-            <HBox alignment="CENTER" layoutX="1.0" prefHeight="30.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #09395E; -fx-background-radius: 40;">
-               <children>
-                  <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../img/User.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../img/Tool.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" style="bac: #09395E;">
-                     <image>
-                        <Image url="@../../../img/Info%20circle.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-               </children>
-            </HBox>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutY="226.0" onMouseClicked="#menuBoxExpand" prefHeight="200.0" prefWidth="26.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 0 20 20 0;" AnchorPane.leftAnchor="0.0">
-         <children>
-            <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="4.0" layoutY="92.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+            <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="5.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" AnchorPane.leftAnchor="0.0">
                <image>
                   <Image url="@../../../img/Arrow%20left-circle-white.png" />
                </image>
@@ -181,50 +127,78 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </AnchorPane>
-      <AnchorPane fx:id="menuBox" layoutY="226.0" prefHeight="200.0" prefWidth="244.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 0 20 20 0;" visible="false" AnchorPane.leftAnchor="0.0">
+      <AnchorPane fx:id="menuBox" layoutY="226.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 0 20 20 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);" visible="false" AnchorPane.leftAnchor="0.0">
          <children>
-            <HBox alignment="CENTER" layoutY="-1.0" prefHeight="200.0" prefWidth="244.0">
+            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" AnchorPane.leftAnchor="0.0">
                <children>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="236.0" style="-fx-background-color: white;">
+                  <VBox alignment="CENTER" layoutY="226.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="194.0" style="-fx-background-color: white;">
                      <HBox.margin>
-                        <Insets right="5.0" top="2.0" />
+                        <Insets right="5.0" />
                      </HBox.margin>
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="219.0" style="-fx-background-color: #09395E;">
+                        <HBox fx:id="analisisHbox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="45.0" prefWidth="219.0" style="-fx-background-color: #09395E;">
                            <children>
                               <Circle fill="DODGERBLUE" radius="10.0" stroke="#ffffff00" strokeType="INSIDE" />
-                              <Label text="Análisis" textFill="WHITE" />
+                              <Label text="Análisis" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </Label>
                            </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="219.0">
+                        <HBox fx:id="reportsHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="45.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                              <Label text="Reportes" />
+                              <Label text="Reportes">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </Label>
                            </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="219.0">
+                        <HBox fx:id="userHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="45.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                              <Label text="Usuario" />
+                              <Label text="Usuario">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </Label>
                            </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="219.0">
+                        <HBox fx:id="adminListUserHBox" alignment="CENTER_LEFT" disable="true" onMouseClicked="#handleHBoxClick" prefHeight="45.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                              <Label text="Administrador" textFill="#d9d9d9" />
+                              <Label text="Lista de usuarios">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </Label>
                            </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
                         </HBox>
                      </children>
                   </VBox>
@@ -239,6 +213,59 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="747.0" layoutY="558.6666666666666" maxHeight="32.0" maxWidth="160.0" minHeight="30.0" minWidth="89.0" prefHeight="32.0" prefWidth="160.0" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="12.0">
+         <children>
+            <HBox alignment="CENTER" layoutX="12.0" layoutY="1.0" prefHeight="30.0" prefWidth="135.0" spacing="2.0" style="-fx-background-color: #09395E; -fx-background-radius: 40; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;" styleClass="toolBar" stylesheets="@styles/historyReportsTableStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button fx:id="userSceneToolBar" mnemonicParsing="false" onAction="#toolBarBoxClick">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/User.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="settingsSceneToolBar" mnemonicParsing="false" onAction="#toolBarBoxClick">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/Tool.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="aboutUsSceneToolBar" mnemonicParsing="false" onAction="#toolBarBoxClick">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" style="bac: #09395E;">
+                           <image>
+                              <Image url="@../../../img/Info%20circle.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="helpSceneToolBar" mnemonicParsing="false" onAction="#toolBarBoxClick">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/Help%20circle.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </HBox>
          </children>

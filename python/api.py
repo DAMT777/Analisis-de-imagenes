@@ -1,48 +1,20 @@
 import time
+import os
+import sys
+import glob
+import numpy as np
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from analyze import analyze_image, analyze_image_batch
 from pydantic import BaseModel
 from PIL import Image
-import os
-import glob
-import sys
-from tensorflow.keras.models import load_model
-import numpy as np
+from analyze import analyze_image, analyze_image_batch
 from fish_classifier_true import is_fish
+# import onnxruntime as ort
 
-# Cargar el modelo de clasificación de imágenes
-model = load_model('fish_binary_classifier.h5')
-
-
-
-os.environ["ORT_LOG_LEVEL"] = "ERROR"  # Solo errores críticos de ONNXRuntime
-import warnings
-warnings.filterwarnings("ignore")
-
+# === CONFIGURACIÓN DE LA APLICACIÓN ===
 app = FastAPI()
 
-# Endpoint de health check
-@app.get("/health/")
-async def health():
-    return {"status": "ok"}
-
-# Endpoint para apagar el servidor (solo para desarrollo)
-@app.post("/shutdown/")
-async def shutdown():
-    # Esto funciona solo si ejecutas con "python api.py", no con uvicorn --reload
-    sys.exit(0)
-    return {"status": "Shutting down..."}
-    
-
-# Manejo global de excepciones
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    return JSONResponse(
-        status_code=500,
-        content={"error": f"Error interno del servidor: {str(exc)}"}
-    )
-
+# === MODELOS DE DATOS (REQUESTS) ===
 class ImageRequest(BaseModel):
     image_path: str
     solo_ojo: bool = False
@@ -51,6 +23,20 @@ class BatchRequest(BaseModel):
     folder_path: str
     solo_ojo: bool = False
 
+# === ENDPOINTS ===
+# Health check
+@app.get("/health/")
+async def health():
+    return {"status": "ok"}
+
+# Shutdown (solo para desarrollo)
+@app.post("/shutdown/")
+async def shutdown():
+    # Esto funciona solo si ejecutas con "python api.py", no con uvicorn --reload
+    sys.exit(0)
+    return {"status": "Shutting down..."}
+
+# Verificar si es pez
 @app.post("/es_pez/")
 async def verificar_si_es_pez(request: ImageRequest):
     try:
@@ -62,6 +48,7 @@ async def verificar_si_es_pez(request: ImageRequest):
     except Exception as e:
         return {"error": f"Error al verificar la imagen: {str(e)}"}
 
+# Procesar imagen
 @app.post("/procesar/")
 async def process_image(request: ImageRequest):
     try:
@@ -71,11 +58,12 @@ async def process_image(request: ImageRequest):
         elapsed_time = time.time() - start_time
         result["processing_time_seconds"] = round(elapsed_time, 3)
         return result
-    except FileNotFoundError:
-        return {"error": "La imagen no se encontró en la ruta especificada."}
+    except FileNotFoundError as e:
+        return {"error": f"La imagen no se encontró en la ruta especificada: {str(e)}" }
     except Exception as e:
         return {"error": f"Error al procesar la imagen: {str(e)}"}
 
+# Procesar batch de imágenes
 @app.post("/procesar_batch/")
 async def process_batch(request: BatchRequest):
     try:
@@ -101,6 +89,15 @@ async def process_batch(request: BatchRequest):
     except Exception as e:
         return {"error": f"Error al procesar el batch: {str(e)}"}
 
+# === MANEJO DE EXCEPCIONES ===
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={"error": f"Error interno del servidor: {str(exc)}"}
+    )
+
+# === INICIO DE LA APLICACIÓN (SOLO SI SE EJECUTA DIRECTAMENTE) ===
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)

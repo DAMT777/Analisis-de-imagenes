@@ -19,19 +19,21 @@ import com.processing.Lote;
 import com.processing.LoteProcessor;
 import com.processing.ResultadoRegistro;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -41,16 +43,103 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.LinkedList;
 import java.util.List;
-
 
 public class MainController {
     String [] contextoLote = new String[5];
 
 
+
+    // ---------------------------------------------------------------------------------- Menu Lateral
     @FXML
     private AnchorPane menuBox;  // menu expandible
+
+    @FXML
+    private void menuBoxExpand() {
+        menuBox.setVisible(!menuBox.isVisible());
+        menuBox.setManaged(menuBox.isVisible());
+    }
+
+    @FXML
+    private HBox analisisHbox;
+    @FXML
+    private HBox reportsHBox;
+    @FXML
+    private HBox userHBox;
+    @FXML
+    private HBox adminListUserHBox;
+
+    @FXML
+    private void handleHBoxClick(MouseEvent event) {
+        try {
+            // Obtener el HBox que disparó el evento
+            HBox clickedHBox = (HBox) event.getSource();
+
+            // Obtener el fx:id del HBox
+            String hboxId = clickedHBox.getId();
+
+            // Obtener el Stage actual desde el HBox
+            Stage stage = (Stage) clickedHBox.getScene().getWindow();
+
+            // Cambiar escena usando Utilities
+            changeScene.changeScene(stage, hboxId);  // Asumiendo que el archivo fxml se llama igual que el id + ".fxml"
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Aquí puedes mostrar un mensaje al usuario si quieres
+        }
+    }
+    // ----------------------------------------------------------------------------------------Fin Menu Lateral
+
+
+    // ---------------------------------------------------------------------------------------Tool bar inferior
+    @FXML
+    private Button userSceneToolBar;
+    @FXML
+    private Button settingsSceneToolBar;
+    @FXML
+    private Button aboutUsSceneToolBar;
+    @FXML
+    private Button helpSceneToolBar;
+
+    @FXML
+    private void toolBarBoxClick(ActionEvent event) {
+        try {
+            // Obtener el HBox que disparó el evento
+            Button clickedButton = (Button) event.getSource();
+
+            // Obtener el fx:id del HBox
+            String buttonId = clickedButton.getId();
+
+            // Obtener el Stage actual desde el HBox
+            Stage stage = (Stage) clickedButton.getScene().getWindow();
+
+            // Cambiar escena usando Utilities
+            changeScene.changeScene(stage, buttonId);  // Asumiendo que el archivo fxml se llama igual que el id + ".fxml"
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Aquí puedes mostrar un mensaje al usuario si quieres
+        }
+    }
+    // ---------------------------------------------------------------------------------------Fin Tool bar inferior
+
+
+    public void errorMessage(String message) {
+        Alert alerta = new Alert(AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(null);
+        alerta.setContentText(message);
+
+        alerta.showAndWait();
+    }
+
+
+    @FXML
+    private void irUserScene() throws IOException {
+        App.setRoot("UserInfoPanelScene");
+    }
+
 
     @FXML
     private HBox hBoxUploadLoteImage;
@@ -83,8 +172,8 @@ public class MainController {
 
             Stage dialog = new Stage(); //Esta linea crea un stage, que sería como tal la ventana vacia
 
-            dialog.setWidth(545);
-            dialog.setHeight(435);
+            //dialog.setWidth(545);
+            //dialog.setHeight(435);
             dialog.setResizable(false);
 
             //initModality() es un metodo que indica como se comportara la ventana respecto a las demas
@@ -139,80 +228,96 @@ public class MainController {
     }
 
 
-    @FXML
-    private void menuBoxExpand() {
-        menuBox.setVisible(!menuBox.isVisible());
-        menuBox.setManaged(menuBox.isVisible());
-    }
-
     private void UploadLoteIamgeHideUnHide() {
         hBoxUploadLoteImage.setVisible(!hBoxUploadLoteImage.isVisible());
         hBoxUploadLoteImage.setManaged(hBoxUploadLoteImage.isVisible());
     }
 
-    public void errorMessage(String message) {
-        Alert alerta = new Alert(AlertType.ERROR);
-        alerta.setTitle("Error");
-        alerta.setHeaderText(null);
-        alerta.setContentText(message);
-
-        alerta.showAndWait();
+    public boolean isArrayEmpty(String[] arr) {
+        if (arr == null) return true;               // consideramos null como “vacío”
+        for (String s : arr) {
+            if (s != null && !s.isEmpty()) {
+                return false;                       // encontramos al menos un valor “no vacío”
+            }
+        }
+        return true;                                // todos eran null o ""
     }
 
-
-    @FXML    // carga la imagen pidiendo al usuario un archivo .jpg, o png
+    @FXML
     private void cargarImagen() {
-
         contextoLote = dialogScene();
+        System.out.println("tamano lote: "+contextoLote.length);
+        if (isArrayEmpty(contextoLote)) {
+            return;
+        }
+
         DBConnect.contextoLote = contextoLote;
-        System.out.println("Descripcion del lote: " + contextoLote[0] + " / Origen del lote: " + contextoLote[1]);
+        System.out.println("Ciudad: " + contextoLote[0] + " / Registrado invima: " + contextoLote[1]);
+        System.out.println("Condicion lote: " + contextoLote[2] + " / Tiempo de pesca: " + contextoLote[3]);
 
+        tilePaneLoteImages.setHgap(2);
+        tilePaneLoteImages.setPrefColumns(9);
 
-        tilePaneLoteImages.setHgap(10); // Espacio horizontal entre imágenes
-        tilePaneLoteImages.setVgap(10); // Espacio vertical
-        tilePaneLoteImages.setPrefColumns(3); // Hasta 5 imágenes por fila (luego baja de línea)
-
-        eraseFiles(); // borra la imagen que esté en la carpeta imgFish, si hay alguna, esto por si el usuario se equivoca de imagen, simplemente sube otra y se elimina la anterior.
+        eraseFiles();
 
         FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JPG Files (*.jpg)", "*.jpg"),
+                new FileChooser.ExtensionFilter("PNG Files (*.png)", "*.png")
+        );
 
-        FileChooser.ExtensionFilter extFilterJpg = new FileChooser.ExtensionFilter("JPG Files (*.jpg)", "*.jpg");
-        FileChooser.ExtensionFilter extFilterPng = new FileChooser.ExtensionFilter("PNG Files (*.png)", "*.png");
-
-        fileChooser.getExtensionFilters().addAll(extFilterJpg, extFilterPng);
         List<File> archivos = fileChooser.showOpenMultipleDialog(null);
 
         if (archivos != null) {
-            if (archivos.size() > 10) {
-                errorMessage("El limite de imagenes son maximo 10");
-            } else {
-                UploadLoteIamgeHideUnHide();
-                for (File archivo : archivos) {
-                    String imagePath = archivo.toURI().toString();
-
-                    Image image = new Image(imagePath);
-
-                    //double withPref = 300;
-
-                    //imageViewMain.setFitWidth(withPref);
-                    //imageViewMain.setPreserveRatio(true);
-
-
-                    ImageView iv = new ImageView(image);
-                    iv.setFitWidth(100);
-                    iv.setFitHeight(100);
-                    iv.setPreserveRatio(false);
-
-
-                    tilePaneLoteImages.getChildren().add(iv);
-
-
-                    //imageViewMain.setImage(image);
-
-                    saveImage(archivo);
-                }
+            if (archivos.size() > 40) {
+                errorMessage("El límite de imágenes es máximo 40");
+                return;
             }
 
+            boolean anyLoaded = false;  // ← flag para saber si cargó ALGUNA imagen
+
+            for (File archivo : archivos) {
+                if (archivo.length() > 8 * 1024 * 1024) {
+                    errorMessage("La imagen '" + archivo.getName() + "' pesa más de 8MB y no será cargada.");
+                    continue; // salta esta imagen
+                }
+
+                // Aquí ya sabemos que la imagen es válida: la mostramos y guardamos
+                String imagePath = archivo.toURI().toString();
+                Image image = new Image(imagePath);
+
+                ImageView iv = new ImageView(image);
+                iv.setFitWidth(70);
+                iv.setFitHeight(70);
+                iv.setPreserveRatio(false);
+
+                Rectangle clip = new Rectangle(70, 70);
+                clip.setArcWidth(14);
+                clip.setArcHeight(14);
+                iv.setClip(clip);
+
+                StackPane imageContainer = new StackPane(iv);
+                imageContainer.setPrefSize(70, 70);
+                imageContainer.setStyle(
+                        "-fx-background-color: white;" +
+                                "-fx-background-radius: 20;" +
+                                "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 0, 2);" +
+                                "-fx-padding: 5;"
+                );
+
+                tilePaneLoteImages.getChildren().add(imageContainer);
+                saveImage(archivo);
+
+                anyLoaded = true;  // ← marcamos que al menos 1 pasó la validación
+            }
+
+            if (anyLoaded) {
+                // Solo si cargamos alguna imagen correctamente
+                UploadLoteIamgeHideUnHide();
+            } else {
+                // (Opcional) informar de que ninguna pasó la validación de tamaño
+                errorMessage("Ninguna imagen fue cargada porque todas superan los 8MB.");
+            }
         }
     }
 
@@ -261,12 +366,12 @@ public class MainController {
     @FXML
     private void MCalgorithm() throws IOException {
 
-        //recordar que los datos de contexto que se piden en la ventana flotante los puede extraer como string con -> contextoLote[0], contextoLote[1]
-        /*contextoLote[0] = "Refrigerado"; //Condicion lote
-        contextoLote[1] = "2-3 dias";   //Tiempo de pezca
-        contextoLote[2] = "Villavicencio"; //
-        contextoLote[3] = "true"; //registrado INVIMA
-        */
+        if (tilePaneLoteImages.getChildren().isEmpty()) {
+            errorMessage("Por favor cargue alguna imagen para el análisis.");
+            return;
+        }
+
+
         Task<Boolean> tareaAnalisis = new Task<>() {
 
 

@@ -5,9 +5,9 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,12 +17,22 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="900.0" style="-fx-background-color: #E6E6E6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.prototiposoftware.AdminUserList">
+<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="900.0" style="-fx-background-color: #E6E6E6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.prototiposoftware.AdminUserListController">
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="73.0" prefWidth="900.0" spacing="20.0" style="-fx-background-color: #09395E; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;">
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #09395E; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;">
                <children>
+                  <Circle fill="WHITE" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label prefHeight="17.0" prefWidth="95.0" text="Administrador" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="103.0" HBox.hgrow="SOMETIMES" />
                   <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../img/MainLogo.png" />
@@ -31,58 +41,46 @@
                         <Rectangle2D height="76.0" minY="38.0" width="186.0" />
                      </viewport>
                      <HBox.margin>
-                        <Insets left="30.0" />
+                        <Insets />
                      </HBox.margin>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="82.0" HBox.hgrow="SOMETIMES" />
-                  <TextField maxWidth="500.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="260.0" promptText="Buscar reporte" style="-fx-background-radius: 500;" HBox.hgrow="SOMETIMES">
+                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="124.0" HBox.hgrow="SOMETIMES" />
+                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#irALoginController" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: #38AEF5; -fx-border-radius: 500;" text="Cerrar Sesion">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/Arrow%20left-circle.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                      <cursor>
-                        <Cursor fx:constant="TEXT" />
+                        <Cursor fx:constant="HAND" />
                      </cursor>
-                  </TextField>
-                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="19.0" HBox.hgrow="SOMETIMES" />
-                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="73.0" prefWidth="311.0" spacing="5.0">
-                     <children>
-                        <Region prefHeight="73.0" prefWidth="17.0" />
-                        <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="105.0" text="Administrador" textFill="WHITE" />
-                        <Circle fill="WHITE" radius="26.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Region prefHeight="73.0" prefWidth="20.0" />
-                        <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#irALoginController" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: #38AEF5; -fx-border-radius: 500;" text="Cerrar Sesion">
-                           <graphic>
-                              <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../img/Arrow%20left-circle.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Button>
-                        <Region prefHeight="73.0" prefWidth="18.0" />
-                     </children>
-                  </HBox>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
                </children>
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
             </HBox>
             <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="601.0" prefWidth="618.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region maxHeight="49.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="19.0" prefWidth="900.0" />
-                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-radius: 50; -fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;" VBox.vgrow="ALWAYS">
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="820.0" style="-fx-background-radius: 50; -fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;" VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox alignment="CENTER" layoutX="41.0" layoutY="37.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="36.666666666666686" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="41.33333333333326" AnchorPane.topAnchor="37.0">
+                        <VBox alignment="CENTER" layoutX="41.0" layoutY="37.0" prefHeight="200.0" prefWidth="737.0" AnchorPane.bottomAnchor="36.666666666666686" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="41.33333333333326" AnchorPane.topAnchor="37.0">
                            <children>
                               <Label fx:id="companyNameTableUserList" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="737.0" style="-fx-background-color: #38AEF5;" styleClass="companyNameTableUserList" stylesheets="@styles/AdminUsersList.css" text="Unillanos" textFill="WHITE" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
                               </Label>
-                              <TableView fx:id="tableUserList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="737.0" style="-fx-border-color: black;" stylesheets="@styles/AdminUsersList.css" VBox.vgrow="ALWAYS">
+                              <TableView fx:id="tableUserList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="369.0" prefWidth="737.0" style="-fx-border-color: black;" stylesheets="@styles/AdminUsersList.css" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="userId" prefWidth="94.66663122177124" styleClass="idUserTableAdminUserList" text="Id" />
                                   <TableColumn fx:id="userName" prefWidth="97.33330535888672" styleClass="idUserTableAdminUserList" text="Nombre" />
@@ -97,6 +95,12 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </TableView>
+                              <Separator prefWidth="200.0">
+                                 <padding>
+                                    <Insets top="20.0" />
+                                 </padding>
+                              </Separator>
+                              <Label text="Lista de usuarios de la empresa" textFill="#bababa" />
                            </children>
                         </VBox>
                      </children>
@@ -104,14 +108,13 @@
                         <Insets left="40.0" right="40.0" />
                      </VBox.margin>
                   </AnchorPane>
-                  <Region prefHeight="11.0" prefWidth="900.0" />
+                  <Region maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="11.0" prefWidth="900.0" />
                   <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="900.0" spacing="10.0" styleClass="hboxUserListControl" stylesheets="@styles/AdminUsersList.css">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="121.0" style="-fx-background-color: #09395E;" text="Añadir usuario" textFill="WHITE" />
-                        <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="83.0" style="-fx-background-color: #38AEF5;" text="Regresar" textFill="WHITE" />
+                        <Button mnemonicParsing="false" onAction="#irNewUserPanel" prefHeight="30.0" prefWidth="121.0" style="-fx-background-color: #09395E;" text="Añadir usuario" textFill="WHITE" />
                      </children>
                   </HBox>
-                  <Region maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="19.0" prefWidth="900.0" VBox.vgrow="ALWAYS" />
+                  <Region maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="19.0" prefWidth="900.0" />
                </children>
             </VBox>
          </children>
@@ -120,7 +123,7 @@
          <children>
             <HBox alignment="CENTER" layoutX="12.0" layoutY="1.0" prefHeight="30.0" prefWidth="135.0" spacing="2.0" style="-fx-background-color: #09395E; -fx-background-radius: 40; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;" styleClass="toolBar" stylesheets="@styles/historyReportsTableStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="userSceneToolBar" mnemonicParsing="false" onAction="#toolBarBoxClick">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -132,7 +135,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="settingsSceneToolBar" mnemonicParsing="false" onAction="#toolBarBoxClick">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -144,7 +147,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="aboutUsSceneToolBar" mnemonicParsing="false" onAction="#toolBarBoxClick">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" style="bac: #09395E;">
                            <image>
@@ -156,7 +159,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="helpSceneToolBar" mnemonicParsing="false" onAction="#toolBarBoxClick">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -185,15 +188,15 @@
          <children>
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="194.0" style="-fx-background-color: white;">
+                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="194.0" spacing="20.0" style="-fx-background-color: white;">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="219.0" style="-fx-background-color: #09395E;">
+                        <HBox fx:id="analisisHbox" alignment="CENTER_LEFT" disable="true" prefHeight="31.0" prefWidth="219.0">
                            <children>
-                              <Circle fill="DODGERBLUE" radius="10.0" stroke="#ffffff00" strokeType="INSIDE" />
-                              <Label text="Análisis" textFill="WHITE">
+                              <Circle fill="#d9d9d9" radius="10.0" stroke="#ffffff00" strokeType="INSIDE" />
+                              <Label text="Análisis">
                                  <padding>
                                     <Insets left="5.0" />
                                  </padding></Label>
@@ -205,7 +208,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="219.0">
+                        <HBox fx:id="reportsHBox" alignment="CENTER_LEFT" disable="true" prefHeight="31.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
                               <Label text="Reportes">
@@ -220,7 +223,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="219.0">
+                        <HBox fx:id="userHBox" alignment="CENTER_LEFT" disable="true" prefHeight="31.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
                               <Label text="Usuario">
@@ -235,10 +238,10 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="219.0">
+                        <HBox fx:id="adminListUserHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0" style="-fx-background-color: #09395E;">
                            <children>
-                              <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                              <Label text="Lista de usuarios" textFill="#d9d9d9">
+                              <Circle fill="DODGERBLUE" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                              <Label text="Lista de usuarios" textFill="WHITE">
                                  <padding>
                                     <Insets left="5.0" />
                                  </padding></Label>

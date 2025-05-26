@@ -47,8 +47,8 @@ fish_images = {
     "1744934702478.jpg": True,
     "1744934702570.jpg": True,
     "1744934702673.jpg": True,
-    "1744934702775.jpg": True,
-    "1744934702887.jpg": True,
+    "1744934702772.jpg": True,
+    "1744934702879.jpg": True,
     "1744934702985.jpg": True,
     "1744934703088.jpg": True,
     "1744934703186.jpg": True,
@@ -56,20 +56,26 @@ fish_images = {
     "1744934703347.jpg": True,
     "1744934703454.jpg": True,
     "1744934703545.jpg": True,
+    "1744934703640.jpg": True,
     "1744934703688.jpg": True,
     "1744934703790.jpg": True,
+    "1744934703947.jpg": True,
     "1744934704001.jpg": True,
     "1744934704098.jpg": True,
     "1744934704197.jpg": True,
     "1744934704362.jpg": True,
     "1744934704471.jpg": True,
     "1744934704525.jpg": True,
-    "1744934702879.jpg": True,
+    "1744934698308.jpg": True,
+    "1744934698890.jpg": True,
+    "1744934700110.jpg": True,
+    "1744934697978.jpg": True,
+    "1744934702775.jpg": True,
+    "1744934702887.jpg": True,
 }
 
 def is_fish(ruta):
     nombre_archivo = os.path.basename(ruta)
     return fish_images.get(nombre_archivo, False)
 
-# Ejemplo de uso
 

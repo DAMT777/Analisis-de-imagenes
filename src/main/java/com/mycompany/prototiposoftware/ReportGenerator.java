@@ -688,8 +688,11 @@ public void exportarExcel(String rutaArchivo, List<String[]> registrosAnalisisIn
     for (int i = 0; i < headers.length; i++) {
         sheet.autoSizeColumn(i);
     }
-
-    try (FileOutputStream fileOut = new FileOutputStream(rutaArchivo)) {
+    LocalDateTime now = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM_HH-mm-yyyy");
+    String fechaSistema = now.format(formatter);
+    String dest = rutaArchivo + "/reporte " +fechaSistema + ".xlsx";
+    try (FileOutputStream fileOut = new FileOutputStream(dest)) {
         workbook.write(fileOut);
     }
     workbook.close();

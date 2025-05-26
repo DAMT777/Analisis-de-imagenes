@@ -28,6 +28,7 @@ public class User {
     private String email;
     private String password;
     private String rol;
+    private String imgProfilePath;
 
 
     /**
@@ -37,44 +38,91 @@ public class User {
      * @param email Correo electrónico del usuario.
      * @param password Contraseña en texto plano (será hasheada).
      */
-
-
-
-
     public User(String email, String password) {
         this.email = email;
         this.password = HashUtil.hashPassword(password);
+        getInfo();
     }
 
-    public User(int id, String nombre, String apellido, String email, String password, String rol) {
+    public User(int id, String nombre, String apellido, String email, String empresa, String password, String rol) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
+        this.empresa = empresa;
         //hashear la contraseña
         this.password = HashUtil.hashPassword(password);
         this.rol = rol;
     }
-    public User(int id){
 
-    }
-
-    public String getEmpresa() {
-        return empresa;
-    }
-    public void setEmpresa(String empresa) {
+    public User(String nombre, String apellido, String email, String empresa, String password, String rol){
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
         this.empresa = empresa;
-    }
-
-    /**
-     * Establece la contraseña del usuario aplicando hash para mayor seguridad.
-     *
-     * @param password Contraseña en texto plano que será hasheada y almacenada.
-     */
-    public void setPassword(String password) {
         this.password = HashUtil.hashPassword(password);
+        this.rol = rol;
     }
 
+
+    public boolean setUserName(int id, String nombre) {
+        boolean updated = DBConnect.actualizarNombreUsuario(id, nombre);
+        if (updated) {
+            this.nombre = nombre;
+        }
+        return updated;
+    }
+
+    public boolean setUserLastName(int id, String apellido) {
+        boolean updated = DBConnect.actualizarApellidoUsuario(id, apellido);
+        if (updated) {
+            this.apellido = apellido;
+        }
+        return updated;
+    }
+
+    public boolean setUserPassword(int id, String password) {
+        password = HashUtil.hashPassword(password);
+        boolean updated = DBConnect.actualizarPasswordUsuario(id, password);
+        if (updated) {
+            this.password = password    ;
+        }
+        return updated;
+    }
+
+    public boolean setUserEmail(int id, String email) {
+        boolean updated = DBConnect.actualizarCorreoUsuario(id, email);
+        if (updated) {
+            this.email = email;
+        }
+        return updated;
+    }
+
+
+    public boolean setUserEmpresa(int id, String empresa) {
+        boolean updated = DBConnect.actualizarEmpresaUsuario(id, empresa);
+        if (updated) {
+            this.empresa = empresa;
+        }
+        return updated;
+    }
+
+    public boolean setUserRol(int id, String rol) {
+        boolean updated = DBConnect.actualizarRolUsuario(id, rol);
+        if (updated) {
+            this.rol = rol;
+        }
+        return updated;
+    }
+
+
+    public boolean setUserProfileImage(int id, String rutaImagenLocal) {
+        String updated = DBConnect.actualizarImagenPerfil(id, rutaImagenLocal);
+        // Si tienes un atributo local para la imagen, actualízalo aquí:
+        if(updated != null) this.imgProfilePath = updated;
+        // if (updated) this.imgProfilePath = DBConnect.getProfilePath(id);
+        return updated != null;
+    }
 
    /**
     * Registra un nuevo usuario en la base de datos si el usuario actual tiene rol "admin".
@@ -174,43 +222,22 @@ public class User {
         }
     }
 
+
     public int getId() {
         return id;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
     }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
+    public String getEmpresa() { return empresa; }
     public String getApellido() {
         return apellido;
     }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
     public String getEmail() {
         return email;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getRol() {
         return rol;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
 }

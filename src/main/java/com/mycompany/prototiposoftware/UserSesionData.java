@@ -55,13 +55,6 @@ public class UserSesionData {
         return usuario.getId();
     }
 
-    /**
-     * Establece el ID del usuario autenticado.
-     * @param idUser ID del usuario.
-     */
-    public static void setIdUser(int idUser) {
-        if (usuario != null) usuario.setId(idUser);
-    }
 
     /**
      * Obtiene el nombre del usuario autenticado.
@@ -75,8 +68,8 @@ public class UserSesionData {
      * Establece el nombre del usuario autenticado.
      * @param nombre Nombre del usuario.
      */
-    public static void setFirtsNameUser(String nombre) {
-        if (usuario != null) usuario.setNombre(nombre);
+    public static void setFirtsNameUser(int id, String nombre) {
+        if (usuario != null) usuario.setUserName(id, nombre);
     }
 
     /**
@@ -91,8 +84,8 @@ public class UserSesionData {
      * Establece el apellido del usuario autenticado.
      * @param apellido Apellido del usuario.
      */
-    public static void setLastNameUser(String apellido) {
-        if (usuario != null) usuario.setApellido(apellido);
+    public static void setLastNameUser(int id, String apellido) {
+        if (usuario != null) usuario.setUserLastName(id, apellido);
     }
 
     /**
@@ -107,9 +100,18 @@ public class UserSesionData {
      * Establece el correo electrónico del usuario autenticado.
      * @param email Correo electrónico.
      */
-    public static void setEmailUser(String email) {
-        if (usuario != null) usuario.setEmail(email);
+    public static void setEmailUser(Integer idUser, String email) {
+        if (usuario != null) usuario.setUserEmail(idUser, email);
     }
+
+    public static void setPasswordUser(Integer idUser, String password) {
+        if (usuario != null) usuario.setUserPassword(idUser, password);
+    }
+    public static void setProfileImgUser(int id, String profileImg) {
+        if (usuario != null) usuario.setUserProfileImage(id, profileImg);
+    }
+
+    
 
     /**
      * Obtiene el rol del usuario autenticado.
@@ -119,13 +121,6 @@ public class UserSesionData {
         return usuario != null ? usuario.getRol() : null;
     }
 
-    /**
-     * Establece el rol del usuario autenticado.
-     * @param rol Rol del usuario.
-     */
-    public static void setRolUser(String rol) {
-        if (usuario != null) usuario.setRol(rol);
-    }
 
     /**
      * Obtiene la empresa del usuario autenticado.
@@ -135,13 +130,6 @@ public class UserSesionData {
         return usuario != null ? usuario.getEmpresa() : null;
     }
 
-    /**
-     * Establece la empresa del usuario autenticado.
-     * @param empresa Rol del usuario.
-     */
-    public static void setEmpresa(String empresa) {
-        if (usuario != null) usuario.setEmpresa(empresa);
-    }
 
 
     /**

@@ -8,7 +8,7 @@ import os
 model = load_model('fish_binary_classifier.h5')
 
 # Mapeo de clases: verifica este diccionario cuando entrenas el modelo
-class_indices = {'fish': 0, 'not_fish': 1}  # AJUSTA esto según lo que imprime train_generator.class_indices
+class_indices = {'fish': 0, 'not_fish': 1}  
 
 def is_fish_image(image_path: str, threshold: float = 0.5) -> str:
     img = Image.open(image_path).convert("RGB").resize((224, 224))
