@@ -197,6 +197,10 @@ public class AdminPanelController  implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
+        if (Objects.equals(UserSesionData.getRolUser(), "user")) {
+            adminListUserHBox.setDisable(true);
+        }
+
         rolLabel.setText("Rol: " + UserSesionData.getRolUser());
 
         actualName.setText(actualName.getText());

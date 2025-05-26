@@ -192,7 +192,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                      <children>
-                        <HBox fx:id="analisisHbox" alignment="CENTER_LEFT" disable="true" prefHeight="31.0" prefWidth="219.0">
+                        <HBox fx:id="analisisHbox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="#ffffff00" strokeType="INSIDE" />
                               <Label text="Análisis">
@@ -207,7 +207,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox fx:id="reportsHBox" alignment="CENTER_LEFT" disable="true" prefHeight="31.0" prefWidth="219.0">
+                        <HBox fx:id="reportsHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
                               <Label text="Reportes">
@@ -222,7 +222,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox fx:id="userHBox" alignment="CENTER_LEFT" disable="true" prefHeight="31.0" prefWidth="219.0">
+                        <HBox fx:id="userHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
                               <Label text="Usuario">

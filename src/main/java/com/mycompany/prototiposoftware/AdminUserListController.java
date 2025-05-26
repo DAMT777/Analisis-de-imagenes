@@ -18,6 +18,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.scene.input.MouseEvent;
@@ -156,6 +157,10 @@ public class AdminUserListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
+
+        if (Objects.equals(UserSesionData.getRolUser(), "user")) {
+            adminListUserHBox.setDisable(true);
+        }
         rolLabel.setText("Rol: " + UserSesionData.getRolUser());
 
 

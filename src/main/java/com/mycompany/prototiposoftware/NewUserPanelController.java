@@ -12,12 +12,15 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class NewUserPanelController implements Initializable {
 
     @Override
     public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
-        // Aquí puedes inicializar cualquier cosa que necesites al cargar la escena
+        if (Objects.equals(UserSesionData.getRolUser(), "user")) {
+            adminListUserHBox.setDisable(true);
+        }
         rolLabel.setText("Rol: " + UserSesionData.getRolUser());
     }
 

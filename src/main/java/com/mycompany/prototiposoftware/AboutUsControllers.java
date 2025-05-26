@@ -26,10 +26,6 @@ public class AboutUsControllers implements Initializable {
 
         if (Objects.equals(UserSesionData.getRolUser(), "user")) {
             adminListUserHBox.setDisable(true);
-        } else {
-            analisisHbox.setDisable(true);
-            reportsHBox.setDisable(true);
-            userHBox.setDisable(true);
         }
     }
 
