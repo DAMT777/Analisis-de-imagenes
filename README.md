@@ -64,13 +64,13 @@ El **Sistema de Análisis de la Calidad del Pescado (S.A.C.P.)** es una aplicaci
 
 ### Python y dependencias de IA
 
-* **Python 3.10.x**
+* **Python 3.9**
 
-  * Descarga: [https://www.python.org/downloads/release/python-3100/](https://www.python.org/downloads/release/python-3100/)
+  * Descarga: [https://www.python.org/downloads/release/python-390/](https://www.python.org/downloads/release/python-390/)
 * Crear entorno virtual (opcional pero recomendado):
 
   ```powershell
-  py -3.10 -m venv tf-env
+  py -3.9 -m venv tf-env
   .\tf-env\Scripts\activate
   ```
 * Instalar dependencias:
@@ -92,7 +92,7 @@ El **Sistema de Análisis de la Calidad del Pescado (S.A.C.P.)** es una aplicaci
 2. Ejecutar:
 
    ```powershell
-   python run_api.bat
+   run_api.bat
    ```
 
   * Por defecto expone el puerto **8001**.
