@@ -162,6 +162,7 @@ public class ResultAlgorithmController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        /*
         try {
             datosPDFLote = DBConnect.getDataReporte(idLote);
         } catch (SQLException e) {
@@ -202,7 +203,52 @@ public class ResultAlgorithmController implements Initializable {
         labelCalificacionPromedio.setText(calidadPromedio);
 
         labelCalidadLote.setText(calidadFinalTextual);
+        */
+        cargarDatos();
     }
+
+    public void setInfoReportHistory(TableUserHistoryReports u) {
+        idLote = u.getIdLote();
+        cargarDatos();
+    }
+
+    private void cargarDatos() {
+        try {
+            datosPDFLote = DBConnect.getDataReporte(idLote);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        if (datosPDFLote.length == 0) {
+            System.out.println("El array está vacío o es null");
+        }
+
+        fechaAnalisis = datosPDFLote[0];
+        cantidadMuestras = datosPDFLote[1];
+        trazabilidadLote = datosPDFLote[2];
+        ciudadLote = datosPDFLote[3];
+        calidadPromedio = datosPDFLote[4];
+        cantidadAnomalias = datosPDFLote[5];
+        calidadOjosProm = datosPDFLote[6];
+        calidadPielProm = datosPDFLote[7];
+        tiempoPesca = datosPDFLote[8];
+        calidadFinalTextual = determinarCalidad(calidadPromedio);
+
+        colOjos.setCellValueFactory(new PropertyValueFactory<>("calidadOjos"));
+        colPiel.setCellValueFactory(new PropertyValueFactory<>("calidadPiel"));
+        colAnomalias.setCellValueFactory(new PropertyValueFactory<>("anomaliasEncontradas"));
+        colMuestras.setCellValueFactory(new PropertyValueFactory<>("cantidadMuestras"));
+
+        ObservableList<TableViewData> datos = FXCollections.observableArrayList(
+                new TableViewData(calidadOjosProm, calidadPielProm, cantidadAnomalias, cantidadMuestras)
+        );
+
+        tablaRegistros.setItems(datos);
+        tablaRegistros.getStylesheets().add(getClass().getResource("/com/mycompany/prototiposoftware/styles/tableStyles.css").toExternalForm());
+
+        labelCalificacionPromedio.setText(calidadPromedio);
+        labelCalidadLote.setText(calidadFinalTextual);
+    }
+
 
 
     @FXML

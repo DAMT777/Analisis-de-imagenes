@@ -4,7 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -195,6 +197,40 @@ public class HistoryReportsController implements Initializable {
             users.add(new TableUserHistoryReports(idLote, fecha, condition, city, fishTime,invima,calificacion));
         }
         tableUserHistoryReports.setItems(users);
+
+        tableUserHistoryReports.setRowFactory(tv -> {
+            TableRow<TableUserHistoryReports> row = new TableRow<>();
+            row.setOnMouseClicked(ev -> {
+                if (!row.isEmpty() && ev.getClickCount() == 2) {
+                    TableUserHistoryReports seleccionado = row.getItem();
+                    abrirResultAlgorithmConUsuario(seleccionado);
+                }
+            });
+            return row;
+        });
     }
+
+    /**
+     * Carga AdminPanel.fxml, obtiene su controlador y le pasa
+     * el usuario seleccionado antes de mostrar la nueva escena.
+     */
+    private void abrirResultAlgorithmConUsuario(TableUserHistoryReports report) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ResultAlgorithmScene.fxml"));
+            Parent root = loader.load();
+
+            // Obtén el controlador de AdminPanel y pásale el usuario
+            ResultAlgorithmController ctrl = loader.getController();
+            ctrl.setInfoReportHistory(report);
+
+            // Cambia la escena
+            Stage stage = (Stage) tableUserHistoryReports.getScene().getWindow();
+            App.scene.setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }
