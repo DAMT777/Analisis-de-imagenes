@@ -50,6 +50,8 @@ public class ResultAlgorithmController implements Initializable {
     List<String[]> analisisIndividuales;
 
 
+    @FXML
+    private Label rolLabel;
 
     // ---------------------------------------------------------------------------------- Menu Lateral
     @FXML
@@ -162,48 +164,8 @@ public class ResultAlgorithmController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /*
-        try {
-            datosPDFLote = DBConnect.getDataReporte(idLote);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        if (datosPDFLote.length == 0) {
-            // Está vacío o no inicializado
-            System.out.println("El array está vacío o es null");
-        }
+        rolLabel.setText("Rol: " + UserSesionData.getRolUser());
 
-        fechaAnalisis = datosPDFLote[0];
-        cantidadMuestras = datosPDFLote[1];
-        trazabilidadLote = datosPDFLote[2];
-        ciudadLote = datosPDFLote[3];
-        calidadPromedio = datosPDFLote[4];
-        cantidadAnomalias = datosPDFLote[5];
-        calidadOjosProm = datosPDFLote[6];
-        calidadPielProm = datosPDFLote[7];
-        tiempoPesca = datosPDFLote[8];
-        calidadFinalTextual = determinarCalidad(calidadPromedio);
-        // Enlazar columnas con las propiedades del modelo
-        colOjos.setCellValueFactory(new PropertyValueFactory<>("calidadOjos"));
-        colPiel.setCellValueFactory(new PropertyValueFactory<>("calidadPiel"));
-        colAnomalias.setCellValueFactory(new PropertyValueFactory<>("anomaliasEncontradas"));
-        colMuestras.setCellValueFactory(new PropertyValueFactory<>("cantidadMuestras"));
-
-        // Visual de los datos en la tabla de resultados
-
-
-        // añadir el tiempo de pesca a la tabla
-        ObservableList<TableViewData> datos = FXCollections.observableArrayList(
-                new TableViewData(calidadOjosProm, calidadPielProm, cantidadAnomalias, cantidadMuestras)
-        );
-
-        tablaRegistros.setItems(datos);
-        tablaRegistros.getStylesheets().add(getClass().getResource("/com/mycompany/prototiposoftware/styles/tableStyles.css").toExternalForm());
-
-        labelCalificacionPromedio.setText(calidadPromedio);
-
-        labelCalidadLote.setText(calidadFinalTextual);
-        */
         cargarDatos();
     }
 

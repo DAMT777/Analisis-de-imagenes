@@ -2,8 +2,10 @@ package com.mycompany.prototiposoftware;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -12,7 +14,25 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class AboutUsControllers {
+public class AboutUsControllers implements Initializable {
+    @FXML
+    private Label rolLabel;
+
+    @Override
+    public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
+        rolLabel.setText("Rol: " + UserSesionData.getRolUser());
+
+        System.out.println("Este es el rol de usuario: " + UserSesionData.getRolUser());
+
+        if (Objects.equals(UserSesionData.getRolUser(), "user")) {
+            adminListUserHBox.setDisable(true);
+        } else {
+            analisisHbox.setDisable(true);
+            reportsHBox.setDisable(true);
+            userHBox.setDisable(true);
+        }
+    }
+
     // ---------------------------------------------------------------------------------- Menu Lateral
     @FXML
     private AnchorPane menuBox;  // menu expandible
@@ -107,12 +127,10 @@ public class AboutUsControllers {
 
     @FXML    //cambio de escena al hacer lcick en salir
     private void regresar() throws IOException {
-        UserSesionData.clearSession();
         if (Objects.equals(UserSesionData.getRolUser(), "user")) {
             App.setRoot("MainScene");
         } else{
             App.setRoot("AdminUsersList");
         }
-        App.setRoot("LoginScene");
     }
 }

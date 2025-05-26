@@ -18,7 +18,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminPanelController  implements Initializable {
-
+    @FXML
+    private Label rolLabel;
 
     // ---------------------------------------------------------------------------------- Menu Lateral
     @FXML
@@ -196,6 +197,7 @@ public class AdminPanelController  implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
+        rolLabel.setText("Rol: " + UserSesionData.getRolUser());
 
         actualName.setText(actualName.getText());
         actualApellido.setText(actualApellido.getText());

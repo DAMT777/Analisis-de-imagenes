@@ -22,6 +22,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -45,10 +46,18 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
-public class MainController {
+public class MainController implements Initializable {
+    @Override
+    public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
+        // Aquí puedes inicializar cualquier cosa que necesites al cargar la escena
+        rolLabel.setText("Rol: " + UserSesionData.getRolUser());
+    }
+
+
     String [] contextoLote = new String[5];
 
-
+    @FXML
+    private Label rolLabel; // etiqueta que muestra el rol del usuario
 
     // ---------------------------------------------------------------------------------- Menu Lateral
     @FXML

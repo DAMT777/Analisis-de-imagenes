@@ -28,7 +28,8 @@ import javafx.stage.Stage;
 
 public class AdminUserListController implements Initializable {
 
-
+    @FXML
+    private Label rolLabel;
     // ---------------------------------------------------------------------------------- Menu Lateral
     @FXML
     private AnchorPane menuBox;  // menu expandible
@@ -155,6 +156,8 @@ public class AdminUserListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
+        rolLabel.setText("Rol: " + UserSesionData.getRolUser());
+
 
         List<String[]> usersData =  DBConnect.getUsuariosEmpresa(UserSesionData.getEmpresa());
         System.out.println("Empresa: " + UserSesionData.getEmpresa());
