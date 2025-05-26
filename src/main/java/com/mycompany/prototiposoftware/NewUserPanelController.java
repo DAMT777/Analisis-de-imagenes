@@ -1,6 +1,7 @@
 package com.mycompany.prototiposoftware;
 
 import com.databaseInteractions.DBConnect;
+import com.utils.HashUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -149,7 +150,7 @@ public class NewUserPanelController {
                 errorMessage("Las contraseñas no coinciden.");
                 return;
             }
-            DBConnect.registrarUsuario(nombre, apellido, UserSesionData.getEmpresa(), email, password, rol);
+            DBConnect.registrarUsuario(nombre, apellido, UserSesionData.getEmpresa(), email, HashUtil.hashPassword(password);, rol);
             successMessage("Usuario registrado con exito.");
             App.setRoot("MainScene");
         } else {
