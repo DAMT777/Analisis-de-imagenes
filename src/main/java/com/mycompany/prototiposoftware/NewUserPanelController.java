@@ -4,10 +4,8 @@ import com.databaseInteractions.DBConnect;
 import com.utils.HashUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -15,7 +13,16 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class NewUserPanelController {
+public class NewUserPanelController implements Initializable {
+
+    @Override
+    public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
+        // Aquí puedes inicializar cualquier cosa que necesites al cargar la escena
+        rolLabel.setText("Rol: " + UserSesionData.getRolUser());
+    }
+
+    @FXML
+    private Label rolLabel;
 
     // ---------------------------------------------------------------------------------- Menu Lateral
     @FXML

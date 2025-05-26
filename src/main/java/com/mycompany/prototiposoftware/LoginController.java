@@ -12,6 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class LoginController {
 
@@ -36,7 +37,7 @@ public class LoginController {
         //listo el requerimiento
         User user = DBConnect.getInfo(email);
         UserSesionData.setAllUserData(user, DBConnect.getNLotes(user.getId()) );
-            irAnalisisImg();
+            loginSucces();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error de inicio de sesión");
@@ -46,11 +47,13 @@ public class LoginController {
         }
     }
 
-
     @FXML
-    private void irAnalisisImg() throws IOException {
-        App.setRoot("MainScene"); // Cambias a la segunda escena
+    private void loginSucces() throws IOException {
+
+        if (Objects.equals(UserSesionData.getRolUser(), "admin")){
+            App.setRoot("AdminUsersList");
+        } else {
+            App.setRoot("MainScene"); // Cambias a la segunda escena
+        }
     }
-
-
 }
