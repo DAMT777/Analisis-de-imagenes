@@ -14,7 +14,17 @@
 
 <AnchorPane fx:id="anchorPaneLogin" cacheShape="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="683.0" prefWidth="1059.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.prototiposoftware.LoginController">
    <children>
-      <VBox alignment="CENTER" layoutX="383.0" layoutY="73.0" prefHeight="355.0" prefWidth="291.0" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="40.0">
+      <ImageView fitHeight="500.0" fitWidth="500.0" layoutX="675.0" layoutY="478.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-2.0" AnchorPane.rightAnchor="-2.0">
+         <image>
+            <Image url="@../../../img/DownDecoration.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="500.0" fitWidth="500.0" layoutX="-1.3333333333333333" layoutY="-1.6666666666666665" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="-1.3333333333333333" AnchorPane.topAnchor="-1.6666666666666665">
+         <image>
+            <Image url="@../../../img/UpDecoration.png" />
+         </image>
+      </ImageView>
+      <VBox alignment="CENTER" layoutX="230.0" layoutY="45.0" prefHeight="593.0" prefWidth="600.0" spacing="10.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="229.33333333333326" AnchorPane.topAnchor="45.0">
          <children>
             <ImageView fitHeight="293.0" fitWidth="327.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -39,19 +49,9 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Separator prefWidth="200.0" />
+            <Separator prefHeight="0.0" prefWidth="638.0" />
             <Label fx:id="labelError" />
          </children>
       </VBox>
-      <ImageView fitHeight="500.0" fitWidth="500.0" layoutX="675.0" layoutY="478.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-2.0" AnchorPane.rightAnchor="-2.0">
-         <image>
-            <Image url="@../../../img/DownDecoration.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="500.0" fitWidth="500.0" layoutX="-1.3333333333333333" layoutY="-1.6666666666666665" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="-1.3333333333333333" AnchorPane.topAnchor="-1.6666666666666665">
-         <image>
-            <Image url="@../../../img/UpDecoration.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>

@@ -89,7 +89,7 @@
                               <Region prefHeight="40.0" prefWidth="603.0" />
                               <TableView fx:id="tablaRegistros" maxWidth="1000.0" prefHeight="96.0" prefWidth="549.0">
                                 <columns>
-                                    <TableColumn prefWidth="75.0" text="Datos Promedio Del Lote">
+                                    <TableColumn prefWidth="75.0" style="-fx-border-color: white;" text="Datos Promedio Del Lote">
                                        <columns>
                                         <TableColumn fx:id="colPiel" prefWidth="115.3333740234375" text="Calidad de Piel" />
                                         <TableColumn fx:id="colOjos" prefWidth="114.00006103515625" text="Calidad ojos" />
