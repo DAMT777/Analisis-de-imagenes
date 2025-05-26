@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminPanelController  implements Initializable {
@@ -178,6 +180,20 @@ public class AdminPanelController  implements Initializable {
         idUser = u.getId();
     }
 
+
+    public boolean showQuestion(String question) {
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Pregunta");
+        alerta.setHeaderText(null);
+        alerta.setContentText(question);
+
+        // Botones por defecto: OK y Cancel
+        Optional<ButtonType> result = alerta.showAndWait();
+
+        // Devuelve true si el usuario presionó OK
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
 
@@ -188,6 +204,13 @@ public class AdminPanelController  implements Initializable {
     }
     @FXML
     private void eliminarUser() throws IOException {
-        DBConnect.eliminarUsuario(Integer.parseInt(idUser));
+        if (showQuestion("Se eliminará el usuario. ¿Está seguro?")) {
+            if (Objects.equals(idUser, UserSesionData.getIdUser() + "")){}
+            else {
+                errorMessage("No puedes eliminar tu propio usuario.");
+                return;
+            }
+            DBConnect.eliminarUsuario(Integer.parseInt(idUser));
+        }
     }
 }

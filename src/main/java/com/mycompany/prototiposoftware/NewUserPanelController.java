@@ -101,6 +101,7 @@ public class NewUserPanelController {
         alerta.showAndWait();
     }
 
+
     public void successMessage(String message) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION); // Cambiamos de ERROR a INFORMATION
         alerta.setTitle("Éxito");
@@ -150,7 +151,7 @@ public class NewUserPanelController {
                 errorMessage("Las contraseñas no coinciden.");
                 return;
             }
-            DBConnect.registrarUsuario(nombre, apellido, UserSesionData.getEmpresa(), email, HashUtil.hashPassword(password);, rol);
+            DBConnect.registrarUsuario(nombre, apellido, UserSesionData.getEmpresa(), email, HashUtil.hashPassword(password), rol);
             successMessage("Usuario registrado con exito.");
             App.setRoot("MainScene");
         } else {

@@ -117,13 +117,16 @@
                                     <Label text="Nuevo Correo:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                     <Label text="Confirmar Contraseña" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                                     <PasswordField fx:id="confirmNewPassword" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: red; -fx-background-radius: 30;" text="Eliminar Usuario" textFill="WHITE" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
+                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#eliminarUser" style="-fx-background-color: red; -fx-background-radius: 30; -fx-border-color: white; -fx-border-radius: 30;" text="Eliminar Usuario" textFill="WHITE" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                        <GridPane.margin>
                                           <Insets left="100.0" right="100.0" />
                                        </GridPane.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Button>
                                  </children>
                                  <padding>
