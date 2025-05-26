@@ -31,7 +31,6 @@ El **Sistema de Análisis de la Calidad del Pescado (S.A.C.P.)** es una aplicaci
 
 ---
 
-## ⚙️ Requisitos
 
 ### Java y herramienta gráfica
 
