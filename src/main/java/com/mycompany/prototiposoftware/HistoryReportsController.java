@@ -193,7 +193,7 @@ public class HistoryReportsController implements Initializable {
             invima = invima.equals("true") ? "Si" : "No";
             calificacion = flatList.get(i + 6);
 
-            users.add(new TableUserHistoryReports(idLote, fecha, condition, city, fishTime,invima,calificacion));
+            users.add(new TableUserHistoryReports(idLote, fecha, condition, city, invima,fishTime,calificacion));
         }
         tableUserHistoryReports.setItems(users);
 
