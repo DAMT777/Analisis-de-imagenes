@@ -192,6 +192,7 @@ public class DBConnect {
         int calidadOjos = json.get("calidad_ojos").getAsInt();
         int calidadPiel = json.get("calidad_piel").getAsInt();
         String descripcionImg = json.get("descripcion_img").getAsString();
+        boolean anomalia = json.get("anomalia").getAsBoolean();
 
         // Calcular calidad promedio y redondear al entero más cercano
         double promedio = (calidadOjos + calidadPiel) / 2.0;
@@ -477,7 +478,7 @@ public class DBConnect {
         json.addProperty("calidad_ojos", valoracion.get("calificacion_ojos").getAsInt());
         json.addProperty("calidad_piel", valoracion.get("calificacion_piel").getAsInt());
         json.addProperty("descripcion_img", valoracion.has("descripcion_img") ? valoracion.get("descripcion_img").getAsString() : "");
-
+        json.addProperty("anomalia", valoracion.toString());
         return registrarResultadoAnalisis(json);
     }
 

@@ -12,6 +12,7 @@ public class Lote {
     private String path;
     private String condicion;
     private String procedencia;
+    private int anomalias;
     private boolean registradoInvima = true;
     private String tiempoPesca = "3 dias";
 
@@ -39,7 +40,12 @@ public class Lote {
         this.imagenes = new ArrayList<Imagen>();
         getImgsFromPath(path);
     }
-
+    public void setAnomalias(int anomalias) {
+        this.anomalias = anomalias;
+    }
+    public int getAnomalias() {
+        return anomalias;
+    }
     public String getCondiciones() {
         return condicion;
     }
