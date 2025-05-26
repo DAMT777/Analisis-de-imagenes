@@ -23,6 +23,8 @@ public class LoteProcessor {
         flag.accept("Procesando imagenes");
         String rutaProcesada = "";
         String mensaje = "";
+        float time = 0;
+        int anomalias = 0;
         for (Imagen imagen : imagenes) {
             // ../../../
             JsonObject json1 = PythonCNNService.classifyImage(".\\."+imagen.getPath());
@@ -32,16 +34,22 @@ public class LoteProcessor {
                 continue;
             }
             JsonObject json = PythonCNNService.communicate(".\\."+ imagen.getPath());
+            time += json.get("processing_time_seconds").getAsFloat();
             System.out.println(json.toString());
             System.out.println(".\\."+imagen.getPath());
+            if(json.get("anomalia").equals("true")) {
+                anomalias++;
+
+            }
             json.addProperty("descripcion_img", "");
             imagen.setValoracion(json);
             rutaProcesada = json.get("processed_image_path").getAsString();
             imagen.setPath(rutaProcesada);
             imagenesProcesadas.add(imagen);
         }
-        flag.accept("Subiendo imagenes y resultados . " + mensaje);
+        flag.accept("Tiempo de procesado:"+ time + "s. Subiendo imagenes y resultados. " + mensaje);
         lote.setImagenes(imagenesProcesadas);
+        lote.setAnomalias(anomalias);
         lote.setPath(obtenerCarpetaDeImagen(rutaProcesada));
 
         return DBConnect.registrarImagenesDeLote(lote);

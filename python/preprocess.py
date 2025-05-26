@@ -89,6 +89,7 @@ def preprocess_image(image_path, solo_ojo=False):
     gray = cv2.cvtColor(image_cv, cv2.COLOR_RGB2GRAY)
     eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
     eyes = eye_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
+    num_eyes = len(eyes)  # Contar el número de ojos detectados
 
     body_box = None
     if not solo_ojo:
@@ -116,7 +117,7 @@ def preprocess_image(image_path, solo_ojo=False):
     image_array = image_resized / 255.0
     image_array = np.expand_dims(image_array, axis=0)
 
-    return os.path.abspath(seg_path)
+    return os.path.abspath(seg_path), num_eyes  # Retornar el número de ojos
 
 
 
