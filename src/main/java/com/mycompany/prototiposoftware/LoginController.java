@@ -6,15 +6,32 @@ package com.mycompany.prototiposoftware;
 
 import com.databaseInteractions.DBConnect;
 import com.processing.User;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class LoginController {
+public class LoginController implements Initializable {
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Platform.runLater(() -> anchorPaneLogin.requestFocus());
+    }
+
+    @FXML
+    private AnchorPane anchorPaneLogin;
+
+    @FXML
+    private Label labelError;
 
     @FXML
     private TextField textFieldEmail;
@@ -22,10 +39,30 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
+    private boolean esEmailValido(String email) {
+        // Expresión regular simple para validar estructura de email
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return email.matches(regex);
+    }
+
     @FXML
     private void userValidation() throws IOException {
         String email = textFieldEmail.getText();
         String password = passwordField.getText();
+
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+                labelError.setText("Ninguno de los campos puede estar vacío");
+                return;
+        } else {
+            // Validar que el email tenga formato correcto
+            if (!esEmailValido(email)) {
+                labelError.setText("El correo ingresado no es válido.");
+                return;
+            } else {
+                labelError.setText(""); // Limpia el error si ya es válido
+            }
+        }
+
 
 
         //en este espacio se realiza la validacion de los datos, email y password en la base de datos.
