@@ -21,9 +21,12 @@
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #09395E; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;">
+            <HBox alignment="CENTER_LEFT" maxHeight="89.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="89.0" prefWidth="900.0" style="-fx-background-color: #09395E; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;">
                <children>
-                  <Label fx:id="rolLabel" prefHeight="26.0" prefWidth="250.0" text="Piscicultor" textFill="WHITE">
+                  <Label fx:id="rolLabel" alignment="CENTER" maxHeight="39.0" prefHeight="19.0" prefWidth="199.0" style="-fx-background-color: white; -fx-background-radius: 30; -fx-border-color: #38AEF5; -fx-border-radius: 30;" text="Piscicultor">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                      <padding>
                         <Insets left="5.0" />
                      </padding>
@@ -31,7 +34,7 @@
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </Label>
-                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="0.0" HBox.hgrow="SOMETIMES" />
+                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="157.0" HBox.hgrow="ALWAYS" />
                   <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../img/MainLogo.png" />
@@ -46,8 +49,8 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="124.0" HBox.hgrow="SOMETIMES" />
-                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#irALoginController" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: #38AEF5; -fx-border-radius: 500;" text="Cerrar Sesion">
+                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="224.0" HBox.hgrow="ALWAYS" />
+                  <Button maxHeight="39.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#irALoginController" prefHeight="39.0" prefWidth="126.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20;" text="Cerrar Sesion">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -78,26 +81,26 @@
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                                        <children>
-                                          <Label text="Ciudad:" />
-                                          <ComboBox fx:id="comboCity" prefHeight="25.0" prefWidth="100.0" />
+                                          <Label text="Ciudad:" textFill="#2c3e50" />
+                                          <ComboBox fx:id="comboCity" prefHeight="25.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2); -fx-border-color: #09395E;" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="34.0" prefWidth="247.0" spacing="5.0">
                                        <children>
-                                          <Label text="Condiciones:" HBox.hgrow="ALWAYS" />
-                                          <ComboBox fx:id="comboCondition" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="100.0" />
+                                          <Label text="Condiciones:" textFill="#2c3e50" HBox.hgrow="ALWAYS" />
+                                          <ComboBox fx:id="comboCondition" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2); -fx-border-color: #09395E;" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="34.0" prefWidth="227.0" spacing="5.0">
                                        <children>
-                                          <Label text="Tiempo Pesca:" />
-                                          <ComboBox fx:id="comboFishTime" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="100.0" />
+                                          <Label text="Tiempo Pesca:" textFill="#2c3e50" />
+                                          <ComboBox fx:id="comboFishTime" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2); -fx-border-color: #09395E;" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="34.0" prefWidth="233.0" spacing="5.0">
                                        <children>
-                                          <Label text="Registro Invima:" />
-                                          <ComboBox fx:id="comboInvima" prefHeight="25.0" prefWidth="100.0" />
+                                          <Label text="Registro Invima:" textFill="#2c3e50" />
+                                          <ComboBox fx:id="comboInvima" prefHeight="25.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2); -fx-border-color: #09395E;" />
                                        </children>
                                     </HBox>
                                  </children>

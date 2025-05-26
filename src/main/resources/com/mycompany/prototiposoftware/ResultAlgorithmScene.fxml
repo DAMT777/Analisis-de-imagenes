@@ -20,9 +20,12 @@
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #09395E; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;">
+            <HBox alignment="CENTER_LEFT" maxHeight="89.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="89.0" prefWidth="900.0" style="-fx-background-color: #09395E; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;">
                <children>
-                  <Label fx:id="rolLabel" prefHeight="26.0" prefWidth="250.0" text="Piscicultor" textFill="WHITE">
+                  <Label fx:id="rolLabel" alignment="CENTER" maxHeight="39.0" prefHeight="19.0" prefWidth="199.0" style="-fx-background-color: white; -fx-background-radius: 30; -fx-border-color: #38AEF5; -fx-border-radius: 30;" text="Piscicultor">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                      <padding>
                         <Insets left="5.0" />
                      </padding>
@@ -30,7 +33,7 @@
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </Label>
-                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="0.0" HBox.hgrow="SOMETIMES" />
+                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="157.0" HBox.hgrow="ALWAYS" />
                   <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../img/MainLogo.png" />
@@ -45,8 +48,8 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="124.0" HBox.hgrow="SOMETIMES" />
-                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#irALoginController" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: #38AEF5; -fx-border-radius: 500;" text="Cerrar Sesion">
+                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="224.0" HBox.hgrow="ALWAYS" />
+                  <Button maxHeight="39.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#irALoginController" prefHeight="39.0" prefWidth="126.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20;" text="Cerrar Sesion">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -76,7 +79,7 @@
                      <children>
                         <VBox alignment="TOP_CENTER" layoutX="163.0" layoutY="14.0" prefHeight="420.0" prefWidth="603.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.0" prefWidth="603.0" style="-fx-background-color: #38AEF5; -fx-border-radius: 300; -fx-border-color: #09395E; -fx-background-radius: 30;" text="Resultado del análisis" textAlignment="CENTER" textFill="WHITE">
+                              <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="1000.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.0" prefWidth="603.0" style="-fx-background-color: #38AEF5; -fx-border-radius: 300; -fx-border-color: #09395E; -fx-background-radius: 30;" text="Resultado del análisis" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
@@ -84,7 +87,7 @@
                                     <Insets />
                                  </VBox.margin></Label>
                               <Region prefHeight="40.0" prefWidth="603.0" />
-                              <TableView fx:id="tablaRegistros" prefHeight="96.0" prefWidth="549.0">
+                              <TableView fx:id="tablaRegistros" maxWidth="1000.0" prefHeight="96.0" prefWidth="549.0">
                                 <columns>
                                     <TableColumn prefWidth="75.0" text="Datos Promedio Del Lote">
                                        <columns>
@@ -102,15 +105,15 @@
                               <Region prefHeight="31.0" prefWidth="603.0" />
                               <HBox alignment="CENTER" prefHeight="103.0" prefWidth="603.0">
                                  <children>
-                                    <VBox prefHeight="138.0" prefWidth="424.0" HBox.hgrow="ALWAYS">
+                                    <VBox alignment="CENTER" prefHeight="138.0" prefWidth="424.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-border-color: #09395E;" VBox.vgrow="ALWAYS">
+                                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1000.0" minHeight="-Infinity" minWidth="-Infinity" style="-fx-border-color: #09395E;" VBox.vgrow="ALWAYS">
                                              <children>
-                                                <VBox layoutX="84.0" layoutY="20.666666666666664" prefHeight="77.0" prefWidth="324.0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="19.0">
+                                                <VBox layoutX="84.0" layoutY="20.666666666666664" maxHeight="-Infinity" maxWidth="1000.0" prefHeight="77.0" prefWidth="324.0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="19.0">
                                                    <children>
                                                       <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="352.0" VBox.vgrow="ALWAYS">
                                                          <children>
-                                                            <Region prefHeight="200.0" prefWidth="200.0" />
+                                                            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                                                             <Label prefHeight="20.0" prefWidth="167.0" text="  Calificación promedio:">
                                                                <font>
                                                                   <Font name="System Bold" size="14.0" />
@@ -121,12 +124,12 @@
                                                                <font>
                                                                   <Font size="14.0" />
                                                                </font></Label>
-                                                            <Region prefHeight="200.0" prefWidth="200.0" />
+                                                            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                                                          </children>
                                                       </HBox>
                                                       <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="227.0" VBox.vgrow="ALWAYS">
                                                          <children>
-                                                            <Region prefHeight="200.0" prefWidth="200.0" />
+                                                            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                                                             <Label prefHeight="17.0" prefWidth="122.0" text="  Calidad del lote: ">
                                                                <font>
                                                                   <Font name="System Bold" size="14.0" />
@@ -137,7 +140,7 @@
                                                                <font>
                                                                   <Font size="14.0" />
                                                                </font></Label>
-                                                            <Region prefHeight="200.0" prefWidth="200.0" />
+                                                            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                                                          </children>
                                                       </HBox>
                                                    </children>
