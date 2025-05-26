@@ -233,16 +233,29 @@ public class MainController {
         hBoxUploadLoteImage.setManaged(hBoxUploadLoteImage.isVisible());
     }
 
+    public boolean isArrayEmpty(String[] arr) {
+        if (arr == null) return true;               // consideramos null como “vacío”
+        for (String s : arr) {
+            if (s != null && !s.isEmpty()) {
+                return false;                       // encontramos al menos un valor “no vacío”
+            }
+        }
+        return true;                                // todos eran null o ""
+    }
 
     @FXML
     private void cargarImagen() {
         contextoLote = dialogScene();
+        System.out.println("tamano lote: "+contextoLote.length);
+        if (isArrayEmpty(contextoLote)) {
+            return;
+        }
+
         DBConnect.contextoLote = contextoLote;
         System.out.println("Ciudad: " + contextoLote[0] + " / Registrado invima: " + contextoLote[1]);
         System.out.println("Condicion lote: " + contextoLote[2] + " / Tiempo de pesca: " + contextoLote[3]);
 
         tilePaneLoteImages.setHgap(2);
-        //tilePaneLoteImages.setVgap(10);
         tilePaneLoteImages.setPrefColumns(9);
 
         eraseFiles();
@@ -256,40 +269,54 @@ public class MainController {
         List<File> archivos = fileChooser.showOpenMultipleDialog(null);
 
         if (archivos != null) {
-            if (archivos.size() > 50) {
-                errorMessage("El límite de imágenes es máximo 50");
-            } else {
-                UploadLoteIamgeHideUnHide();
+            if (archivos.size() > 40) {
+                errorMessage("El límite de imágenes es máximo 40");
+                return;
+            }
 
-                for (File archivo : archivos) {
-                    String imagePath = archivo.toURI().toString();
-                    Image image = new Image(imagePath);
+            boolean anyLoaded = false;  // ← flag para saber si cargó ALGUNA imagen
 
-                    ImageView iv = new ImageView(image);
-                    iv.setFitWidth(70);
-                    iv.setFitHeight(70);
-                    iv.setPreserveRatio(false); // Queremos clip cuadrado uniforme
-
-                    // Clip de esquinas redondeadas
-                    Rectangle clip = new Rectangle(70, 70);
-                    clip.setArcWidth(14);
-                    clip.setArcHeight(14);
-                    iv.setClip(clip);
-
-                    // Contenedor con estilo visual limpio
-                    StackPane imageContainer = new StackPane(iv);
-                    imageContainer.setPrefSize(70, 70);
-                    imageContainer.setStyle(
-                            "-fx-background-color: white;" +
-                                    "-fx-background-radius: 20;" +
-                                    "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 0, 2);" +
-                                    "-fx-padding: 5;"
-                    );
-
-                    tilePaneLoteImages.getChildren().add(imageContainer);
-
-                    saveImage(archivo);
+            for (File archivo : archivos) {
+                if (archivo.length() > 8 * 1024 * 1024) {
+                    errorMessage("La imagen '" + archivo.getName() + "' pesa más de 8MB y no será cargada.");
+                    continue; // salta esta imagen
                 }
+
+                // Aquí ya sabemos que la imagen es válida: la mostramos y guardamos
+                String imagePath = archivo.toURI().toString();
+                Image image = new Image(imagePath);
+
+                ImageView iv = new ImageView(image);
+                iv.setFitWidth(70);
+                iv.setFitHeight(70);
+                iv.setPreserveRatio(false);
+
+                Rectangle clip = new Rectangle(70, 70);
+                clip.setArcWidth(14);
+                clip.setArcHeight(14);
+                iv.setClip(clip);
+
+                StackPane imageContainer = new StackPane(iv);
+                imageContainer.setPrefSize(70, 70);
+                imageContainer.setStyle(
+                        "-fx-background-color: white;" +
+                                "-fx-background-radius: 20;" +
+                                "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 0, 2);" +
+                                "-fx-padding: 5;"
+                );
+
+                tilePaneLoteImages.getChildren().add(imageContainer);
+                saveImage(archivo);
+
+                anyLoaded = true;  // ← marcamos que al menos 1 pasó la validación
+            }
+
+            if (anyLoaded) {
+                // Solo si cargamos alguna imagen correctamente
+                UploadLoteIamgeHideUnHide();
+            } else {
+                // (Opcional) informar de que ninguna pasó la validación de tamaño
+                errorMessage("Ninguna imagen fue cargada porque todas superan los 8MB.");
             }
         }
     }

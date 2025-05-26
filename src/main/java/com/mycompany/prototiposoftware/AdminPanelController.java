@@ -204,11 +204,16 @@ public class AdminPanelController  implements Initializable {
     }
     @FXML
     private void eliminarUser() throws IOException {
+        System.out.println("Id extraida de la tabla: "+ idUser);
+        System.out.println("Id local: " + UserSesionData.getIdUser());
+
         if (showQuestion("Se eliminará el usuario. ¿Está seguro?")) {
-            if (Objects.equals(idUser, UserSesionData.getIdUser() + "")){
+            if (String.valueOf(UserSesionData.getIdUser()).equals(idUser)){
+                System.out.println("ids iguales");
                 errorMessage("No puedes eliminar tu propio usuario.");
             }
             else {
+                System.out.println("ids diferentes, borrado");
                 DBConnect.eliminarUsuario(Integer.parseInt(idUser));
             }
         }
