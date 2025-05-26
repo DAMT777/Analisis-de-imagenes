@@ -67,7 +67,7 @@ El **Sistema de Análisis de la Calidad del Pescado (S.A.C.P.)** es una aplicaci
 
 * **Python 3.10.x**
 
-  * Descarga: [https://www.python.org/downloads/release/python-390/](https://www.python.org/downloads/release/python-390/)
+  * Descarga: [https://www.python.org/downloads/release/python-3100/](https://www.python.org/downloads/release/python-3100/)
 * Crear entorno virtual (opcional pero recomendado):
 
   ```powershell
