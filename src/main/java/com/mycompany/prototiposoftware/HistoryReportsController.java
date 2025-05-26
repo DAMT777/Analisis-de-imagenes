@@ -27,6 +27,9 @@ import javafx.stage.Stage;
 
 public class HistoryReportsController implements Initializable {
 
+    @FXML
+    private Label rolLabel;
+
     // ---------------------------------------------------------------------------------- Menu Lateral
     @FXML
     private AnchorPane menuBox;  // menu expandible
@@ -111,16 +114,6 @@ public class HistoryReportsController implements Initializable {
         alerta.showAndWait();
     }
 
-
-
-    /*companyNameTableUserList.setText("Unillanos");
-        reportIdLote.setCellValueFactory(new PropertyValueFactory<>("IdLote"));
-        reportFecha.setCellValueFactory(new PropertyValueFactory<>("FechaAnalisis"));
-        reportCondition.setCellValueFactory(new PropertyValueFactory<>("CondicionesLote"));
-        reportCity.setCellValueFactory(new PropertyValueFactory<>("CiudadAnalisis"));
-        reportFishTime.setCellValueFactory(new PropertyValueFactory<>("InvimaLote"));
-        reportInvima.setCellValueFactory(new PropertyValueFactory<>("TiempoPescaLote"));
-        reportCalificacion.setCellValueFactory(new PropertyValueFactory<>("CalificacionLote"));*/
     List<String[]> datoHistoryReport = DBConnect.getReportHistory(UserSesionData.getIdUser());
 
     String idLote;
@@ -182,52 +175,8 @@ public class HistoryReportsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        /*
-        LocalDate today = LocalDate.now();
-        companyNameTableUserList.setText("Unillanos");
-        reportIdLote.setCellValueFactory(new PropertyValueFactory<>("IdLote"));
-        reportFecha.setCellValueFactory(new PropertyValueFactory<>("FechaAnalisis"));
-        reportCondition.setCellValueFactory(new PropertyValueFactory<>("CondicionesLote"));
-        reportCity.setCellValueFactory(new PropertyValueFactory<>("CiudadAnalisis"));
-        reportFishTime.setCellValueFactory(new PropertyValueFactory<>("InvimaLote"));
-        reportInvima.setCellValueFactory(new PropertyValueFactory<>("TiempoPescaLote"));
-        reportCalificacion.setCellValueFactory(new PropertyValueFactory<>("CalificacionLote"));
-        List<String> flatList = new ArrayList<>();
-        for (String[] fila : datoHistoryReport) {
-            for (String dato : fila) {
-                flatList.add(dato);
-            }
-        }
+        rolLabel.setText("Rol: " + UserSesionData.getRolUser());
 
-        ObservableList<TableUserHistoryReports> users = FXCollections.observableArrayList();
-
-        for (int i = 0; i + 6 < flatList.size(); i += 7) {
-            idLote = flatList.get(i);
-            fecha = flatList.get(i + 1);
-            condition = flatList.get(i + 2);
-            city = flatList.get(i + 3);
-            fishTime = flatList.get(i + 4);
-            invima = flatList.get(i + 5);
-            invima = invima.equals("true") ? "Si" : "No";
-            calificacion = flatList.get(i + 6);
-
-            users.add(new TableUserHistoryReports(idLote, fecha, condition, city, invima,fishTime,calificacion));
-        }
-        tableUserHistoryReports.setItems(users);
-
-
-        tableUserHistoryReports.setRowFactory(tv -> {
-            TableRow<TableUserHistoryReports> row = new TableRow<>();
-            row.setOnMouseClicked(ev -> {
-                if (!row.isEmpty() && ev.getClickCount() == 2) {
-                    TableUserHistoryReports seleccionado = row.getItem();
-                    abrirResultAlgorithmConUsuario(seleccionado);
-                }
-            });
-            return row;
-        });
-
-         */
 
         // 1) Inicializar columnas del TableView
         reportIdLote      .setCellValueFactory(new PropertyValueFactory<>("idLote"));

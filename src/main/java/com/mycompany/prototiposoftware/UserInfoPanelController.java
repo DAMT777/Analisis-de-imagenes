@@ -3,10 +3,7 @@ package com.mycompany.prototiposoftware;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -14,9 +11,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class UserInfoPanelController implements Initializable {
+
+    @FXML
+    private Label rolLabel;
 
     // ---------------------------------------------------------------------------------- Menu Lateral
     @FXML
@@ -105,7 +106,11 @@ public class UserInfoPanelController implements Initializable {
 
     @FXML
     private void irMainScene() throws IOException {
-        App.setRoot("MainScene");
+        if (Objects.equals(UserSesionData.getRolUser(), "user")){
+            App.setRoot("MainScene");
+        } else {
+            App.setRoot("AdminUsersList");
+        }
     }
 
     @FXML    //cambio de escena al hacer lcick en salir
@@ -164,6 +169,8 @@ public class UserInfoPanelController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
+        rolLabel.setText("Rol: " + UserSesionData.getRolUser());
+
         actualEmail.setText(UserSesionData.getEmailUser());
         actualName.setText(UserSesionData.getFirtsNameUser());
         actualLastName.setText(UserSesionData.getLastNameUser());

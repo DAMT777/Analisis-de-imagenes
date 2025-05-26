@@ -26,16 +26,15 @@
          <children>
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #09395E; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;">
                <children>
-                  <Circle fill="WHITE" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Label prefHeight="17.0" prefWidth="95.0" text="Piscicultor" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
+                  <Label fx:id="rolLabel" prefHeight="26.0" prefWidth="219.0" text="Piscicultor" textFill="WHITE">
                      <padding>
                         <Insets left="5.0" />
                      </padding>
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
                   </Label>
-                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="103.0" HBox.hgrow="SOMETIMES" />
+                  <Region maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="0.0" HBox.hgrow="SOMETIMES" />
                   <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../img/MainLogo.png" />
@@ -116,8 +115,6 @@
                                     <Label text="Correo" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <Label prefWidth="392.0" text="Nueva Contraseña" GridPane.rowIndex="9" />
                                     <Label prefHeight="17.0" prefWidth="145.0" text="Confirmar Contraseña" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-                                    <Circle fill="WHITE" radius="26.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <Label text="Foto de perfil" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <Separator prefHeight="16.0" prefWidth="716.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="7" />
                                     <Label alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-background-color: #09395E;" text="Actualizar Datos" textFill="WHITE" GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
                                        <GridPane.margin>
@@ -131,6 +128,11 @@
                                     <TextField fx:id="confirmNewEmail" GridPane.columnIndex="3" GridPane.rowIndex="11" />
                                     <PasswordField fx:id="newPassword" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                                     <PasswordField fx:id="confirmNewPassword" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-background-color: #09395E;" text="Datos del usuario" textFill="WHITE" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -264,10 +266,10 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox fx:id="userHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
+                        <HBox fx:id="userHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0" style="-fx-background-color: #09395E;">
                            <children>
-                              <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                              <Label text="Usuario">
+                              <Circle fill="#38aef5" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                              <Label text="Usuario" textFill="WHITE">
                                  <padding>
                                     <Insets left="5.0" />
                                  </padding>
