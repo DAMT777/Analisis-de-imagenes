@@ -47,7 +47,7 @@ public class LoteProcessor {
             imagen.setPath(rutaProcesada);
             imagenesProcesadas.add(imagen);
         }
-        flag.accept("Tiempo de procesado:"+ time + "s. Subiendo imagenes y resultados. " + mensaje);
+        flag.accept("Tiempo de procesado: "+ time + "s. Subiendo imagenes y resultados. " + mensaje);
         lote.setImagenes(imagenesProcesadas);
         lote.setAnomalias(anomalias);
         lote.setPath(obtenerCarpetaDeImagen(rutaProcesada));
