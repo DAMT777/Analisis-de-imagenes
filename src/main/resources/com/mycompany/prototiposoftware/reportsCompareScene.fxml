@@ -5,29 +5,23 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="900.0" style="-fx-background-color: #E6E6E6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.prototiposoftware.AdminPanelController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="900.0" style="-fx-background-color: #E6E6E6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.prototiposoftware.AboutUsControllers">
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="73.0" prefWidth="900.0" style="-fx-background-color: #09395E; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;">
                <children>
                   <Circle fill="WHITE" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Label prefHeight="17.0" prefWidth="95.0" text="Administrador" textFill="WHITE">
+                  <Label prefHeight="17.0" prefWidth="95.0" text="Rol" textFill="WHITE">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -71,83 +65,28 @@
                   <Insets left="20.0" right="20.0" />
                </padding>
             </HBox>
-            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="601.0" prefWidth="618.0" VBox.vgrow="ALWAYS">
+            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Region maxHeight="49.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="19.0" prefWidth="900.0" />
-                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-radius: 50; -fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;" VBox.vgrow="ALWAYS">
+                  <Region prefHeight="19.0" prefWidth="900.0" />
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="298.0" prefWidth="820.0" style="-fx-background-radius: 50; -fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);;" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets left="40.0" right="40.0" />
                      </VBox.margin>
-                     <children>
-                        <VBox alignment="CENTER" layoutX="41.333333333333336" layoutY="-2.6666666666666665" prefHeight="468.0" prefWidth="737.0" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="-3.0">
-                           <children>
-                              <Label fx:id="companyNameTableUserList" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="29.0" prefWidth="737.0" style="-fx-background-color: #38AEF5;" styleClass="companyNameTableUserList" stylesheets="@styles/AdminUsersList.css" text="Unillanos" textFill="WHITE" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                              </Label>
-                              <GridPane alignment="CENTER" hgap="20.0" prefHeight="355.0" prefWidth="737.0" style="-fx-border-color: black; -fx-background-color: #cccece;" vgap="20.0">
-                                <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.3333282470703" minWidth="10.0" prefWidth="112.6666742960612" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="327.3333435058594" minWidth="10.0" prefWidth="193.99999237060547" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="240.66668701171875" minWidth="10.0" prefWidth="130.66668701171875" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="255.33329264322919" minWidth="10.0" prefWidth="217.33331298828125" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <Label maxWidth="1.7976931348623157E308" text="Nombre:" />
-                                    <Label maxWidth="1.7976931348623157E308" text="Apellido:" GridPane.rowIndex="1" />
-                                    <Label maxWidth="1.7976931348623157E308" text="Correo:" GridPane.rowIndex="2" />
-                                    <Label maxWidth="1.7976931348623157E308" text="Nueva Contraseña:" GridPane.rowIndex="3" />
-                                    <TextField fx:id="newName" GridPane.columnIndex="3" />
-                                    <TextField fx:id="actualName" disable="true" editable="false" text="Cesar" GridPane.columnIndex="1" />
-                                    <TextField fx:id="actualApellido" disable="true" editable="false" text="Pérez" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <TextField fx:id="actualEmail" disable="true" editable="false" text="cesar@email.com" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <TextField fx:id="newApellido" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                    <TextField fx:id="newEmail" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                    <PasswordField fx:id="newPassword" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <Label text="Nuevo Nombre" GridPane.columnIndex="2" />
-                                    <Label text="Nuevo Apellido" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <Label text="Nuevo Correo:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                    <Label text="Confirmar Contraseña" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                    <PasswordField fx:id="confirmNewPassword" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: red; -fx-background-radius: 30;" text="Eliminar Usuario" textFill="WHITE" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                       <GridPane.margin>
-                                          <Insets left="100.0" right="100.0" />
-                                       </GridPane.margin>
-                                    </Button>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </GridPane>
-                              <Separator maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="0.0" prefWidth="731.0">
-                                 <padding>
-                                    <Insets top="20.0" />
-                                 </padding>
-                              </Separator>
-                              <Label text="Nota: Deje en blanco los campos que no desee modificar" textFill="#9d9d9d" />
-                           </children>
-                        </VBox>
-                     </children>
                   </AnchorPane>
-                  <Region prefHeight="11.0" prefWidth="900.0" />
-                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="900.0" spacing="10.0" styleClass="hboxUserListControl" stylesheets="@styles/AdminUsersList.css">
+                  <Region prefHeight="19.0" prefWidth="900.0" />
+                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="37.0" prefWidth="900.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#irAdminUserList" prefHeight="31.0" prefWidth="83.0" style="-fx-background-color: #09395E;" text="Regresar" textFill="WHITE" />
-                        <Button mnemonicParsing="false" onAction="#userUpdate" prefHeight="31.0" style="-fx-background-color: #38AEF5;" text="Confirmar Cambios" />
+                        <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="114.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 30;" text="Regresar" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
                      </children>
                   </HBox>
-                  <Region maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="19.0" prefWidth="900.0" VBox.vgrow="ALWAYS" />
+                  <Region maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="19.0" prefWidth="900.0" />
                </children>
             </VBox>
          </children>
@@ -217,23 +156,22 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </AnchorPane>
-      <AnchorPane fx:id="menuBox" layoutY="226.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 0 20 20 0;" visible="false">
+      <AnchorPane fx:id="menuBox" layoutY="226.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" style="-fx-background-color: #38AEF5; -fx-background-radius: 0 20 20 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 2);" visible="false" AnchorPane.leftAnchor="0.0">
          <children>
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="283.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="194.0" spacing="20.0" style="-fx-background-color: white;">
+                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="194.0" style="-fx-background-color: white;">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                      <children>
-                        <HBox fx:id="analisisHbox" alignment="CENTER_LEFT" disable="true" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
+                        <HBox fx:id="analisisHbox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="45.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="#ffffff00" strokeType="INSIDE" />
                               <Label text="Análisis">
                                  <padding>
                                     <Insets left="5.0" />
-                                 </padding>
-                              </Label>
+                                 </padding></Label>
                            </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -242,14 +180,13 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox fx:id="reportsHBox" alignment="CENTER_LEFT" disable="true" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
+                        <HBox fx:id="reportsHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="45.0" prefWidth="194.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
                               <Label text="Reportes">
                                  <padding>
                                     <Insets left="5.0" />
-                                 </padding>
-                              </Label>
+                                 </padding></Label>
                            </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -258,14 +195,13 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox fx:id="userHBox" alignment="CENTER_LEFT" disable="true" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0">
+                        <HBox fx:id="userHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="45.0" prefWidth="219.0">
                            <children>
                               <Circle fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
                               <Label text="Usuario">
                                  <padding>
                                     <Insets left="5.0" />
-                                 </padding>
-                              </Label>
+                                 </padding></Label>
                            </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -274,14 +210,13 @@
                               <Insets left="5.0" />
                            </padding>
                         </HBox>
-                        <HBox fx:id="adminListUserHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="31.0" prefWidth="219.0" style="-fx-background-color: #09395E;">
+                        <HBox fx:id="adminListUserHBox" alignment="CENTER_LEFT" onMouseClicked="#handleHBoxClick" prefHeight="45.0" prefWidth="219.0">
                            <children>
-                              <Circle fill="DODGERBLUE" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                              <Label text="Lista de usuarios" textFill="WHITE">
+                              <Circle disable="true" fill="#d9d9d9" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                              <Label text="Lista de usuarios" textFill="#535353">
                                  <padding>
                                     <Insets left="5.0" />
-                                 </padding>
-                              </Label>
+                                 </padding></Label>
                            </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />

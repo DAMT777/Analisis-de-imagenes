@@ -35,7 +35,7 @@ public class App extends Application {
 
         stage.setTitle("Sistema de clasificación de calidad de peces");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/SecondaryLogo.png")));
-        stage.setResizable(false);
+        //stage.setResizable(false);
 
         stage.show();
     }
