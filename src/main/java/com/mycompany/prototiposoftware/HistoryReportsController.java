@@ -260,9 +260,9 @@ public class HistoryReportsController implements Initializable {
                 .collect(Collectors.toCollection(TreeSet::new));
         Set<String> conditions = masterData.stream().map(TableUserHistoryReports::getCondicionesLote)
                 .collect(Collectors.toCollection(TreeSet::new));
-        Set<String> invimas    = masterData.stream().map(TableUserHistoryReports::getInvimaLote)
+        Set<String> tiempoLote    = masterData.stream().map(TableUserHistoryReports::getTiempoPescaLote)
                 .collect(Collectors.toCollection(TreeSet::new));
-        Set<String> times      = masterData.stream().map(TableUserHistoryReports::getTiempoPescaLote)
+        Set<String> invima      = masterData.stream().map(TableUserHistoryReports::getInvimaLote)
                 .collect(Collectors.toCollection(TreeSet::new));
 
         // 4) Poblar ComboBoxes con "Todos" + valores únicos
@@ -278,12 +278,12 @@ public class HistoryReportsController implements Initializable {
 
         list = new ArrayList<>();
         list.add("Todos");
-        list.addAll(invimas);
+        list.addAll(invima);
         comboInvima.setItems(FXCollections.observableArrayList(list));
 
         list = new ArrayList<>();
         list.add("Todos");
-        list.addAll(times);
+        list.addAll(tiempoLote);
         comboFishTime.setItems(FXCollections.observableArrayList(list));
 
         // Seleccionar "Todos" por defecto
