@@ -100,6 +100,16 @@ public class NewUserPanelController {
         alerta.showAndWait();
     }
 
+    public void successMessage(String message) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION); // Cambiamos de ERROR a INFORMATION
+        alerta.setTitle("Éxito");
+        alerta.setHeaderText(null);
+        alerta.setContentText(message);
+
+        alerta.showAndWait();
+    }
+
+
     @FXML    //cambio de escena al hacer lcick en salir
     private void irALoginController() throws IOException {
         UserSesionData.clearSession();
@@ -140,6 +150,7 @@ public class NewUserPanelController {
                 return;
             }
             DBConnect.registrarUsuario(nombre, apellido, UserSesionData.getEmpresa(), email, password, rol);
+            successMessage("Usuario registrado con exito.");
             App.setRoot("MainScene");
         } else {
             errorMessage("Todos los campos son obligatorios.");
