@@ -249,10 +249,10 @@ public class HistoryReportsController implements Initializable {
             String fecha    = flatList.get(i + 1);
             String cond     = flatList.get(i + 2);
             String ciudad   = flatList.get(i + 3);
-            String invima   = flatList.get(i + 4).equals("true") ? "Si" : "No";
-            String tiempo   = flatList.get(i + 5);
+            String tiempo   = flatList.get(i + 4);
+            String invima   = flatList.get(i + 5).equals("true") ? "Si" : "No";
             String calif    = flatList.get(i + 6);
-            masterData.add(new TableUserHistoryReports(id, fecha, cond, ciudad, invima, tiempo, calif));
+            masterData.add(new TableUserHistoryReports(id, fecha, cond, ciudad, tiempo, invima, calif));
         }
 
         // 3) Extraer valores únicos de cada columna

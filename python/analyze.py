@@ -22,7 +22,7 @@ def analyze_image(ruta_imagen, solo_ojo=False):
     calificacion_ojos = ojos_score * 5
     calificacion_piel = piel_score * 5
 
-    if random.random() < 0.2:  # 10% de probabilidad
+    if random.random() < 0.2:  # 20% de probabilidad
         calificacion_ojos = max(0, calificacion_ojos - 1)  # Asegura que no sea negativo
     if random.random() < 0.2:
         calificacion_piel = max(0, calificacion_piel - 1)
@@ -33,7 +33,7 @@ def analyze_image(ruta_imagen, solo_ojo=False):
         "calificacion_ojos": round(calificacion_ojos, 2),
         "calificacion_piel": round(calificacion_piel, 2),
         "processed_image_path": seg_path,
-        "anomalia": anomalia_ojos  # Retornar la información de anomalía
+        "anomalia": anomalia_ojos 
     }
 
 # Procesa un batch de imágenes
