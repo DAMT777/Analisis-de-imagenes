@@ -205,12 +205,12 @@ public class AdminPanelController  implements Initializable {
     @FXML
     private void eliminarUser() throws IOException {
         if (showQuestion("Se eliminará el usuario. ¿Está seguro?")) {
-            if (Objects.equals(idUser, UserSesionData.getIdUser() + "")){}
-            else {
+            if (Objects.equals(idUser, UserSesionData.getIdUser() + "")){
                 errorMessage("No puedes eliminar tu propio usuario.");
-                return;
             }
-            DBConnect.eliminarUsuario(Integer.parseInt(idUser));
+            else {
+                DBConnect.eliminarUsuario(Integer.parseInt(idUser));
+            }
         }
     }
 }
