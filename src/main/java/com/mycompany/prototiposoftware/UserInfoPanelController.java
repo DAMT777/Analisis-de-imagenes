@@ -103,7 +103,14 @@ public class UserInfoPanelController implements Initializable {
         alerta.showAndWait();
     }
 
+    public void successMessage(String message) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION); // Cambiamos de ERROR a INFORMATION
+        alerta.setTitle("Éxito");
+        alerta.setHeaderText(null);
+        alerta.setContentText(message);
 
+        alerta.showAndWait();
+    }
     @FXML
     private void irMainScene() throws IOException {
         if (Objects.equals(UserSesionData.getRolUser(), "user")){
@@ -137,6 +144,12 @@ public class UserInfoPanelController implements Initializable {
     @FXML
     private TextField confirmNewEmail;
 
+    private boolean esEmailValido(String email) {
+        // Expresión regular simple para validar estructura de email
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return email.matches(regex);
+    }
+
     @FXML
     private void userUpdate() throws IOException {
         // Validar si los campos no están vacíos
@@ -152,13 +165,16 @@ public class UserInfoPanelController implements Initializable {
 
         if (!newEmail.getText().isEmpty() && !confirmNewEmail.getText().isEmpty()) {
             if (newEmail.getText().equals(confirmNewEmail.getText())) {
-                // Aquí iría la lógica para actualizar el email
+                if(!esEmailValido(newEmail.getText())) {
+                    errorMessage("Email Invalido");
+                    return;
+                }
                 UserSesionData.setEmailUser(UserSesionData.getIdUser(),newEmail.getText());
                 cambioRealizado = true;
             }
         }
-
         if (cambioRealizado) {
+            successMessage("Cambios realizados con éxito");
             irMainScene();
         } else {
             errorMessage("Los campos no pueden estar vacíos o no coinciden.");
@@ -169,6 +185,9 @@ public class UserInfoPanelController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
+        if (Objects.equals(UserSesionData.getRolUser(), "user")) {
+            adminListUserHBox.setDisable(true);
+        }
         rolLabel.setText("Rol: " + UserSesionData.getRolUser());
 
         actualEmail.setText(UserSesionData.getEmailUser());

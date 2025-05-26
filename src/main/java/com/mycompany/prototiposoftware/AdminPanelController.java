@@ -113,7 +113,14 @@ public class AdminPanelController  implements Initializable {
     //------------------------------------------------------------------------------------------Reutilizar
 
 
+    public void successMessage(String message) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION); // Cambiamos de ERROR a INFORMATION
+        alerta.setTitle("Éxito");
+        alerta.setHeaderText(null);
+        alerta.setContentText(message);
 
+        alerta.showAndWait();
+    }
 
 
 
@@ -140,6 +147,13 @@ public class AdminPanelController  implements Initializable {
         App.setRoot("AdminUsersList");
     }
 
+    private boolean esEmailValido(String email) {
+        // Expresión regular simple para validar estructura de email
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return email.matches(regex);
+    }
+
+
     String idUser = "";
 
     @FXML
@@ -149,24 +163,32 @@ public class AdminPanelController  implements Initializable {
         boolean emailVacio = newEmail.getText().isEmpty();
         boolean passwordVacio = newPassword.getText().isEmpty();
 
+
+        int userId = Integer.parseInt(idUser);
         if (nombreVacio && apellidoVacio && emailVacio && passwordVacio) {
             errorMessage("Al menos un campo debe ser modificado.");
             return;
+        } else {
+
+            String nombre = newName.getText().isEmpty() ? actualName.getText() : newName.getText();
+            String apellido = newApellido.getText().isEmpty() ? actualApellido.getText() : newApellido.getText();
+            String email = newEmail.getText().isEmpty() ? actualEmail.getText() : newEmail.getText();
+
+            if (!esEmailValido(email)) {
+                errorMessage("El correo ingresado no es válido.");
+                return;
+            }
+
+            // Actualizar datos del usuario
+            DBConnect.actualizarUsuario(userId, nombre, apellido, UserSesionData.getEmpresa(), email, "user");
         }
-
-        int userId = Integer.parseInt(idUser);
-        String nombre = newName.getText().isEmpty() ? actualName.getText() : newName.getText();
-        String apellido = newApellido.getText().isEmpty() ? actualApellido.getText() : newApellido.getText();
-        String email = newEmail.getText().isEmpty() ? actualEmail.getText() : newEmail.getText();
-
-        // Actualizar datos del usuario
-        DBConnect.actualizarUsuario(userId, nombre, apellido, UserSesionData.getEmpresa(), email, "user");
 
         // Si la contraseña nueva no está vacía y coincide con la confirmación, actualizarla
         if (!newPassword.getText().isEmpty() && newPassword.getText().equals(confirmNewPassword.getText())) {
             DBConnect.actualizarPasswordUsuario(userId, newPassword.getText());
         }
 
+        successMessage("Usuario actualizado con éxito.");
         irAdminUserList();
     }
 
@@ -197,6 +219,10 @@ public class AdminPanelController  implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
+        if (Objects.equals(UserSesionData.getRolUser(), "user")) {
+            adminListUserHBox.setDisable(true);
+        }
+
         rolLabel.setText("Rol: " + UserSesionData.getRolUser());
 
         actualName.setText(actualName.getText());
@@ -217,6 +243,7 @@ public class AdminPanelController  implements Initializable {
             else {
                 System.out.println("ids diferentes, borrado");
                 DBConnect.eliminarUsuario(Integer.parseInt(idUser));
+                successMessage("Usuario eliminado con éxito.");
             }
         }
     }

@@ -36,6 +36,7 @@ Thumbs.db
 # === Carpetas temporales/dinamicas ===
 /src/main/imgFish/
 /src/main/python/app/temp/
+/tf-env/
 
 .env
 jshell.history

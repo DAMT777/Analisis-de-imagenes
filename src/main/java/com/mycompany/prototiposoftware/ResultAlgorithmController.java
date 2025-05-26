@@ -28,6 +28,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import com.processing.Lote;
@@ -164,6 +165,9 @@ public class ResultAlgorithmController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if (Objects.equals(UserSesionData.getRolUser(), "user")) {
+            adminListUserHBox.setDisable(true);
+        }
         rolLabel.setText("Rol: " + UserSesionData.getRolUser());
 
         cargarDatos();

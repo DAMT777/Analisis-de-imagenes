@@ -39,7 +39,7 @@ networkx==3.2.1
 numba==0.60.0
 numpy==1.26.4
 oauthlib==3.2.2
-onnx==1.17.0
+onnx==1.12.0
 onnx-graphsurgeon @ file:///C:/Program%20Files/NVIDIA%20GPU%20Computing%20Toolkit/TensorRT-7.2.2.3/onnx_graphsurgeon/onnx_graphsurgeon-0.2.6-py2.py3-none-any.whl#sha256=9375911d7383e6c95dafd3751108dd295aa0b4c427e7389a3abe9c15e7d11f04
 onnxruntime-gpu==1.13.1
 opencv-python-headless==4.11.0.86

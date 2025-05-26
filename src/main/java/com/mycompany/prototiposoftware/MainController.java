@@ -45,11 +45,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Objects;
 
 public class MainController implements Initializable {
+
+
     @Override
     public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
-        // Aquí puedes inicializar cualquier cosa que necesites al cargar la escena
+        if (Objects.equals(UserSesionData.getRolUser(), "user")) {
+            adminListUserHBox.setDisable(true);
+        }
         rolLabel.setText("Rol: " + UserSesionData.getRolUser());
     }
 

@@ -548,8 +548,12 @@ public class DBConnect {
 
                    data[4] = String.format(Locale.US, "%.2f", rs.getDouble("prom_calidad")); // calidadPromedio
                    data[5] = String.valueOf(rs.getInt("anomalias")); // cantidadAnomalias
-                   data[6] = String.format("%.2f", rs.getDouble("prom_ojos")); // calidadOjosProm
-                   data[7] = String.format("%.2f", rs.getDouble("prom_piel")); // calidadPielProm
+
+                   data[6] = String.format(Locale.US,"%.2f", rs.getDouble("prom_ojos")); // calidadOjosProm
+                   System.out.println("valor promedio Ojos:" + data[6]);
+
+                   data[7] = String.format(Locale.US,"%.2f", rs.getDouble("prom_piel")); // calidadPielProm
+                   System.out.println("valor promedio piel:" + data[7]);
                }
            }
         catch (SQLException e) {

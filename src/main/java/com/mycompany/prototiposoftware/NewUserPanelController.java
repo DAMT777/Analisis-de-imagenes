@@ -12,12 +12,15 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class NewUserPanelController implements Initializable {
 
     @Override
     public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
-        // Aquí puedes inicializar cualquier cosa que necesites al cargar la escena
+        if (Objects.equals(UserSesionData.getRolUser(), "user")) {
+            adminListUserHBox.setDisable(true);
+        }
         rolLabel.setText("Rol: " + UserSesionData.getRolUser());
     }
 
@@ -144,6 +147,12 @@ public class NewUserPanelController implements Initializable {
         App.setRoot("AdminUsersList");
     }
 
+    private boolean esEmailValido(String email) {
+        // Expresión regular simple para validar estructura de email
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return email.matches(regex);
+    }
+
     @FXML
     private void userUpdate() throws IOException {
         String nombre = newName.getText();
@@ -157,10 +166,13 @@ public class NewUserPanelController implements Initializable {
             if (!password.equals(confirmPass)) {
                 errorMessage("Las contraseñas no coinciden.");
                 return;
-            }
-            DBConnect.registrarUsuario(nombre, apellido, UserSesionData.getEmpresa(), email, HashUtil.hashPassword(password), rol);
-            successMessage("Usuario registrado con exito.");
-            App.setRoot("MainScene");
+            } else if (!esEmailValido(email)) {
+                errorMessage("El email es incorrecto.");
+                return;
+            } else {
+                DBConnect.registrarUsuario(nombre, apellido, UserSesionData.getEmpresa(), email, HashUtil.hashPassword(password), rol);
+                successMessage("Usuario registrado con exito.");
+                App.setRoot("MainScene");}
         } else {
             errorMessage("Todos los campos son obligatorios.");
         }

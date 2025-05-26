@@ -175,6 +175,9 @@ public class HistoryReportsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
+        if (Objects.equals(UserSesionData.getRolUser(), "user")) {
+            adminListUserHBox.setDisable(true);
+        }
         rolLabel.setText("Rol: " + UserSesionData.getRolUser());
 
 
