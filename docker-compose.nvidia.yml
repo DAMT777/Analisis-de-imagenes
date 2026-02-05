@@ -1,0 +1,26 @@
+# ============================================================
+# Configuración específica para GPUs NVIDIA (RTX/GTX)
+# ============================================================
+# Uso: docker-compose -f docker-compose.yml -f docker-compose.nvidia.yml up
+
+services:
+  python-api:
+    build:
+      args:
+        GPU_TYPE: nvidia
+        CUDA_VERSION: ${CUDA_VERSION:-11.8}
+    runtime: nvidia
+    environment:
+      - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - TF_FORCE_GPU_ALLOW_GROWTH=true
+      - TF_GPU_THREAD_MODE=gpu_private
+      - TF_GPU_THREAD_COUNT=2
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

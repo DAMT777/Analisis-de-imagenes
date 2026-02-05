@@ -1,43 +1,136 @@
-# === Maven ===
+# ============================================================
+# Git Ignore para Sistema SACP
+# ============================================================
+
+# ====== Sensibles / Credenciales ======
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+secrets/
+credentials.json
+
+# ====== IDE ======
+.idea/
+.vscode/
+*.iml
+*.iws
+.project
+.classpath
+.settings/
+*.swp
+*~
+.DS_Store
+nbactions.xml
+jshell.history
+
+# ====== Java / Maven ======
 target/
 !.mvn/wrapper/maven-wrapper.jar
 .mvn/timing.properties
-
-# === IntelliJ IDEA ===
-.idea/
-*.iml
-*.iws
-out/
-
-# === Java Compiler ===
 *.class
+*.jar
+*.war
+*.ear
+out/
+*.ctxt
+.mtj.tmp/
+hs_err_pid*
 
-# === Logs, cache, etc. ===
-*.log
+# ====== Python ======
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# Entornos virtuales Python
+env/
+venv/
+ENV/
+.venv
+virtualenv/
+tf-env/
+
+# ====== Temporal / Cache ======
+temp/
+tmp/
 *.tmp
-*.swp
-*~
-
-# === JavaFX runtime cache ===
+*.bak
+*.backup
+*.old
+cache/
+.cache/
 *.rej
 *.orig
 
-# === Sistema operativo ===
-.DS_Store
-Thumbs.db
-
-# === Archivos temporales del proyecto ===
-*.bak
-*.old
-
-# === VS Code ===
-.vscode/
-
-# === Carpetas temporales/dinamicas ===
+# ====== Imágenes temporales del proyecto ======
 /src/main/imgFish/
+/src/main/imgDefault/
+/src/main/imgAnomal/
 /src/main/python/app/temp/
-/tf-env/
+python/temp/*
+!python/temp/.gitkeep
 
-.env
-jshell.history
-nbactions.xml
+# ====== Dataset (demasiado grande) ======
+Artefactos/Clasificación y Dataset/cachamas/**/*.jpg
+Artefactos/Clasificación y Dataset/cachamas/**/*.png
+Artefactos/Clasificación y Dataset/cachamas/**/*.jpeg
+
+# ====== Modelos ML (comentar si quieres versionarlos) ======
+# *.h5
+# *.hdf5
+# *.pb
+# *.onnx
+# *.weights
+
+# ====== Logs ======
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ====== OS ======
+Thumbs.db
+desktop.ini
+
+# ====== Backup DB ======
+backups/*.sql
+!backups/.gitkeep
+
+# ====== Testing ======
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+test-results/
+junit.xml
+
+# ====== Documentación generada ======
+site/
+docs/_build/

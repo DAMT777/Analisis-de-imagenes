@@ -1,0 +1,194 @@
+# Multi-stage Dockerfile para módulo Python con soporte GPU dinámico
+# Soporta NVIDIA CUDA, AMD ROCm y fallback a CPU
+
+# Argumentos globales (deben estar antes del primer FROM)
+ARG GPU_TYPE=cpu
+ARG CUDA_VERSION=11.8
+ARG ROCM_VERSION=5.7
+ARG BASE_IMAGE=python:3.10-slim
+
+FROM ${BASE_IMAGE} AS base
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    ORT_LOG_LEVEL=ERROR \
+    TF_CPP_MIN_LOG_LEVEL=2
+
+WORKDIR /app
+
+# ============================================================
+# STAGE 1: Base común con dependencias del sistema
+# ============================================================
+FROM base AS system-deps
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libgl1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    wget \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# ============================================================
+# STAGE 2: NVIDIA CUDA (para RTX/GTX)
+# ============================================================
+FROM nvidia/cuda:${CUDA_VERSION}.0-cudnn8-runtime-ubuntu22.04 AS nvidia-gpu
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    CUDA_VISIBLE_DEVICES=0 \
+    TF_FORCE_GPU_ALLOW_GROWTH=true
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.10 \
+    python3-pip \
+    libgl1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Instalar dependencias Python
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -U pip setuptools wheel && \
+    sed -i '/onnx-graphsurgeon @ file/d' requirements.txt && \
+    pip3 install --no-cache-dir -r requirements.txt
+
+# ============================================================
+# STAGE 3: AMD ROCm (para RX series)
+# ============================================================
+FROM rocm/tensorflow:latest AS amd-gpu
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    HIP_VISIBLE_DEVICES=0
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -U pip setuptools wheel && \
+    sed -i '/onnx-graphsurgeon @ file/d' requirements.txt && \
+    pip3 install --no-cache-dir -r requirements.txt
+
+# ============================================================
+# STAGE 4: CPU Fallback
+# ============================================================
+FROM python:3.10-slim AS cpu-gpu
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -U pip setuptools wheel && \
+    sed -i '/onnx-graphsurgeon @ file/d' requirements.txt && \
+    pip3 install --no-cache-dir -r requirements.txt
+
+# ============================================================
+# STAGE FINAL: Selección dinámica
+# ============================================================
+FROM ${GPU_TYPE}-gpu AS final
+
+WORKDIR /app
+
+# Copiar código fuente
+COPY python/ ./
+
+# Crear directorios necesarios
+RUN mkdir -p temp && chmod 777 temp
+
+# Script de detección de GPU
+COPY <<'EOF' /app/detect_gpu.py
+import subprocess
+import sys
+
+def detect_gpu():
+    """Detecta el tipo de GPU disponible"""
+    # Verificar NVIDIA
+    try:
+        result = subprocess.run(['nvidia-smi'], capture_output=True, text=True, timeout=5)
+        if result.returncode == 0:
+            print("✓ NVIDIA GPU detectada")
+            return "nvidia"
+    except:
+        pass
+    
+    # Verificar AMD
+    try:
+        result = subprocess.run(['rocm-smi'], capture_output=True, text=True, timeout=5)
+        if result.returncode == 0:
+            print("✓ AMD GPU detectada")
+            return "amd"
+    except:
+        pass
+    
+    print("⚠ No se detectó GPU, usando CPU")
+    return "cpu"
+
+if __name__ == "__main__":
+    gpu_type = detect_gpu()
+    print(f"GPU Type: {gpu_type}", file=sys.stderr)
+EOF
+
+# Script de inicio con verificación
+COPY <<'EOF' /app/entrypoint.sh
+#!/bin/bash
+set -e
+
+echo "=========================================="
+echo "   Iniciando API de Análisis de Pescado"
+echo "=========================================="
+
+# Detectar GPU
+python3 detect_gpu.py
+
+# Verificar modelo
+if [ ! -f "/app/../modelo_entrenado.h5" ]; then
+    echo "⚠ ADVERTENCIA: Modelo no encontrado en /app/../modelo_entrenado.h5"
+fi
+
+# Verificar conectividad
+echo "Verificando puerto 8001..."
+
+# Iniciar API
+echo "Iniciando FastAPI en 0.0.0.0:8001..."
+exec uvicorn api:app --host 0.0.0.0 --port 8001 --workers ${WORKERS:-1} "$@"
+EOF
+
+RUN chmod +x /app/entrypoint.sh
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD python3 -c "import requests; requests.get('http://localhost:8001/health/', timeout=5)" || exit 1
+
+EXPOSE 8001
+
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["--reload"]

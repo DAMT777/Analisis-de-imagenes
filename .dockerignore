@@ -1,0 +1,68 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.idea
+.vscode
+*.iml
+.project
+.classpath
+.settings
+
+# Build outputs
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Temporal
+temp/
+*.tmp
+*.log
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*.bak
+
+# Dataset (evitar copiar dataset completo al build)
+Artefactos/Clasificación y Dataset/cachamas/**/*.jpg
+Artefactos/Clasificación y Dataset/cachamas/**/*.png
+
+# Docs
+Artefactos/Documentación/
+Artefactos/Anexos/
+README.md
+*.md
+*.pdf
+*.docx
+
+# Testing
+test/
+tests/
+*.test.js
+
+# Sensitive
+.env.local
+.env.*.local
+*.key
+*.pem
+secrets/

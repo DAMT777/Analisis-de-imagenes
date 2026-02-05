@@ -1,0 +1,22 @@
+# ============================================================
+# Configuración para CPU (sin GPU)
+# ============================================================
+# Uso: docker-compose -f docker-compose.yml -f docker-compose.cpu.yml up
+
+services:
+  python-api:
+    build:
+      args:
+        GPU_TYPE: cpu
+    environment:
+      - CUDA_VISIBLE_DEVICES=-1
+      - TF_CPP_MIN_LOG_LEVEL=2
+      # Optimizaciones CPU
+      - OMP_NUM_THREADS=4
+      - TF_NUM_INTRAOP_THREADS=4
+      - TF_NUM_INTEROP_THREADS=2
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
