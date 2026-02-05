@@ -1,0 +1,25 @@
+# ============================================================
+# Configuración específica para GPUs AMD (RX series)
+# ============================================================
+# Uso: docker-compose -f docker-compose.yml -f docker-compose.amd.yml up
+
+services:
+  python-api:
+    build:
+      args:
+        GPU_TYPE: amd
+        ROCM_VERSION: ${ROCM_VERSION:-5.7}
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    group_add:
+      - video
+      - render
+    environment:
+      - HIP_VISIBLE_DEVICES=${HIP_VISIBLE_DEVICES:-0}
+      - HSA_OVERRIDE_GFX_VERSION=10.3.0
+      - ROCM_PATH=/opt/rocm
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp=unconfined

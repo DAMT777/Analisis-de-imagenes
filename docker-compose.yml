@@ -1,0 +1,179 @@
+# ============================================================
+# Sistema de Análisis de Calidad de Pescado - Docker Compose
+# ============================================================
+
+services:
+  # ============================================================
+  # Servicio Python API con GPU dinámica
+  # ============================================================
+  python-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+      args:
+        GPU_TYPE: ${GPU_TYPE:-auto}  # nvidia, amd, o cpu
+        CUDA_VERSION: ${CUDA_VERSION:-11.8}
+        ROCM_VERSION: ${ROCM_VERSION:-5.7}
+    image: sacp-python-api:latest
+    container_name: sacp-python-api
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    volumes:
+      # Código fuente (desarrollo)
+      - ./python:/app:ro
+      # Modelo entrenado
+      - ./modelo_entrenado.h5:/app/../modelo_entrenado.h5:ro
+      # Directorio temporal para procesamiento
+      - ./python/temp:/app/temp
+      # Dataset (solo lectura)
+      - ./Artefactos/Clasificación y Dataset:/data:ro
+    environment:
+      - ORT_LOG_LEVEL=ERROR
+      - TF_CPP_MIN_LOG_LEVEL=2
+      - WORKERS=2
+      # Limitar memoria si es necesario
+      - MALLOC_ARENA_MAX=2
+    networks:
+      - sacp-network
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 2G
+          devices:
+            # NVIDIA GPU (comentar si no aplica)
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import requests; requests.get('http://localhost:8001/health/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ============================================================
+  # Servicio Java Desktop Application
+  # ============================================================
+  java-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.java
+    image: sacp-java-app:latest
+    container_name: sacp-java-app
+    restart: unless-stopped
+    depends_on:
+      python-api:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      # Conexión a Python API
+      - PYTHON_API_URL=http://python-api:8001
+      # Variables de base de datos (desde .env)
+      - PGHOST=${PGHOST}
+      - PGPORT=${PGPORT}
+      - PGDATABASE=${PGDATABASE}
+      - PGUSER=${PGUSER}
+      - PGPASSWORD=${PGPASSWORD}
+      # Cloudinary
+      - CLOUDINARY_URL=${CLOUDINARY_URL:-}
+      # Java options
+      - JAVA_OPTS=-Xmx2g -Xms512m
+    volumes:
+      # Imágenes de usuario
+      - ./src/main/imgDefault:/app/imgDefault
+      - ./src/main/imgFish:/app/imgFish
+      - ./src/main/imgAnomal:/app/imgAnomal
+      # Configuración
+      - ./.env:/app/.env:ro
+    networks:
+      - sacp-network
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+        reservations:
+          memory: 512M
+    # Para UI: necesitas X11 forwarding (Linux) o VNC
+    # Descomentar si usas X11:
+    # environment:
+    #   - DISPLAY=${DISPLAY}
+    # volumes:
+    #   - /tmp/.X11-unix:/tmp/.X11-unix
+
+  # ============================================================
+  # Base de datos PostgreSQL
+  # ============================================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: sacp-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${PGDATABASE:-fish_quality_db}
+      POSTGRES_USER: ${PGUSER:-postgres}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    ports:
+      - "${PGPORT:-5432}:5432"
+    volumes:
+      # Persistencia de datos
+      - postgres-data:/var/lib/postgresql/data
+      # Scripts de inicialización (crear si es necesario)
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - sacp-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PGUSER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 256M
+
+  # ============================================================
+  # pgAdmin (Opcional - para desarrollo)
+  # ============================================================
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: sacp-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@sacp.local}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - sacp-network
+    depends_on:
+      - postgres
+    profiles:
+      - dev
+
+# ============================================================
+# Redes
+# ============================================================
+networks:
+  sacp-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# ============================================================
+# Volúmenes persistentes
+# ============================================================
+volumes:
+  postgres-data:
+    name: sacp-postgres-data
+  pgadmin-data:
+    name: sacp-pgadmin-data
